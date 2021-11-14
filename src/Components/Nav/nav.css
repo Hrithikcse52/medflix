@@ -1,0 +1,18 @@
+.nav_container {
+  padding: 0 1rem;
+  height: 4rem;
+  width: 100%;
+  /* background-color: aqua; */
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+.right_side ul {
+  /* background-color: blue; */
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style: none;
+}
