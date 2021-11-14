@@ -1,6 +1,4 @@
 import React from "react";
-import TypewriterComponent from "typewriter-effect";
-import Doctor from "../../images/doctor";
 import TypeWriter from "../Util/TypeWriter";
 import "./hero.css";
 
@@ -11,10 +9,9 @@ const Hero = ({
   type = false,
   typeText = {},
 }) => {
-  console.log("type", type);
-  console.log("text", text);
+  // console.log("type", type);/
   let render =
-    imgLeft == true ? (
+    imgLeft === true ? (
       <>
         <div className="content_img">{children}</div>
         <div className="content_text">

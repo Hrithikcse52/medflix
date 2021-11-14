@@ -1,7 +1,3 @@
-// import "./App.css";
-import axios from "axios";
-import { BACK_END_URL } from "./env";
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 
