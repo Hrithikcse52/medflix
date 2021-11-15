@@ -1,29 +1,46 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import DashboardPage from "./pages/DashboardPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+// function Root() {
+//   const routes = useRoutes([
+//     { path: "/", element: <Home /> },
+//     { path: "/login", element: <Login /> },
+//     { path: "/register", element: <Register /> },
+//     {
+//       path: "/dashboard",
+//       element: <DashboardPage />,
+//       children: [
+//         { path: "patient", element: <Register /> },
+//         { path: "logs", element: <Login /> },
+//       ],
+//     },
+//   ]);
+
+//   return routes;
+// }
 
 function App() {
-  // const [user, setUser] = useState("");
-
-  // console.log(BACK_END_URL);
-  // const handleClick = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.post(`${BACK_END_URL}/user/create`, {
-  //       name: "Hrithik Prasad",
-  //     });
-  //     console.log(response);
-  //     setUser(response.data.user);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
+  // return (
+  //   <Router>
+  //     <Root />
+  //   </Router>
+  // );
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="dashboard" element={<DashboardPage />}>
+          <Route path="patient" />
+          <Route path="log" />
+          <Route path="prescption" />
+          <Route path="report" />
+          <Route path="analysis" />
+        </Route>
       </Routes>
     </Router>
   );
