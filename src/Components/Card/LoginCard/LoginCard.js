@@ -1,17 +1,26 @@
-import { Button } from "@chakra-ui/button";
-import { Input } from "@chakra-ui/input";
-import { Box } from "@chakra-ui/layout";
-import axios from "axios";
 import React, { useState } from "react";
+import axios from "axios";
 import Cookies from "universal-cookie";
 import { BACK_END_URL } from "../../../env";
+import {
+  Button,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Link,
+  Stack,
+  Image,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router";
 
-import "./logincard.css";
 const LoginCard = () => {
+  const history = useNavigate();
   const cookie = new Cookies();
   const [email, setEmail] = useState("test@test.com");
   const [password, setPassword] = useState("test@test");
-  const [data, setData] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,23 +31,21 @@ const LoginCard = () => {
         email,
         password,
       });
-      setData(response.data);
       cookie.set("token", response.data.token, { path: "/" });
       console.log(response.data);
+      history("/dashboard");
     } catch (err) {}
   };
   return (
-    <>
-      <div className="container">
-        <div className="box">
-          {/* <Box bg="tomato" maxW="xl" p={4} color="white"> */}
-          This is the Box
-          <p> axios : {data && data.full_name} </p>
-          <form onSubmit={handleSubmit} className="fields">
-            <div className="input_field">
-              <label>Email:</label>
+    <Stack minH={"90vh"} direction={{ base: "column", md: "row" }}>
+      <Flex p={8} flex={1} align={"center"} justify={"center"}>
+        <Stack spacing={4} w={"full"} maxW={"md"}>
+          <Heading fontSize={"2xl"}>Sign in to your account</Heading>
+          <form onSubmit={handleSubmit}>
+            <FormControl id="email">
+              <FormLabel>Email address</FormLabel>
               <Input
-                placeholder="Basic usage"
+                placeholder="Email"
                 value={email}
                 type="email"
                 name="email"
@@ -46,19 +53,11 @@ const LoginCard = () => {
                   setEmail(e.target.value);
                 }}
               />
-              {/* <input
-                value={email}
-                type="email"
-                name="email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              /> */}
-            </div>
-            <div className="input_field">
-              <label>Password:</label>
+            </FormControl>
+            <FormControl id="password">
+              <FormLabel>Password</FormLabel>
               <Input
-                placeholder="Basic usage"
+                placeholder="Password"
                 value={password}
                 type="password"
                 name="password"
@@ -66,26 +65,33 @@ const LoginCard = () => {
                   setPassword(e.target.value);
                 }}
               />
-              {/* <input
-                value={password}
-                type="password"
-                name="password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              /> */}
-            </div>
-            <div className="input_field">
-              <Button type="submit" colorScheme="blue">
-                Submit
+            </FormControl>
+            <Stack spacing={6}>
+              <Stack
+                direction={{ base: "column", sm: "row" }}
+                align={"start"}
+                justify={"space-between"}
+              >
+                <Checkbox>Remember me</Checkbox>
+                <Link color={"blue.500"}>Forgot password?</Link>
+              </Stack>
+              <Button colorScheme={"blue"} variant={"solid"} type="submit">
+                Sign in
               </Button>
-              {/* <button type="submit">Submit</button> */}
-            </div>
+            </Stack>
           </form>
-          {/* </Box> */}
-        </div>
-      </div>
-    </>
+        </Stack>
+      </Flex>
+      <Flex flex={1}>
+        <Image
+          alt={"Login Image"}
+          objectFit={"cover"}
+          src={
+            "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80"
+          }
+        />
+      </Flex>
+    </Stack>
   );
 };
 

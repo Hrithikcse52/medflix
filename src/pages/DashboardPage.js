@@ -1,12 +1,18 @@
 import React from "react";
+import { Route, Routes } from "react-router";
+import RegisterCard from "../Components/Card/RegisterCard/RegisterCard";
 import Dashboard from "../Components/Dashboard/Dashboard";
-import Nav from "../Components/Nav/Nav";
+import Patient from "../Components/Dashboard/UI/Patient/Patient";
 
 const DashboardPage = () => {
   return (
     <>
-      <Nav />
-      <Dashboard />
+      <Dashboard>
+        <Routes>
+          <Route path="patient" element={<Patient />} />
+          <Route path="log" element={<RegisterCard />} />
+        </Routes>
+      </Dashboard>
     </>
   );
 };

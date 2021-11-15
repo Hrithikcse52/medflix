@@ -1,7 +1,7 @@
 import React from "react";
 import TypewriterComponent from "typewriter-effect";
 
-const TypeWriter = ({ data }) => {
+const TypeWriter = ({ first, sec, thrd }) => {
   return (
     <>
       <TypewriterComponent
@@ -12,7 +12,7 @@ const TypeWriter = ({ data }) => {
         onInit={(typewriter) => {
           typewriter
             // .typeString("Welcome to Aakriti Hospital!")
-            .typeString(data.first)
+            .typeString("<strong>" + first + "</strong>")
             // .callFunction(() => {
             //   console.log("String typed out!");
             // })
@@ -22,10 +22,10 @@ const TypeWriter = ({ data }) => {
               console.log("Reshape your Health");
             })
             .pauseFor(100)
-            .typeString(data.secnd)
+            .typeString("<strong>" + sec + "</strong>")
             .pauseFor(300)
             .deleteChars(46)
-            .typeString(data.thrd)
+            .typeString("<strong>" + thrd + "</strong>")
             // .typeString(
             //   '<strong>only <span style="color: #27ae60;">5kb</span> Gzipped!</strong>'
             // )
