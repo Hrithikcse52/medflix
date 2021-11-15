@@ -1,6 +1,7 @@
 import React from "react";
 import Detailsone from "../Components/Detailsone/Detailsone";
 import Hero from "../Components/Hero/Hero";
+
 import Nav from "../Components/Nav/Nav";
 import Doctor from "../images/doctor";
 
@@ -16,6 +17,7 @@ const Home = () => {
   return (
     <>
       <Nav />
+
       <Hero typeText={typeText} type={true}>
         <Doctor />
       </Hero>
