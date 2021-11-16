@@ -25,7 +25,7 @@ const LoginCard = () => {
         console.log(email, password);
 
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${BACK_END_URL}/user/login`,
                 {
                     email,
