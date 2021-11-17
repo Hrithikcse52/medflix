@@ -14,9 +14,6 @@ import {
     Image,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
-import Cookies from 'universal-cookie';
-const cookie = new Cookies();
-
 const LoginCard = () => {
     const history = useNavigate();
     const [email, setEmail] = useState('test@test.com');
