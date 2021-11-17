@@ -35,7 +35,7 @@ const LoginCard = () => {
                 }
             );
 
-            history('/dashboard');
+            history('/');
         } catch (err) {}
     };
     return (
