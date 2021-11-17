@@ -14,6 +14,8 @@ import {
     Image,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
+import Cookies from 'universal-cookie';
+const cookie = new Cookies();
 
 const LoginCard = () => {
     const history = useNavigate();
@@ -31,7 +33,9 @@ const LoginCard = () => {
                     email,
                     password,
                 },
-                { withCredentials: true }
+                {
+                    withCredentials: true,
+                }
             );
 
             history('/dashboard');
