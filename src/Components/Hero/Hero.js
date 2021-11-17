@@ -11,6 +11,8 @@ import {
 } from '@chakra-ui/react';
 
 import TypeWriter from '../Util/TypeWriter';
+import { BACK_END_URL } from '../../env';
+import axios from 'axios';
 
 export default function Hero() {
     return (
@@ -72,16 +74,20 @@ export default function Hero() {
                         mb={{ base: 2, sm: 0 }}
                         size="lg"
                         cursor="pointer"
-                        // as="a"
-                        // // variant="solid"
-                        // colorScheme="brand"
-                        // display="inline-flex"
-                        // alignItems="center"
-                        // justifyContent="center"
-                        // w={{ base: "full", sm: "auto" }}
-                        // mb={{ base: 2, sm: 0 }}
-                        // size="lg"
-                        // cursor="pointer"
+                        onClick={async () => {
+                            console.log('clicked');
+                            try {
+                                const response = await axios.get(
+                                    `${BACK_END_URL}/user/check`,
+                                    {
+                                        withCredentials: true,
+                                    }
+                                );
+                                console.log(response);
+                            } catch (err) {
+                                console.log(err);
+                            }
+                        }}
                     >
                         Get Started
                         <Icon
