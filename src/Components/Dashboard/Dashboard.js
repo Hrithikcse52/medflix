@@ -33,7 +33,6 @@ import {
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { BACK_END_URL } from '../../env';
-import Cookies from 'universal-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/actions/userAuth';
 
@@ -159,8 +158,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
     const { user } = useSelector((state) => state.profile);
     const history = useNavigate();
     const dispatch = useDispatch();
-    const cookie = new Cookies();
-    console.log('cookie', cookie.get('token'));
     return (
         <Flex
             ml={{ base: 0, md: 60 }}

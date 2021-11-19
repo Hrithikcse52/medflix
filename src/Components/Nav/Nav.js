@@ -379,11 +379,14 @@ const MobileNavItem = ({ label, children, href }) => {
                     align={'start'}
                 >
                     {children &&
-                        children.map((child) => (
-                            <Link key={child.label} py={2} href={child.href}>
-                                {child.label}
-                            </Link>
-                        ))}
+                        children.map((child) => {
+                            console.log(child);
+                            return (
+                                <Link key={child.label} py={2} href={child.loc}>
+                                    {child.label}
+                                </Link>
+                            );
+                        })}
                 </Stack>
             </Collapse>
         </Stack>
@@ -398,11 +401,13 @@ const NAV_ITEMS = [
                 label: 'Explore Design Work',
                 subLabel: 'Trending Design to inspire you',
                 href: '#',
+                loc: '/dashboard',
             },
             {
                 label: 'New & Noteworthy',
                 subLabel: 'Up-and-coming Designers',
                 href: '#',
+                loc: '/dashboard',
             },
         ],
     },
@@ -413,20 +418,24 @@ const NAV_ITEMS = [
                 label: 'Job Board',
                 subLabel: 'Find your dream design job',
                 href: '#',
+                loc: '/dashboard',
             },
             {
                 label: 'Freelance Projects',
                 subLabel: 'An exclusive list for contract work',
                 href: '#',
+                loc: '/dashboard',
             },
         ],
     },
     {
         label: 'Learn Design',
         href: '#',
+        loc: '/dashboard',
     },
     {
-        label: 'Hire Designers',
+        label: 'Dashboard',
         href: '#',
+        loc: '/dashboard',
     },
 ];

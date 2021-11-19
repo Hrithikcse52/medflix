@@ -12,10 +12,12 @@ import {
 import TypeWriter from '../Util/TypeWriter';
 import { BACK_END_URL } from '../../env';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { loginUser } from '../../redux/actions/userAuth';
 
 export default function Hero() {
+    const history = useNavigate();
     // const state = useSelector((state) => state.profile);
     // const dispatch = useDispatch();
 
@@ -88,6 +90,7 @@ export default function Hero() {
                                     }
                                 );
                                 console.log(response);
+                                history('/dashboard');
                             } catch (err) {
                                 console.log(err);
                             }
