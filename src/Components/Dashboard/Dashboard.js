@@ -34,6 +34,8 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { BACK_END_URL } from '../../env';
 import Cookies from 'universal-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../../redux/actions/userAuth';
 
 const LinkItems = [
     { name: 'Patient', icon: FiHome, route: 'patient' },
@@ -154,7 +156,9 @@ const NavItem = ({ to, icon, children, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
+    const { user } = useSelector((state) => state.profile);
     const history = useNavigate();
+    const dispatch = useDispatch();
     const cookie = new Cookies();
     console.log('cookie', cookie.get('token'));
     return (
@@ -216,7 +220,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                                     spacing="1px"
                                     ml="2"
                                 >
-                                    <Text fontSize="sm">Justina Clark</Text>
+                                    <Text fontSize="sm"> {user.fullName} </Text>
                                     <Text fontSize="xs" color="gray.600">
                                         Admin
                                     </Text>
@@ -249,6 +253,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                                         );
                                         if (data.status === 200) {
                                             history('/');
+                                            dispatch(logoutUser());
                                         }
                                         console.log('data', data);
                                     } catch (error) {

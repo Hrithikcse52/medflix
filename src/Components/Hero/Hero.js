@@ -9,12 +9,16 @@ import {
     Text,
     Icon,
 } from '@chakra-ui/react';
-
 import TypeWriter from '../Util/TypeWriter';
 import { BACK_END_URL } from '../../env';
 import axios from 'axios';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { loginUser } from '../../redux/actions/userAuth';
 
 export default function Hero() {
+    // const state = useSelector((state) => state.profile);
+    // const dispatch = useDispatch();
+
     return (
         <Box px={8} py={24} mx="auto">
             <Box
@@ -113,6 +117,21 @@ export default function Hero() {
                         mb={{ base: 2, sm: 0 }}
                         size="lg"
                         cursor="pointer"
+                        onClick={async () => {
+                            console.log('clicked');
+                            try {
+                                const response = await axios.get(
+                                    `${BACK_END_URL}/user/clear`,
+                                    {
+                                        withCredentials: true,
+                                    }
+                                );
+
+                                console.log(response);
+                            } catch (err) {
+                                console.log(err);
+                            }
+                        }}
                     >
                         Book a Demo
                         <Icon

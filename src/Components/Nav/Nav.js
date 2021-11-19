@@ -31,14 +31,15 @@ import {
     ChevronRightIcon,
 } from '@chakra-ui/icons';
 import { FiBell, FiChevronDown } from 'react-icons/fi';
-
 import { useNavigate } from 'react-router';
-import Cookies from 'universal-cookie';
 import { BACK_END_URL } from '../../env';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../../redux/actions/userAuth';
 
 export default function Nav() {
-    const cookie = new Cookies();
+    const { user } = useSelector((state) => state.profile);
+    const dispatch = useDispatch();
     const history = useNavigate();
     const { isOpen, onToggle } = useDisclosure();
     const color1 = useColorModeValue('white', 'gray.900');
@@ -96,7 +97,7 @@ export default function Nav() {
                         <DesktopNav />
                     </Flex>
                 </Flex>
-                {cookie.get('token') ? (
+                {user ? (
                     <HStack spacing={{ base: '0', md: '6' }}>
                         <IconButton
                             size="lg"
@@ -128,7 +129,7 @@ export default function Nav() {
                                             ml="2"
                                         >
                                             <Text fontSize="sm">
-                                                Justina Clark
+                                                {user.fullName}
                                             </Text>
                                             <Text
                                                 fontSize="xs"
@@ -164,8 +165,8 @@ export default function Nav() {
                                                 );
                                                 if (data.status === 200) {
                                                     history('/');
+                                                    dispatch(logoutUser());
                                                 }
-                                                console.log('data', data);
                                             } catch (error) {
                                                 console.log(error);
                                             }

@@ -14,7 +14,10 @@ import {
     Image,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
+import { loginUser } from '../../../redux/actions/userAuth';
+import { useDispatch } from 'react-redux';
 const LoginCard = () => {
+    const dispatch = useDispatch();
     const history = useNavigate();
     const [email, setEmail] = useState('test@test.com');
     const [password, setPassword] = useState('test@test');
@@ -24,7 +27,7 @@ const LoginCard = () => {
         console.log(email, password);
 
         try {
-            await axios.post(
+            const { data: response } = await axios.post(
                 `${BACK_END_URL}/user/login`,
                 {
                     email,
@@ -34,7 +37,14 @@ const LoginCard = () => {
                     withCredentials: true,
                 }
             );
-
+            console.log(response);
+            dispatch(
+                loginUser({
+                    fullName: response.full_name,
+                    email: response.email,
+                    token: response.token,
+                })
+            );
             history('/');
         } catch (err) {}
     };

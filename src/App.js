@@ -9,6 +9,10 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cookies from 'universal-cookie';
+import axios from 'axios';
+import { BACK_END_URL } from './env';
+import { loginUser } from './redux/actions/userAuth';
+import { useDispatch, useSelector } from 'react-redux';
 
 // function Root() {
 //   const routes = useRoutes([
@@ -29,8 +33,33 @@ import Cookies from 'universal-cookie';
 // }
 
 function App() {
-    const cookie = new Cookies();
+    const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.profile);
 
+    const validate_user = async () => {
+        try {
+            const { data: response } = await axios.get(
+                `${BACK_END_URL}/user/check`,
+                {
+                    withCredentials: true,
+                }
+            );
+            console.log('Validate user', response);
+            dispatch(
+                loginUser({
+                    email: response.email,
+                    fullName: response.full_name,
+                    token: response.token,
+                })
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const cookie = new Cookies();
+    if (!user && cookie.get('session')) {
+        validate_user();
+    }
     return (
         <Router>
             <Routes>
@@ -40,14 +69,12 @@ function App() {
                 <Route
                     path="dashboard"
                     element={
-                        cookie.get('token') ? (
-                            <DashboardPage />
+                        user ? (
+                            <>
+                                <DashboardPage />
+                            </>
                         ) : (
-                            <Navigate
-                                to={{
-                                    pathname: '/login',
-                                }}
-                            />
+                            <Login />
                         )
                     }
                 >
