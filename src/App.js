@@ -39,7 +39,7 @@ function App() {
                     withCredentials: true,
                 }
             );
-            console.log('Validate user', response);
+            // console.log('Validate user', response);
             dispatch(
                 loginUser({
                     email: response.email,

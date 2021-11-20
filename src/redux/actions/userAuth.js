@@ -1,6 +1,6 @@
 export const loginUser = (data) => {
     return (dispatch) => {
-        console.log(data);
+        // console.log(data);
         dispatch({
             type: 'LOGIN_SUCCESS',
             payload: data,

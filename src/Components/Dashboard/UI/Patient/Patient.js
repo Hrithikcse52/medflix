@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     chakra,
     Flex,
@@ -13,18 +13,36 @@ import {
 } from '@chakra-ui/react';
 import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
 import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
+import axios from 'axios';
+import { BACK_END_URL } from '../../../../env';
 
-const Patient = () => {
+const Patient = ({ update }) => {
     const bgColor = useColorModeValue('white', 'gray.800');
     const bgColor2 = useColorModeValue('gray.100', 'gray.700');
     const bgColor3 = useColorModeValue('gray.500');
+    const [patients, setPatients] = useState([]);
+    useEffect(() => {
+        (async () => {
+            try {
+                const {
+                    data: { data: response },
+                } = await axios.get(`${BACK_END_URL}/patient/all`, {
+                    withCredentials: true,
+                });
+                console.log(response);
+                setPatients(response);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, [update]);
 
-    const data = [
-        { name: 'Daggy', created: '7 days ago' },
-        { name: 'Anubra', created: '23 hours ago' },
-        { name: 'Josef', created: 'A few seconds ago' },
-        { name: 'Sage', created: 'A few hours ago' },
-    ];
+    // const data = [
+    //     { name: 'Daggy', created: '7 days ago' },
+    //     { name: 'Anubra', created: '23 hours ago' },
+    //     { name: 'Josef', created: 'A few seconds ago' },
+    //     { name: 'Sage', created: 'A few hours ago' },
+    // ];
     return (
         <Flex
             w="full"
@@ -40,28 +58,30 @@ const Patient = () => {
                 shadow="lg"
             >
                 {/* <SimpleGrid
-          //   style={{
-          //     display: "flex",
-          //     flexDirection: "row",
-          //     justifyContent: "space-between",
-          //   }}
-          spacingY={3}
-          columns={{ base: 1, md: 4 }}
-          w={{ base: 120, md: "full" }}
-          textTransform="uppercase"
-          bg={bgColor2}
-          color={bgColor3}
-          py={{ base: 1, md: 4 }}
-          px={{ base: 2, md: 10 }}
-          fontSize="md"
-          fontWeight="hairline"
-          display="table-header-group"
-        >
-          <span>Name</span>
-          <span>Created</span>
-          <span>Data</span>
-          <chakra.span textAlign={{ md: "right" }}>Actions</chakra.span>
-        </SimpleGrid> */}
+                    //   style={{
+                    //     display: "flex",
+                    //     flexDirection: "row",
+                    //     justifyContent: "space-between",
+                    //   }}
+                    spacingY={3}
+                    columns={{ base: 1, md: 4 }}
+                    w={{ base: 120, md: 'full' }}
+                    textTransform="uppercase"
+                    bg={bgColor2}
+                    color={bgColor3}
+                    py={{ base: 1, md: 4 }}
+                    px={{ base: 2, md: 10 }}
+                    fontSize="md"
+                    fontWeight="hairline"
+                    display="table-header-group"
+                >
+                    <span>Name</span>
+                    <span>Created</span>
+                    <span>Data</span>
+                    <chakra.span textAlign={{ md: 'right' }}>
+                        Actions
+                    </chakra.span>
+                </SimpleGrid> */}
                 <SimpleGrid
                     spacingY={3}
                     bg={bgColor2}
@@ -80,6 +100,15 @@ const Patient = () => {
                     >
                         Created
                     </chakra.span>
+                    {/* <chakra.span
+                        textOverflow="ellipsis"
+                        overflow="hidden"
+                        whiteSpace="nowrap"
+                    >
+                        Created
+                    </chakra.span> */}
+                    {/* <span>Name</span> */}
+
                     <Flex justify={{ md: 'center' }}>
                         <chakra.span
                             textOverflow="ellipsis"
@@ -99,7 +128,7 @@ const Patient = () => {
                     </Flex>
                     <Flex justify={{ md: 'center' }}>Actions</Flex>
                 </SimpleGrid>
-                {data.map((token, tid) => {
+                {patients.map((token, tid) => {
                     return (
                         <Flex
                             direction={{ base: 'row', md: 'column' }}
@@ -108,7 +137,7 @@ const Patient = () => {
                         >
                             <SimpleGrid
                                 spacingY={3}
-                                columns={{ base: 1, md: 4 }}
+                                columns={{ base: 4, md: 4 }}
                                 w="full"
                                 py={2}
                                 px={10}
@@ -120,8 +149,17 @@ const Patient = () => {
                                     overflow="hidden"
                                     whiteSpace="nowrap"
                                 >
-                                    {token.created}
+                                    {token._id}
                                 </chakra.span>
+                                {/* <chakra.span
+                                    textOverflow="ellipsis"
+                                    overflow="hidden"
+                                    whiteSpace="nowrap"
+                                >
+                                    {token._id}
+                                </chakra.span> */}
+                                {/* <span>{token.mobile_number}</span> */}
+
                                 <Flex justify={{ md: 'center' }}>
                                     <Button
                                         size="sm"
