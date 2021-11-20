@@ -380,7 +380,7 @@ const MobileNavItem = ({ label, children, href }) => {
                 >
                     {children &&
                         children.map((child) => {
-                            console.log(child);
+                            // console.log(child);
                             return (
                                 <Link key={child.label} py={2} href={child.loc}>
                                     {child.label}
