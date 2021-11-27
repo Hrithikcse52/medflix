@@ -457,7 +457,7 @@ const MobileNav = ({ onOpen, setOpenModal, ...rest }) => {
                             <MenuDivider />
                             <MenuItem
                                 onClick={async (e) => {
-                                    console.log('Res');
+                                    // console.log('Res');
                                     try {
                                         const data = await axios.get(
                                             `${BACK_END_URL}/user/logout`,
@@ -466,10 +466,10 @@ const MobileNav = ({ onOpen, setOpenModal, ...rest }) => {
                                             }
                                         );
                                         if (data.status === 200) {
-                                            history('/');
                                             dispatch(logoutUser());
+                                            history('/');
                                         }
-                                        console.log('data', data);
+                                        // console.log('data', data);
                                     } catch (error) {
                                         console.log(error);
                                     }
