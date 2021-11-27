@@ -149,7 +149,7 @@ const Patient = ({ update }) => {
                                     overflow="hidden"
                                     whiteSpace="nowrap"
                                 >
-                                    {token._id}
+                                    {token.pt_id}
                                 </chakra.span>
                                 {/* <chakra.span
                                     textOverflow="ellipsis"

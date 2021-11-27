@@ -18,9 +18,9 @@ const TypeWriter = ({ first, sec, thrd }) => {
                         // })
                         .pauseFor(100)
                         .deleteAll()
-                        .callFunction(() => {
-                            console.log('Reshape your Health');
-                        })
+                        // .callFunction(() => {
+                        //     console.log('Reshape your Health');
+                        // })
                         .pauseFor(100)
                         .typeString('<strong>' + sec + '</strong>')
                         .pauseFor(300)

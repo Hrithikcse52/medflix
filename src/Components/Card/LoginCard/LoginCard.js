@@ -24,7 +24,7 @@ const LoginCard = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email, password);
+        // console.log(email, password);
 
         try {
             const { data: response } = await axios.post(
@@ -37,7 +37,7 @@ const LoginCard = () => {
                     withCredentials: true,
                 }
             );
-            console.log(response);
+            // console.log(response);
             dispatch(
                 loginUser({
                     fullName: response.full_name,

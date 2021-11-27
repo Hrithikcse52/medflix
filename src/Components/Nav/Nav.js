@@ -155,7 +155,6 @@ export default function Nav() {
                                     <MenuDivider />
                                     <MenuItem
                                         onClick={async (e) => {
-                                            console.log('Res');
                                             try {
                                                 const data = await axios.get(
                                                     `${BACK_END_URL}/user/logout`,
@@ -164,8 +163,8 @@ export default function Nav() {
                                                     }
                                                 );
                                                 if (data.status === 200) {
-                                                    history('/');
                                                     dispatch(logoutUser());
+                                                    history('/');
                                                 }
                                             } catch (error) {
                                                 console.log(error);
