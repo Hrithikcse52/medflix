@@ -1,4 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+} from 'react-router-dom';
 import DashboardPage from './pages/DashboardPage';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -7,7 +11,12 @@ import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { BACK_END_URL } from './env';
 import { loginUser } from './redux/actions/userAuth';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+    useDispatch,
+    useSelector,
+} from 'react-redux';
+import PatientProfile from './Components/PatientProfile/PatientProfile';
+import Nav from './Components/Nav/Nav';
 
 // function Root() {
 //   const routes = useRoutes([
@@ -29,21 +38,28 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.profile);
+    const { user } = useSelector(
+        (state) => state.profile
+    );
 
     const validate_user = async () => {
         try {
-            const { data: response } = await axios.get(
-                `${BACK_END_URL}/user/check`,
-                // {
-                //     withCredentials: true,
-                // }
-                {
-                    headers: {
-                        authorization: cookie.get('session', { path: '/' }),
-                    },
-                }
-            );
+            const { data: response } =
+                await axios.get(
+                    `${BACK_END_URL}/user/check`,
+                    // {
+                    //     withCredentials: true,
+                    // }
+                    {
+                        headers: {
+                            authorization:
+                                cookie.get(
+                                    'session',
+                                    { path: '/' }
+                                ),
+                        },
+                    }
+                );
             // console.log('Validate user', response);
             dispatch(
                 loginUser({
@@ -61,31 +77,48 @@ function App() {
         validate_user();
     }
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route
-                    path="dashboard"
-                    element={
-                        user ? (
-                            <>
-                                <DashboardPage />
-                            </>
-                        ) : (
-                            <Login />
-                        )
-                    }
-                >
-                    <Route path="patient" />
-                    <Route path="log" />
-                    <Route path="prescption" />
-                    <Route path="report" />
-                    <Route path="analysis" />
-                </Route>
-            </Routes>
-        </Router>
+        <>
+            <Router>
+                <Nav />
+                <Routes>
+                    <Route
+                        path="/"
+                        element={<Home />}
+                    />
+                    <Route
+                        path="/login"
+                        element={<Login />}
+                    />
+                    <Route
+                        path="/register"
+                        element={<Register />}
+                    />
+                    <Route
+                        path="/patient/:id"
+                        element={
+                            <PatientProfile />
+                        }
+                    />
+                    <Route
+                        path="dashboard"
+                        element={
+                            user ? (
+                                <>
+                                    <DashboardPage />
+                                </>
+                            ) : (
+                                <Login />
+                            )
+                        }>
+                        <Route path="patient" />
+                        <Route path="log" />
+                        <Route path="prescription" />
+                        <Route path="report" />
+                        <Route path="settings" />
+                    </Route>
+                </Routes>
+            </Router>
+        </>
     );
 }
 
