@@ -3,7 +3,7 @@ import Feature from '../Components/Features/Feature';
 import FeatureOne from '../Components/Features/FeatureOne';
 import { Footer } from '../Components/Footer/Footer';
 import Hero from '../Components/Hero/Hero';
-import Nav from '../Components/Nav/Nav';
+
 const Home = () => {
     // const typeText = {
     //   first: "Welcome to MedFlix",
@@ -15,7 +15,7 @@ const Home = () => {
     // };
     return (
         <>
-            <Nav />
+            {/* <Nav /> */}
             <Hero />
             <Feature />
             <FeatureOne />
