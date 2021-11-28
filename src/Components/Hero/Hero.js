@@ -13,6 +13,8 @@ import TypeWriter from '../Util/TypeWriter';
 import { BACK_END_URL } from '../../env';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import Cookies from 'universal-cookie';
+const cookie = new Cookies();
 // import { useDispatch, useSelector } from 'react-redux';
 // import { loginUser } from '../../redux/actions/userAuth';
 
@@ -85,8 +87,16 @@ export default function Hero() {
                             try {
                                 const response = await axios.get(
                                     `${BACK_END_URL}/user/check`,
+                                    // {
+                                    //     withCredentials: true,
+                                    // }
                                     {
-                                        withCredentials: true,
+                                        headers: {
+                                            authorization: cookie.get(
+                                                'session',
+                                                { path: '/' }
+                                            ),
+                                        },
                                     }
                                 );
                                 console.log(response);
@@ -125,8 +135,16 @@ export default function Hero() {
                             try {
                                 const response = await axios.get(
                                     `${BACK_END_URL}/user/clear`,
+                                    // {
+                                    //     withCredentials: true,
+                                    // }
                                     {
-                                        withCredentials: true,
+                                        headers: {
+                                            authorization: cookie.get(
+                                                'session',
+                                                { path: '/' }
+                                            ),
+                                        },
                                     }
                                 );
 

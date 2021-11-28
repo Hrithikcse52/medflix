@@ -35,8 +35,13 @@ function App() {
         try {
             const { data: response } = await axios.get(
                 `${BACK_END_URL}/user/check`,
+                // {
+                //     withCredentials: true,
+                // }
                 {
-                    withCredentials: true,
+                    headers: {
+                        authorization: cookie.get('session', { path: '/' }),
+                    },
                 }
             );
             // console.log('Validate user', response);

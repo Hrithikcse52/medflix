@@ -16,6 +16,8 @@ import {
 import { useNavigate } from 'react-router';
 import { loginUser } from '../../../redux/actions/userAuth';
 import { useDispatch } from 'react-redux';
+import Cookies from 'universal-cookie';
+const cookie = new Cookies();
 const LoginCard = () => {
     const dispatch = useDispatch();
     const history = useNavigate();
@@ -33,8 +35,13 @@ const LoginCard = () => {
                     email,
                     password,
                 },
+                // {
+                //     withCredentials: true,
+                // }
                 {
-                    withCredentials: true,
+                    headers: {
+                        authorization: cookie.get('session', { path: '/' }),
+                    },
                 }
             );
             // console.log(response);
