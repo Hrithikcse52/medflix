@@ -11,94 +11,138 @@ import {
     Input,
     Link,
     Stack,
+    useToast,
     Image,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { loginUser } from '../../../redux/actions/userAuth';
 import { useDispatch } from 'react-redux';
-import Cookies from 'universal-cookie';
-const cookie = new Cookies();
+
 const LoginCard = () => {
     const dispatch = useDispatch();
     const history = useNavigate();
-    const [email, setEmail] = useState('test@test.com');
-    const [password, setPassword] = useState('test@test');
+    const [email, setEmail] = useState('');
+    const toast = useToast();
+    const [password, setPassword] = useState('');
+
+    const resetState = () => {
+        setEmail('');
+        setPassword('');
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(email, password);
 
         try {
-            const { data: response } = await axios.post(
+            const response = await axios.post(
                 `${BACK_END_URL}/user/login`,
                 {
                     email,
                     password,
-                },
-                // {
-                //     withCredentials: true,
-                // }
-                {
-                    headers: {
-                        authorization: cookie.get('session', { path: '/' }),
-                    },
                 }
             );
-            // console.log(response);
             dispatch(
                 loginUser({
-                    fullName: response.full_name,
-                    email: response.email,
-                    token: response.token,
+                    fullName:
+                        response.data.full_name,
+                    email: response.data.email,
+                    token: response.data.token,
                 })
             );
             history('/');
-        } catch (err) {}
+        } catch (err) {
+            console.log(err?.response);
+            err.response?.data?.message &&
+                toast({
+                    title: err.response?.data
+                        ?.message,
+                    position: 'top-right',
+                    isClosable: true,
+                });
+        }
+        resetState();
     };
     return (
-        <Stack minH={'90vh'} direction={{ base: 'column', md: 'row' }}>
-            <Flex p={8} flex={1} align={'center'} justify={'center'}>
-                <Stack spacing={4} w={'full'} maxW={'md'}>
-                    <Heading fontSize={'2xl'}>Sign in to your account</Heading>
+        <Stack
+            minH={'90vh'}
+            direction={{
+                base: 'column',
+                md: 'row',
+            }}>
+            <Flex
+                p={8}
+                flex={1}
+                align={'center'}
+                justify={'center'}>
+                <Stack
+                    spacing={4}
+                    w={'full'}
+                    maxW={'md'}>
+                    <Heading fontSize={'2xl'}>
+                        Sign in to your account
+                    </Heading>
                     <form onSubmit={handleSubmit}>
                         <FormControl id="email">
-                            <FormLabel>Email address</FormLabel>
+                            <FormLabel>
+                                Email address
+                            </FormLabel>
                             <Input
                                 placeholder="Email"
                                 value={email}
                                 type="email"
                                 name="email"
                                 onChange={(e) => {
-                                    setEmail(e.target.value);
+                                    setEmail(
+                                        e.target
+                                            .value
+                                    );
                                 }}
                             />
                         </FormControl>
                         <FormControl id="password">
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>
+                                Password
+                            </FormLabel>
                             <Input
                                 placeholder="Password"
                                 value={password}
                                 type="password"
                                 name="password"
                                 onChange={(e) => {
-                                    setPassword(e.target.value);
+                                    setPassword(
+                                        e.target
+                                            .value
+                                    );
                                 }}
                             />
                         </FormControl>
                         <Stack spacing={6}>
                             <Stack
-                                direction={{ base: 'column', sm: 'row' }}
+                                direction={{
+                                    base: 'column',
+                                    sm: 'row',
+                                }}
                                 align={'start'}
-                                justify={'space-between'}
-                            >
-                                <Checkbox>Remember me</Checkbox>
-                                <Link color={'blue.500'}>Forgot password?</Link>
+                                justify={
+                                    'space-between'
+                                }>
+                                <Checkbox>
+                                    Remember me
+                                </Checkbox>
+                                <Link
+                                    color={
+                                        'blue.500'
+                                    }>
+                                    Forgot
+                                    password?
+                                </Link>
                             </Stack>
                             <Button
-                                colorScheme={'blue'}
+                                colorScheme={
+                                    'blue'
+                                }
                                 variant={'solid'}
-                                type="submit"
-                            >
+                                type="submit">
                                 Sign in
                             </Button>
                         </Stack>

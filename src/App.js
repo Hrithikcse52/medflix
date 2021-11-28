@@ -7,7 +7,6 @@ import DashboardPage from './pages/DashboardPage';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { BACK_END_URL } from './env';
 import { loginUser } from './redux/actions/userAuth';
@@ -17,6 +16,7 @@ import {
 } from 'react-redux';
 import PatientProfile from './Components/PatientProfile/PatientProfile';
 import Nav from './Components/Nav/Nav';
+import { cookie } from './utils';
 
 // function Root() {
 //   const routes = useRoutes([
@@ -72,7 +72,7 @@ function App() {
             console.log(err);
         }
     };
-    const cookie = new Cookies();
+
     if (!user && cookie.get('session')) {
         validate_user();
     }
