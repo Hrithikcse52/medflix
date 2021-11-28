@@ -15,6 +15,8 @@ import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
 import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
 import axios from 'axios';
 import { BACK_END_URL } from '../../../../env';
+import Cookies from 'universal-cookie';
+const cookie = new Cookies();
 
 const Patient = ({ update }) => {
     const bgColor = useColorModeValue('white', 'gray.800');
@@ -26,9 +28,19 @@ const Patient = ({ update }) => {
             try {
                 const {
                     data: { data: response },
-                } = await axios.get(`${BACK_END_URL}/patient/all`, {
-                    withCredentials: true,
-                });
+                } = await axios.get(
+                    `${BACK_END_URL}/patient/all`,
+                    // {
+                    //     withCredentials: true,
+                    // }
+                    {
+                        headers: {
+                            authorization: cookie.get('session', {
+                                path: '/',
+                            }),
+                        },
+                    }
+                );
                 console.log(response);
                 setPatients(response);
             } catch (error) {

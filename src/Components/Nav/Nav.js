@@ -36,6 +36,7 @@ import { BACK_END_URL } from '../../env';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/actions/userAuth';
+import { cookie } from '../../utils';
 
 export default function Nav() {
     const { user } = useSelector((state) => state.profile);
@@ -158,8 +159,19 @@ export default function Nav() {
                                             try {
                                                 const data = await axios.get(
                                                     `${BACK_END_URL}/user/logout`,
+                                                    // {
+                                                    //     withCredentials: true,
+                                                    // }
                                                     {
-                                                        withCredentials: true,
+                                                        headers: {
+                                                            authorization:
+                                                                cookie.get(
+                                                                    'session',
+                                                                    {
+                                                                        path: '/',
+                                                                    }
+                                                                ),
+                                                        },
                                                     }
                                                 );
                                                 if (data.status === 200) {

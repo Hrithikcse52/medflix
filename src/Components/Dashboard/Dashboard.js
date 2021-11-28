@@ -80,6 +80,9 @@ import axios from 'axios';
 import { BACK_END_URL } from '../../env';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/actions/userAuth';
+import Cookies from 'universal-cookie';
+
+const cookie = new Cookies();
 
 const LinkItems = [
     { name: 'Patient', icon: FiHome, route: 'patient' },
@@ -112,8 +115,13 @@ const Dashboard = ({ setUpdate, children }) => {
             const { data: response } = await axios.post(
                 `${BACK_END_URL}/patient/create`,
                 data,
+                // {
+                //     withCredentials: true,
+                // }
                 {
-                    withCredentials: true,
+                    headers: {
+                        authorization: cookie.get('session', { path: '/' }),
+                    },
                 }
             );
             console.log(response);
@@ -457,12 +465,17 @@ const MobileNav = ({ onOpen, setOpenModal, ...rest }) => {
                             <MenuDivider />
                             <MenuItem
                                 onClick={async (e) => {
-                                    // console.log('Res');
+                                    console.log('Res');
                                     try {
                                         const data = await axios.get(
                                             `${BACK_END_URL}/user/logout`,
                                             {
-                                                withCredentials: true,
+                                                headers: {
+                                                    authorization: cookie.get(
+                                                        'session',
+                                                        { path: '/' }
+                                                    ),
+                                                },
                                             }
                                         );
                                         if (data.status === 200) {
