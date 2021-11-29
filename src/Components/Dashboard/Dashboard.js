@@ -26,7 +26,6 @@ import {
 
 import {
     FiHome,
-    FiTrendingUp,
     // FiUserPlus,
     FiCompass,
     FiStar,
@@ -35,6 +34,7 @@ import {
     // FiBell,
     // FiChevronDown,
 } from 'react-icons/fi';
+import { FaStethoscope } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { BACK_END_URL } from '../../env';
@@ -49,14 +49,14 @@ const cookie = new Cookies();
 
 const LinkItems = [
     {
-        name: 'Patient',
+        name: 'Patients',
         icon: FiHome,
         route: 'patient',
     },
     {
-        name: 'Log',
-        icon: FiTrendingUp,
-        route: 'log',
+        name: 'Doctors',
+        icon: FaStethoscope,
+        route: 'doctor',
     },
     {
         name: 'Prescption',

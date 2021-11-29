@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router';
-import RegisterCard from '../Components/Card/RegisterCard/RegisterCard';
 import Dashboard from '../Components/Dashboard/Dashboard';
 import Doctor from '../Components/Dashboard/UI/Doctors/Doctor';
 import Patient from '../Components/Dashboard/UI/Patient/Patient';
 
 const DashboardPage = () => {
     const [update, setUpdate] = useState(false);
-    const [newPtOpenModal, setPtOpenModal] =
-        useState(false);
+    const [newPtOpenModal, setPtOpenModal] = useState(false);
     console.log('haello', newPtOpenModal);
     return (
         <>
@@ -22,32 +20,16 @@ const DashboardPage = () => {
                         element={
                             <Patient
                                 update={update}
-                                setUpdate={
-                                    setUpdate
-                                }
-                                setOpenModal={
-                                    setPtOpenModal
-                                }
+                                setUpdate={setUpdate}
+                                setOpenModal={setPtOpenModal}
                             />
                         }
                     />
-                    <Route
-                        path="log"
-                        element={<RegisterCard />}
-                    />
+                    <Route path="doctor" element={<Doctor />} />
 
-                    <Route
-                        path="prescription"
-                        element={<Doctor />}
-                    />
-                    <Route
-                        path="report"
-                        element={<Doctor />}
-                    />
-                    <Route
-                        path="settings"
-                        element={<Doctor />}
-                    />
+                    <Route path="prescription" element={<Doctor />} />
+                    <Route path="report" element={<Doctor />} />
+                    <Route path="settings" element={<Doctor />} />
                 </Routes>
             </Dashboard>
         </>
