@@ -9,7 +9,9 @@ import { loginUser } from './redux/actions/userAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import PatientProfile from './Components/PatientProfile/PatientProfile';
 import Nav from './Components/Nav/Nav';
+import NotFound from './pages/NotFound';
 import { cookie } from './utils';
+import DoctorDash from './Components/DoctorPage/DoctorDash';
 
 // function Root() {
 //   const routes = useRoutes([
@@ -71,6 +73,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/patient/:id" element={<PatientProfile />} />
+                    <Route path="/doctorPanel/:id" element={<DoctorDash />} />
                     <Route
                         path="dashboard/*"
                         element={
@@ -88,6 +91,8 @@ function App() {
                         <Route path="report" />
                         <Route path="settings" />
                     </Route>
+
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>
         </>

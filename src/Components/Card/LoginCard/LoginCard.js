@@ -10,6 +10,7 @@ import {
     Heading,
     Input,
     Link,
+    Spinner,
     Stack,
     useToast,
     Image,
@@ -24,6 +25,7 @@ const LoginCard = () => {
     const [email, setEmail] = useState('');
     const toast = useToast();
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const resetState = () => {
         setEmail('');
@@ -32,19 +34,16 @@ const LoginCard = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         try {
-            const response = await axios.post(
-                `${BACK_END_URL}/user/login`,
-                {
-                    email,
-                    password,
-                }
-            );
+            const response = await axios.post(`${BACK_END_URL}/user/login`, {
+                email,
+                password,
+            });
             dispatch(
                 loginUser({
-                    fullName:
-                        response.data.full_name,
+                    fullName: response.data.full_name,
                     email: response.data.email,
                     token: response.data.token,
                 })
@@ -54,13 +53,13 @@ const LoginCard = () => {
             console.log(err?.response);
             err.response?.data?.message &&
                 toast({
-                    title: err.response?.data
-                        ?.message,
+                    title: err.response?.data?.message,
                     position: 'top-right',
                     isClosable: true,
                 });
         }
         resetState();
+        setLoading(false);
     };
     return (
         <Stack
@@ -69,50 +68,31 @@ const LoginCard = () => {
                 base: 'column',
                 md: 'row',
             }}>
-            <Flex
-                p={8}
-                flex={1}
-                align={'center'}
-                justify={'center'}>
-                <Stack
-                    spacing={4}
-                    w={'full'}
-                    maxW={'md'}>
-                    <Heading fontSize={'2xl'}>
-                        Sign in to your account
-                    </Heading>
+            <Flex p={8} flex={1} align={'center'} justify={'center'}>
+                <Stack spacing={4} w={'full'} maxW={'md'}>
+                    <Heading fontSize={'2xl'}>Sign in to your account</Heading>
                     <form onSubmit={handleSubmit}>
                         <FormControl id="email">
-                            <FormLabel>
-                                Email address
-                            </FormLabel>
+                            <FormLabel>Email address</FormLabel>
                             <Input
                                 placeholder="Email"
                                 value={email}
                                 type="email"
                                 name="email"
                                 onChange={(e) => {
-                                    setEmail(
-                                        e.target
-                                            .value
-                                    );
+                                    setEmail(e.target.value);
                                 }}
                             />
                         </FormControl>
                         <FormControl id="password">
-                            <FormLabel>
-                                Password
-                            </FormLabel>
+                            <FormLabel>Password</FormLabel>
                             <Input
                                 placeholder="Password"
                                 value={password}
                                 type="password"
                                 name="password"
                                 onChange={(e) => {
-                                    setPassword(
-                                        e.target
-                                            .value
-                                    );
+                                    setPassword(e.target.value);
                                 }}
                             />
                         </FormControl>
@@ -123,27 +103,16 @@ const LoginCard = () => {
                                     sm: 'row',
                                 }}
                                 align={'start'}
-                                justify={
-                                    'space-between'
-                                }>
-                                <Checkbox>
-                                    Remember me
-                                </Checkbox>
-                                <Link
-                                    color={
-                                        'blue.500'
-                                    }>
-                                    Forgot
-                                    password?
-                                </Link>
+                                justify={'space-between'}>
+                                <Checkbox>Remember me</Checkbox>
+                                <Link color={'blue.500'}>Forgot password?</Link>
                             </Stack>
                             <Button
-                                colorScheme={
-                                    'blue'
-                                }
+                                colorScheme={'blue'}
                                 variant={'solid'}
+                                disabled={loading ? true : false}
                                 type="submit">
-                                Sign in
+                                {loading ? <Spinner size="sm" /> : 'Sign in'}
                             </Button>
                         </Stack>
                     </form>
