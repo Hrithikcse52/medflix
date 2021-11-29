@@ -1,7 +1,4 @@
-import React, {
-    useEffect,
-    useState,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     chakra,
     Flex,
@@ -9,20 +6,15 @@ import {
     useColorModeValue,
     Button,
     // useBreakpointValue,
+    Box,
     Stack,
     SimpleGrid,
     ButtonGroup,
     IconButton,
     HStack,
 } from '@chakra-ui/react';
-import {
-    AiFillEdit,
-    AiTwotoneLock,
-} from 'react-icons/ai';
-import {
-    BsBoxArrowUpRight,
-    BsFillTrashFill,
-} from 'react-icons/bs';
+import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
+import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
 import axios from 'axios';
 import { BACK_END_URL } from '../../../../env';
 import Cookies from 'universal-cookie';
@@ -37,16 +29,9 @@ const Patient = ({ update, setOpenModal }) => {
     // );
     // const mobileNav = useDisclosure();
     const history = useNavigate();
-    const bgColor = useColorModeValue(
-        'white',
-        'gray.800'
-    );
-    const bgColor2 = useColorModeValue(
-        'gray.100',
-        'gray.700'
-    );
-    const bgColor3 =
-        useColorModeValue('gray.500');
+    const bgColor = useColorModeValue('white', 'gray.800');
+    const bgColor2 = useColorModeValue('gray.100', 'gray.700');
+    const bgColor3 = useColorModeValue('gray.500');
     const [patients, setPatients] = useState([]);
     useEffect(() => {
         (async () => {
@@ -60,13 +45,9 @@ const Patient = ({ update, setOpenModal }) => {
                     // }
                     {
                         headers: {
-                            authorization:
-                                cookie.get(
-                                    'session',
-                                    {
-                                        path: '/',
-                                    }
-                                ),
+                            authorization: cookie.get('session', {
+                                path: '/',
+                            }),
                         },
                     }
                 );
@@ -86,52 +67,45 @@ const Patient = ({ update, setOpenModal }) => {
     // ];
     return (
         <>
-            <Flex
-                alignItems="center"
-                justifyContent="space-between"
-                mx="auto">
-                <HStack
-                    display="flex"
-                    spacing={3}
-                    marginY={5}
-                    alignItems="center">
-                    <Flex
-                        justify={{
-                            md: 'center',
-                        }}>
-                        <Button
-                            size="sm"
-                            variant="solid"
-                            onClick={() => {
-                                setOpenModal(
-                                    true
-                                );
-                            }}
-                            leftIcon={
-                                <Icon
-                                    as={
-                                        FiUserPlus
-                                    }
-                                />
-                            }
-                            colorScheme="purple">
-                            Create New Patient
-                        </Button>
-                    </Flex>
-                </HStack>
-            </Flex>
-            <Flex
-                w="full"
-                //   bg="gray.600"
-                //   p={50}
-                alignItems="center"
-                justifyContent="center">
-                <Stack
-                    direction={{ base: 'column' }}
+            <Box marginTop="10vh">
+                <Flex
+                    alignItems="center"
+                    justifyContent="space-between"
+                    mx="auto">
+                    <HStack
+                        display="flex"
+                        spacing={3}
+                        marginY={5}
+                        alignItems="center">
+                        <Flex
+                            justify={{
+                                md: 'center',
+                            }}>
+                            <Button
+                                size="sm"
+                                variant="solid"
+                                onClick={() => {
+                                    setOpenModal(true);
+                                }}
+                                leftIcon={<Icon as={FiUserPlus} />}
+                                colorScheme="purple">
+                                Create New Patient
+                            </Button>
+                        </Flex>
+                    </HStack>
+                </Flex>
+                <Flex
                     w="full"
-                    bg={{ md: bgColor }}
-                    shadow="lg">
-                    {/* <SimpleGrid
+                    //   bg="gray.600"
+                    //   p={50}
+                    alignItems="center"
+                    justifyContent="center">
+                    <Stack
+                        direction={{ base: 'column' }}
+                        w="full"
+                        bg={{ md: bgColor }}
+                        shadow="lg">
+                        {/* <SimpleGrid
                     //   style={{
                     //     display: "flex",
                     //     flexDirection: "row",
@@ -156,45 +130,45 @@ const Patient = ({ update, setOpenModal }) => {
                         Actions
                     </chakra.span>
                 </SimpleGrid> */}
-                    <SimpleGrid
-                        spacingY={3}
-                        bg={bgColor2}
-                        color={bgColor3}
-                        columns={{
-                            base: 1,
-                            md: 4,
-                        }}
-                        w="full"
-                        py={2}
-                        px={10}
-                        fontWeight="hairline">
-                        <span>Name</span>
-                        <chakra.span
-                            textOverflow="ellipsis"
-                            overflow="hidden"
-                            whiteSpace="nowrap">
-                            Created
-                        </chakra.span>
-                        {/* <chakra.span
+                        <SimpleGrid
+                            spacingY={3}
+                            bg={bgColor2}
+                            color={bgColor3}
+                            columns={{
+                                base: 1,
+                                md: 4,
+                            }}
+                            w="full"
+                            py={2}
+                            px={10}
+                            fontWeight="hairline">
+                            <span>Name</span>
+                            <chakra.span
+                                textOverflow="ellipsis"
+                                overflow="hidden"
+                                whiteSpace="nowrap">
+                                Created
+                            </chakra.span>
+                            {/* <chakra.span
                         textOverflow="ellipsis"
                         overflow="hidden"
                         whiteSpace="nowrap"
                     >
                         Created
                     </chakra.span> */}
-                        {/* <span>Name</span> */}
+                            {/* <span>Name</span> */}
 
-                        <Flex
-                            justify={{
-                                md: 'center',
-                            }}>
-                            <chakra.span
-                                textOverflow="ellipsis"
-                                overflow="hidden"
-                                whiteSpace="nowrap">
-                                Data
-                            </chakra.span>
-                            {/* <Button
+                            <Flex
+                                justify={{
+                                    md: 'center',
+                                }}>
+                                <chakra.span
+                                    textOverflow="ellipsis"
+                                    overflow="hidden"
+                                    whiteSpace="nowrap">
+                                    Data
+                                </chakra.span>
+                                {/* <Button
               size="sm"
               variant="solid"
               leftIcon={<Icon as={AiTwotoneLock} />}
@@ -202,19 +176,16 @@ const Patient = ({ update, setOpenModal }) => {
             >
               View Profile
             </Button> */}
-                        </Flex>
-                        <Flex
-                            justify={{
-                                md: 'center',
-                            }}>
-                            Actions
-                        </Flex>
-                    </SimpleGrid>
-                    {patients.map(
-                        (token, tid) => {
-                            console.log(
-                                token._id
-                            );
+                            </Flex>
+                            <Flex
+                                justify={{
+                                    md: 'center',
+                                }}>
+                                Actions
+                            </Flex>
+                        </SimpleGrid>
+                        {patients.map((token, tid) => {
+                            console.log(token._id);
                             return (
                                 <Flex
                                     direction={{
@@ -224,9 +195,7 @@ const Patient = ({ update, setOpenModal }) => {
                                     bg={bgColor}
                                     key={tid}>
                                     <SimpleGrid
-                                        spacingY={
-                                            3
-                                        }
+                                        spacingY={3}
                                         columns={{
                                             base: 4,
                                             md: 4,
@@ -235,18 +204,12 @@ const Patient = ({ update, setOpenModal }) => {
                                         py={2}
                                         px={10}
                                         fontWeight="hairline">
-                                        <span>
-                                            {
-                                                token.name
-                                            }
-                                        </span>
+                                        <span>{token.name}</span>
                                         <chakra.span
                                             textOverflow="ellipsis"
                                             overflow="hidden"
                                             whiteSpace="nowrap">
-                                            {
-                                                token.pt_id
-                                            }
+                                            {token.pt_id}
                                         </chakra.span>
                                         {/* <chakra.span
                                     textOverflow="ellipsis"
@@ -265,15 +228,10 @@ const Patient = ({ update, setOpenModal }) => {
                                                 size="sm"
                                                 variant="solid"
                                                 leftIcon={
-                                                    <Icon
-                                                        as={
-                                                            AiTwotoneLock
-                                                        }
-                                                    />
+                                                    <Icon as={AiTwotoneLock} />
                                                 }
                                                 colorScheme="purple">
-                                                View
-                                                Profile
+                                                View Profile
                                             </Button>
                                         </Flex>
                                         <Flex
@@ -283,9 +241,7 @@ const Patient = ({ update, setOpenModal }) => {
                                             <ButtonGroup
                                                 variant="solid"
                                                 size="sm"
-                                                spacing={
-                                                    3
-                                                }>
+                                                spacing={3}>
                                                 <IconButton
                                                     colorScheme="blue"
                                                     onClick={() => {
@@ -293,32 +249,26 @@ const Patient = ({ update, setOpenModal }) => {
                                                             `/patient/${token._id}`
                                                         );
                                                     }}
-                                                    icon={
-                                                        <BsBoxArrowUpRight />
-                                                    }
+                                                    icon={<BsBoxArrowUpRight />}
                                                 />
                                                 <IconButton
                                                     colorScheme="green"
-                                                    icon={
-                                                        <AiFillEdit />
-                                                    }
+                                                    icon={<AiFillEdit />}
                                                 />
                                                 <IconButton
                                                     colorScheme="red"
                                                     variant="outline"
-                                                    icon={
-                                                        <BsFillTrashFill />
-                                                    }
+                                                    icon={<BsFillTrashFill />}
                                                 />
                                             </ButtonGroup>
                                         </Flex>
                                     </SimpleGrid>
                                 </Flex>
                             );
-                        }
-                    )}
-                </Stack>
-            </Flex>
+                        })}
+                    </Stack>
+                </Flex>
+            </Box>
         </>
     );
 };

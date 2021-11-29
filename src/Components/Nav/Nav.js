@@ -30,55 +30,32 @@ import {
     ChevronDownIcon,
     ChevronRightIcon,
 } from '@chakra-ui/icons';
-import {
-    FiBell,
-    FiChevronDown,
-} from 'react-icons/fi';
+import { FiBell, FiChevronDown } from 'react-icons/fi';
 import { useNavigate } from 'react-router';
 import { BACK_END_URL } from '../../env';
 import axios from 'axios';
-import {
-    useDispatch,
-    useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/actions/userAuth';
 import { cookie } from '../../utils';
 
 export default function Nav() {
-    const { user } = useSelector(
-        (state) => state.profile
-    );
+    const { user } = useSelector((state) => state.profile);
     const dispatch = useDispatch();
     const history = useNavigate();
     const { isOpen, onToggle } = useDisclosure();
-    const color1 = useColorModeValue(
-        'white',
-        'gray.900'
-    );
-    const color2 = useColorModeValue(
-        'gray.200',
-        'gray.700'
-    );
+    const color1 = useColorModeValue('white', 'gray.900');
+    const color2 = useColorModeValue('gray.200', 'gray.700');
     return (
-        <Box>
+        <Box pos="fixed" minW="100vw" zIndex="10">
             <Flex
-                bg={useColorModeValue(
-                    'white',
-                    'gray.800'
-                )}
-                color={useColorModeValue(
-                    'gray.600',
-                    'white'
-                )}
+                bg={useColorModeValue('white', 'gray.800')}
+                color={useColorModeValue('gray.600', 'white')}
                 minH={'10vh'}
                 py={{ base: 2 }}
                 px={{ base: 4 }}
                 borderBottom={1}
                 borderStyle={'solid'}
-                borderColor={useColorModeValue(
-                    'gray.200',
-                    'gray.900'
-                )}
+                borderColor={useColorModeValue('gray.200', 'gray.900')}
                 align={'center'}>
                 <Flex
                     flex={{ base: 1, md: 'auto' }}
@@ -91,21 +68,13 @@ export default function Nav() {
                         onClick={onToggle}
                         icon={
                             isOpen ? (
-                                <CloseIcon
-                                    w={3}
-                                    h={3}
-                                />
+                                <CloseIcon w={3} h={3} />
                             ) : (
-                                <HamburgerIcon
-                                    w={5}
-                                    h={5}
-                                />
+                                <HamburgerIcon w={5} h={5} />
                             )
                         }
                         variant={'ghost'}
-                        aria-label={
-                            'Toggle Navigation'
-                        }
+                        aria-label={'Toggle Navigation'}
                     />
                 </Flex>
                 <Flex
@@ -115,17 +84,12 @@ export default function Nav() {
                         md: 'start',
                     }}>
                     <Text
-                        textAlign={useBreakpointValue(
-                            {
-                                base: 'center',
-                                md: 'left',
-                            }
-                        )}
+                        textAlign={useBreakpointValue({
+                            base: 'center',
+                            md: 'left',
+                        })}
                         fontFamily={'heading'}
-                        color={useColorModeValue(
-                            'gray.800',
-                            'white'
-                        )}
+                        color={useColorModeValue('gray.800', 'white')}
                         onClick={() => {
                             history('/');
                         }}>
@@ -153,21 +117,17 @@ export default function Nav() {
                             aria-label="open menu"
                             icon={<FiBell />}
                         />
-                        <Flex
-                            alignItems={'center'}>
+                        <Flex alignItems={'center'}>
                             <Menu>
                                 <MenuButton
                                     py={2}
                                     transition="all 0.3s"
                                     _focus={{
-                                        boxShadow:
-                                            'none',
+                                        boxShadow: 'none',
                                     }}>
                                     <HStack>
                                         <Avatar
-                                            size={
-                                                'sm'
-                                            }
+                                            size={'sm'}
                                             src={
                                                 'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
                                             }
@@ -181,9 +141,7 @@ export default function Nav() {
                                             spacing="1px"
                                             ml="2">
                                             <Text fontSize="sm">
-                                                {
-                                                    user.fullName
-                                                }
+                                                {user.fullName}
                                             </Text>
                                             <Text
                                                 fontSize="xs"
@@ -200,60 +158,37 @@ export default function Nav() {
                                         </Box>
                                     </HStack>
                                 </MenuButton>
-                                <MenuList
-                                    bg={color1}
-                                    borderColor={
-                                        color2
-                                    }>
-                                    <MenuItem>
-                                        Profile
-                                    </MenuItem>
-                                    <MenuItem>
-                                        Settings
-                                    </MenuItem>
-                                    <MenuItem>
-                                        Billing
-                                    </MenuItem>
+                                <MenuList bg={color1} borderColor={color2}>
+                                    <MenuItem>Profile</MenuItem>
+                                    <MenuItem>Settings</MenuItem>
+                                    <MenuItem>Billing</MenuItem>
                                     <MenuDivider />
                                     <MenuItem
-                                        onClick={async (
-                                            e
-                                        ) => {
+                                        onClick={async (e) => {
                                             try {
-                                                const data =
-                                                    await axios.get(
-                                                        `${BACK_END_URL}/user/logout`,
-                                                        // {
-                                                        //     withCredentials: true,
-                                                        // }
-                                                        {
-                                                            headers:
-                                                                {
-                                                                    authorization:
-                                                                        cookie.get(
-                                                                            'session',
-                                                                            {
-                                                                                path: '/',
-                                                                            }
-                                                                        ),
-                                                                },
-                                                        }
-                                                    );
-                                                if (
-                                                    data.status ===
-                                                    200
-                                                ) {
-                                                    dispatch(
-                                                        logoutUser()
-                                                    );
-                                                    history(
-                                                        '/'
-                                                    );
+                                                const data = await axios.get(
+                                                    `${BACK_END_URL}/user/logout`,
+                                                    // {
+                                                    //     withCredentials: true,
+                                                    // }
+                                                    {
+                                                        headers: {
+                                                            authorization:
+                                                                cookie.get(
+                                                                    'session',
+                                                                    {
+                                                                        path: '/',
+                                                                    }
+                                                                ),
+                                                        },
+                                                    }
+                                                );
+                                                if (data.status === 200) {
+                                                    dispatch(logoutUser());
+                                                    history('/');
                                                 }
                                             } catch (error) {
-                                                console.log(
-                                                    error
-                                                );
+                                                console.log(error);
                                             }
                                         }}>
                                         Sign out
@@ -288,9 +223,7 @@ export default function Nav() {
                             color={'white'}
                             bg={'pink.400'}
                             onClick={() => {
-                                history(
-                                    '/register'
-                                );
+                                history('/register');
                             }}
                             _hover={{
                                 bg: 'pink.300',
@@ -309,39 +242,24 @@ export default function Nav() {
 }
 
 const DesktopNav = () => {
-    const linkColor = useColorModeValue(
-        'gray.600',
-        'gray.200'
-    );
-    const linkHoverColor = useColorModeValue(
-        'gray.800',
-        'white'
-    );
-    const popoverContentBgColor =
-        useColorModeValue('white', 'gray.800');
+    const linkColor = useColorModeValue('gray.600', 'gray.200');
+    const linkHoverColor = useColorModeValue('gray.800', 'white');
+    const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
     return (
         <Stack direction={'row'} spacing={4}>
             {NAV_ITEMS.map((navItem) => (
                 <Box key={navItem.label}>
-                    <Popover
-                        trigger={'hover'}
-                        placement={
-                            'bottom-start'
-                        }>
+                    <Popover trigger={'hover'} placement={'bottom-start'}>
                         <PopoverTrigger>
                             <Link
                                 p={2}
-                                href={
-                                    navItem.href ??
-                                    '#'
-                                }
+                                href={navItem.href ?? '#'}
                                 fontSize={'sm'}
                                 fontWeight={500}
                                 color={linkColor}
                                 _hover={{
-                                    textDecoration:
-                                        'none',
+                                    textDecoration: 'none',
                                     color: linkHoverColor,
                                 }}>
                                 {navItem.label}
@@ -352,25 +270,17 @@ const DesktopNav = () => {
                             <PopoverContent
                                 border={0}
                                 boxShadow={'xl'}
-                                bg={
-                                    popoverContentBgColor
-                                }
+                                bg={popoverContentBgColor}
                                 p={4}
                                 rounded={'xl'}
                                 minW={'sm'}>
                                 <Stack>
-                                    {navItem.children.map(
-                                        (
-                                            child
-                                        ) => (
-                                            <DesktopSubNav
-                                                key={
-                                                    child.label
-                                                }
-                                                {...child}
-                                            />
-                                        )
-                                    )}
+                                    {navItem.children.map((child) => (
+                                        <DesktopSubNav
+                                            key={child.label}
+                                            {...child}
+                                        />
+                                    ))}
                                 </Stack>
                             </PopoverContent>
                         )}
@@ -381,11 +291,7 @@ const DesktopNav = () => {
     );
 };
 
-const DesktopSubNav = ({
-    label,
-    href,
-    subLabel,
-}) => {
+const DesktopSubNav = ({ label, href, subLabel }) => {
     return (
         <Link
             href={href}
@@ -394,39 +300,27 @@ const DesktopSubNav = ({
             p={2}
             rounded={'md'}
             _hover={{
-                bg: useColorModeValue(
-                    'pink.50',
-                    'gray.900'
-                ),
+                bg: useColorModeValue('pink.50', 'gray.900'),
             }}>
-            <Stack
-                direction={'row'}
-                align={'center'}>
+            <Stack direction={'row'} align={'center'}>
                 <Box>
                     <Text
-                        transition={
-                            'all .3s ease'
-                        }
+                        transition={'all .3s ease'}
                         _groupHover={{
                             color: 'pink.400',
                         }}
                         fontWeight={500}>
                         {label}
                     </Text>
-                    <Text fontSize={'sm'}>
-                        {subLabel}
-                    </Text>
+                    <Text fontSize={'sm'}>{subLabel}</Text>
                 </Box>
                 <Flex
                     transition={'all .3s ease'}
-                    transform={
-                        'translateX(-10px)'
-                    }
+                    transform={'translateX(-10px)'}
                     opacity={0}
                     _groupHover={{
                         opacity: '100%',
-                        transform:
-                            'translateX(0)',
+                        transform: 'translateX(0)',
                     }}
                     justify={'flex-end'}
                     align={'center'}
@@ -446,33 +340,21 @@ const DesktopSubNav = ({
 const MobileNav = () => {
     return (
         <Stack
-            bg={useColorModeValue(
-                'white',
-                'gray.800'
-            )}
+            bg={useColorModeValue('white', 'gray.800')}
             p={4}
             display={{ md: 'none' }}>
             {NAV_ITEMS.map((navItem) => (
-                <MobileNavItem
-                    key={navItem.label}
-                    {...navItem}
-                />
+                <MobileNavItem key={navItem.label} {...navItem} />
             ))}
         </Stack>
     );
 };
 
-const MobileNavItem = ({
-    label,
-    children,
-    href,
-}) => {
+const MobileNavItem = ({ label, children, href }) => {
     const { isOpen, onToggle } = useDisclosure();
 
     return (
-        <Stack
-            spacing={4}
-            onClick={children && onToggle}>
+        <Stack spacing={4} onClick={children && onToggle}>
             <Flex
                 py={2}
                 as={Link}
@@ -484,23 +366,14 @@ const MobileNavItem = ({
                 }}>
                 <Text
                     fontWeight={600}
-                    color={useColorModeValue(
-                        'gray.600',
-                        'gray.200'
-                    )}>
+                    color={useColorModeValue('gray.600', 'gray.200')}>
                     {label}
                 </Text>
                 {children && (
                     <Icon
                         as={ChevronDownIcon}
-                        transition={
-                            'all .25s ease-in-out'
-                        }
-                        transform={
-                            isOpen
-                                ? 'rotate(180deg)'
-                                : ''
-                        }
+                        transition={'all .25s ease-in-out'}
+                        transform={isOpen ? 'rotate(180deg)' : ''}
                         w={6}
                         h={6}
                     />
@@ -518,23 +391,13 @@ const MobileNavItem = ({
                     pl={4}
                     borderLeft={1}
                     borderStyle={'solid'}
-                    borderColor={useColorModeValue(
-                        'gray.200',
-                        'gray.700'
-                    )}
+                    borderColor={useColorModeValue('gray.200', 'gray.700')}
                     align={'start'}>
                     {children &&
                         children.map((child) => {
                             // console.log(child);
                             return (
-                                <Link
-                                    key={
-                                        child.label
-                                    }
-                                    py={2}
-                                    href={
-                                        child.loc
-                                    }>
+                                <Link key={child.label} py={2} href={child.loc}>
                                     {child.label}
                                 </Link>
                             );
@@ -551,15 +414,13 @@ const NAV_ITEMS = [
         children: [
             {
                 label: 'Explore Design Work',
-                subLabel:
-                    'Trending Design to inspire you',
+                subLabel: 'Trending Design to inspire you',
                 href: '#',
                 loc: '/dashboard',
             },
             {
                 label: 'New & Noteworthy',
-                subLabel:
-                    'Up-and-coming Designers',
+                subLabel: 'Up-and-coming Designers',
                 href: '#',
                 loc: '/dashboard',
             },
@@ -570,15 +431,13 @@ const NAV_ITEMS = [
         children: [
             {
                 label: 'Job Board',
-                subLabel:
-                    'Find your dream design job',
+                subLabel: 'Find your dream design job',
                 href: '#',
                 loc: '/dashboard',
             },
             {
                 label: 'Freelance Projects',
-                subLabel:
-                    'An exclusive list for contract work',
+                subLabel: 'An exclusive list for contract work',
                 href: '#',
                 loc: '/dashboard',
             },

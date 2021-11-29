@@ -1,83 +1,413 @@
-const Doctor = () => {
+import React, { useEffect, useState } from 'react';
+import {
+    chakra,
+    Flex,
+    Icon,
+    useColorModeValue,
+    Button,
+    RadioGroup,
+    Radio,
+    Modal,
+    ModalOverlay,
+    useToast,
+    ModalContent,
+    ModalHeader,
+    FormControl,
+    FormLabel,
+    Input,
+    ModalFooter,
+    Box,
+    ModalBody,
+    ModalCloseButton,
+    Stack,
+    SimpleGrid,
+    ButtonGroup,
+    IconButton,
+    Spinner,
+    HStack,
+} from '@chakra-ui/react';
+import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
+import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
+import axios from 'axios';
+import { BACK_END_URL } from '../../../../env';
+import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router';
+import { FiUserPlus } from 'react-icons/fi';
+const cookie = new Cookies();
+
+function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
+    const toast = useToast();
+    const initialRef = React.useRef();
+    const finalRef = React.useRef();
+    const initialState = {
+        name: '',
+        gender: 'male',
+        mobileNumber: '',
+        specialization: 'MBBS',
+    };
+
+    const handleChange = (e) => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const [data, setData] = useState(initialState);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const response = await axios.post(
+                `${BACK_END_URL}/doctor/create`,
+                data,
+                {
+                    headers: {
+                        authorization: cookie.get('session', {
+                            path: '/',
+                        }),
+                    },
+                }
+            );
+
+            toast({
+                description: 'Doctor Created',
+                position: 'top-right',
+            });
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+            toast({
+                description: err.response.data?.message || "Couldn't Create",
+                position: 'top-right',
+                status: 'error',
+            });
+        }
+        setOpenModal(false);
+        setData(initialState);
+        setLoading(false);
+    };
+
     return (
         <>
-            <div className="container mx-auto px-4 sm:px-8 max-w-3xl">
-                <div className="py-8">
-                    <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-                        <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                            <table className="min-w-full leading-normal">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                                            User
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                                            Role
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                                            Created
-                                            at
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                                            status
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <div className="flex items-center">
-                                                <div className="flex-shrink-0">
-                                                    <img
-                                                        alt="profil"
-                                                        src="/images/person/8.jpg"
-                                                        className="block
-                                                        relative mx-auto object-cover rounded-full h-10 w-10 "
-                                                    />
-                                                </div>
-                                                <div className="ml-3">
-                                                    <p className="text-gray-900 whitespace-no-wrap">
-                                                        Jean
-                                                        marc
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                user
-                                            </p>
-                                        </td>
-                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                12/09/2020
-                                            </p>
-                                        </td>
-                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                <span
-                                                    aria-hidden="true"
-                                                    className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                                <span className="relative">
-                                                    active
-                                                </span>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Modal
+                initialFocusRef={initialRef}
+                finalFocusRef={finalRef}
+                size="xl"
+                isOpen={isOpen}
+                onClose={() => {
+                    setOpenModal(false);
+                    setData(initialState);
+                }}>
+                <ModalOverlay />
+                <ModalContent>
+                    <form onSubmit={handleSubmit}>
+                        <ModalHeader>Add Doctor</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody pb={6}>
+                            <HStack mb={2}>
+                                <FormControl>
+                                    <FormLabel>Name</FormLabel>
+                                    <Input
+                                        required
+                                        placeholder="Name"
+                                        value={data.name}
+                                        name="name"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+
+                                {/* <FormControl mt={4}>
+                                <FormLabel>Email</FormLabel>
+                                <Input
+                                    placeholder="Email"
+                                    value={data.email}
+                                    name="email"
+                                    onChange={handleChange}
+                                />
+                            </FormControl> */}
+                            </HStack>
+                            <HStack mb={2}>
+                                <FormControl as="fieldset">
+                                    <FormLabel as="legend">Gender</FormLabel>
+                                    <RadioGroup defaultValue="male">
+                                        <HStack>
+                                            <Radio
+                                                required
+                                                name="gender"
+                                                onChange={handleChange}
+                                                value="female">
+                                                Female
+                                            </Radio>
+                                            <Radio
+                                                required
+                                                name="gender"
+                                                value="male"
+                                                onChange={handleChange}>
+                                                Male
+                                            </Radio>
+                                        </HStack>
+                                    </RadioGroup>
+                                    {/* <FormHelperText>
+                                    Select only if you're a fan.
+                                </FormHelperText> */}
+                                </FormControl>
+                                <FormControl>
+                                    <FormLabel>Specialization</FormLabel>
+                                    <Input
+                                        required
+                                        placeholder="Spec"
+                                        value={data.specialization}
+                                        name="specialization"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </HStack>
+                            <HStack mb={2}>
+                                {/* <FormControl as="fieldset">
+                                <FormLabel as="legend">Age</FormLabel>
+                                <Input
+                                    required
+                                    placeholder="Age"
+                                    type="text"
+                                    value={data.age}
+                                    name="age"
+                                    onChange={handleChange}
+                                />
+                            </FormControl> */}
+                                <FormControl>
+                                    <FormLabel>Mobile</FormLabel>
+                                    <Input
+                                        required
+                                        placeholder="8969846714"
+                                        type="number"
+                                        value={data.mobileNumber}
+                                        name="mobileNumber"
+                                        onChange={handleChange}
+                                    />
+                                    {/* <Textarea
+                                        borderRadius="xs"
+                                        placeholder="Here is a sample placeholder"
+                                        size="xs"
+                                    /> */}
+                                </FormControl>
+                            </HStack>
+                        </ModalBody>
+
+                        <ModalFooter>
+                            <Button
+                                type="submit"
+                                disabled={loading ? true : false}
+                                colorScheme="blue"
+                                mr={3}>
+                                {loading ? <Spinner size="sm" /> : 'Save'}
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    setOpenModal(false);
+                                    setData(initialState);
+                                }}>
+                                Cancel
+                            </Button>
+                        </ModalFooter>
+                    </form>
+                </ModalContent>
+            </Modal>
+        </>
+    );
+}
+
+const Doctor = () => {
+    // const bg = useColorModeValue(
+    //     'white',
+    //     'gray.800'
+    // );
+    // const mobileNav = useDisclosure();
+    const [loading, setLoading] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const history = useNavigate();
+    const bgColor = useColorModeValue('white', 'gray.800');
+    const bgColor2 = useColorModeValue('gray.100', 'gray.700');
+    const bgColor3 = useColorModeValue('gray.500');
+    const [patients, setPatients] = useState([]);
+    useEffect(() => {
+        (async () => {
+            try {
+                const {
+                    data: { data: response },
+                } = await axios.get(`${BACK_END_URL}/doctor/getDoc`, {
+                    headers: {
+                        authorization: cookie.get('session', {
+                            path: '/',
+                        }),
+                    },
+                });
+                console.log(response);
+                setPatients(response);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, [openModal]);
+    return (
+        <>
+            <Box marginTop="10vh">
+                <InitialFocus
+                    isOpen={openModal}
+                    setOpenModal={setOpenModal}
+                    loading={loading}
+                    setLoading={setLoading}
+                />
+                <Flex
+                    alignItems="center"
+                    justifyContent="space-between"
+                    mx="auto">
+                    <HStack
+                        display="flex"
+                        spacing={3}
+                        marginY={5}
+                        alignItems="center">
+                        <Flex
+                            justify={{
+                                md: 'center',
+                            }}>
+                            <Button
+                                size="sm"
+                                variant="solid"
+                                onClick={() => {
+                                    setOpenModal(true);
+                                }}
+                                leftIcon={<Icon as={FiUserPlus} />}
+                                colorScheme="purple">
+                                Add New Doctor
+                            </Button>
+                        </Flex>
+                    </HStack>
+                </Flex>
+                <Flex
+                    w="full"
+                    //   bg="gray.600"
+                    //   p={50}
+                    alignItems="center"
+                    justifyContent="center">
+                    <Stack
+                        direction={{ base: 'column' }}
+                        w="full"
+                        bg={{ md: bgColor }}
+                        shadow="lg">
+                        <SimpleGrid
+                            spacingY={3}
+                            bg={bgColor2}
+                            color={bgColor3}
+                            columns={{
+                                base: 1,
+                                md: 4,
+                            }}
+                            w="full"
+                            py={2}
+                            px={10}
+                            fontWeight="hairline">
+                            <span>Name</span>
+                            <chakra.span
+                                textOverflow="ellipsis"
+                                overflow="hidden"
+                                whiteSpace="nowrap">
+                                Created
+                            </chakra.span>
+                            <Flex
+                                justify={{
+                                    md: 'center',
+                                }}>
+                                <chakra.span
+                                    textOverflow="ellipsis"
+                                    overflow="hidden"
+                                    whiteSpace="nowrap">
+                                    Data
+                                </chakra.span>
+                            </Flex>
+                            <Flex
+                                justify={{
+                                    md: 'center',
+                                }}>
+                                Actions
+                            </Flex>
+                        </SimpleGrid>
+                        {patients.map((token, tid) => {
+                            console.log(token._id);
+                            return (
+                                <Flex
+                                    direction={{
+                                        base: 'row',
+                                        md: 'column',
+                                    }}
+                                    bg={bgColor}
+                                    key={tid}>
+                                    <SimpleGrid
+                                        spacingY={3}
+                                        columns={{
+                                            base: 4,
+                                            md: 4,
+                                        }}
+                                        w="full"
+                                        py={2}
+                                        px={10}
+                                        fontWeight="hairline">
+                                        <span>{token.name}</span>
+                                        <chakra.span
+                                            textOverflow="ellipsis"
+                                            overflow="hidden"
+                                            whiteSpace="nowrap">
+                                            {token.doc_id}
+                                        </chakra.span>
+                                        <Flex
+                                            justify={{
+                                                md: 'center',
+                                            }}>
+                                            <Button
+                                                size="sm"
+                                                variant="solid"
+                                                leftIcon={
+                                                    <Icon as={AiTwotoneLock} />
+                                                }
+                                                colorScheme="purple">
+                                                View Profile
+                                            </Button>
+                                        </Flex>
+                                        <Flex
+                                            justify={{
+                                                md: 'center',
+                                            }}>
+                                            <ButtonGroup
+                                                variant="solid"
+                                                size="sm"
+                                                spacing={3}>
+                                                <IconButton
+                                                    colorScheme="blue"
+                                                    onClick={() => {
+                                                        history(
+                                                            `/patient/${token._id}`
+                                                        );
+                                                    }}
+                                                    icon={<BsBoxArrowUpRight />}
+                                                />
+                                                <IconButton
+                                                    colorScheme="green"
+                                                    icon={<AiFillEdit />}
+                                                />
+                                                <IconButton
+                                                    colorScheme="red"
+                                                    variant="outline"
+                                                    icon={<BsFillTrashFill />}
+                                                />
+                                            </ButtonGroup>
+                                        </Flex>
+                                    </SimpleGrid>
+                                </Flex>
+                            );
+                        })}
+                    </Stack>
+                </Flex>
+            </Box>
         </>
     );
 };
