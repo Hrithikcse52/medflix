@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
     Box,
-    CloseButton,
     Flex,
     HStack,
     Icon,
@@ -9,7 +8,6 @@ import {
     Link,
     Drawer,
     DrawerContent,
-    Text,
     useDisclosure,
     Modal,
     ModalOverlay,
@@ -25,36 +23,6 @@ import {
     Radio,
     RadioGroup,
 } from '@chakra-ui/react';
-
-/*
-Modal,
-initialRef,
-finalRef,
-ModalOverlay,
-ModalContent,
-ModalHeader,
-ModalCloseButton,
-ModalBody,
-FormControl,
-FormLabel,
-Input,
-initialRef,
-FormControl,
-FormLabel,
-Input,
-ModalFooter,
-Button,
-RadioGroup' is not defined      react/jsx-no-undef
-  Radio,
-  Radio,
-  Radio,
-  Radio,
-  FormHelperTex,
-
-
-
-
- */
 
 import {
     FiHome,
@@ -107,12 +75,7 @@ const LinkItems = [
     },
 ];
 
-const Dashboard = ({
-    setUpdate,
-    children,
-    setOpenModal,
-    openModal,
-}) => {
+const Dashboard = ({ setUpdate, children, setOpenModal, openModal }) => {
     const initialState = {
         name: '',
         email: '',
@@ -126,8 +89,7 @@ const Dashboard = ({
     //     useState(false);
 
     console.log(openModal);
-    const [data, setData] =
-        useState(initialState);
+    const [data, setData] = useState(initialState);
 
     const handleChange = (e) => {
         setData({
@@ -139,23 +101,18 @@ const Dashboard = ({
         e.preventDefault();
         console.log(data);
         try {
-            const { data: response } =
-                await axios.post(
-                    `${BACK_END_URL}/patient/create`,
-                    data,
-                    // {
-                    //     withCredentials: true,
-                    // }
-                    {
-                        headers: {
-                            authorization:
-                                cookie.get(
-                                    'session',
-                                    { path: '/' }
-                                ),
-                        },
-                    }
-                );
+            const { data: response } = await axios.post(
+                `${BACK_END_URL}/patient/create`,
+                data,
+                // {
+                //     withCredentials: true,
+                // }
+                {
+                    headers: {
+                        authorization: cookie.get('session', { path: '/' }),
+                    },
+                }
+            );
             console.log(response);
         } catch (error) {}
         setUpdate(true);
@@ -164,12 +121,7 @@ const Dashboard = ({
     };
 
     return (
-        <Box
-            minH="100vh"
-            bg={useColorModeValue(
-                'gray.100',
-                'gray.900'
-            )}>
+        <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
             <SidebarContent
                 onClose={() => onClose}
                 display={{
@@ -186,9 +138,7 @@ const Dashboard = ({
                 onOverlayClick={onClose}
                 size="full">
                 <DrawerContent>
-                    <SidebarContent
-                        onClose={onClose}
-                    />
+                    <SidebarContent onClose={onClose} />
                 </DrawerContent>
             </Drawer>
             {/* mobilenav */}
@@ -204,47 +154,29 @@ const Dashboard = ({
                     size="xl">
                     <ModalOverlay />
                     <ModalContent>
-                        <form
-                            onSubmit={
-                                handleSubmitPt
-                            }>
-                            <ModalHeader>
-                                Create Patient
-                            </ModalHeader>
+                        <form onSubmit={handleSubmitPt}>
+                            <ModalHeader>Create Patient</ModalHeader>
                             <ModalCloseButton />
                             <ModalBody pb={6}>
                                 <HStack mb={2}>
                                     <FormControl>
-                                        <FormLabel>
-                                            Name
-                                        </FormLabel>
+                                        <FormLabel>Name</FormLabel>
                                         <Input
                                             required
                                             placeholder="Name"
-                                            value={
-                                                data.name
-                                            }
+                                            value={data.name}
                                             name="name"
-                                            onChange={
-                                                handleChange
-                                            }
+                                            onChange={handleChange}
                                         />
                                     </FormControl>
 
-                                    <FormControl
-                                        mt={4}>
-                                        <FormLabel>
-                                            Email
-                                        </FormLabel>
+                                    <FormControl mt={4}>
+                                        <FormLabel>Email</FormLabel>
                                         <Input
                                             placeholder="Email"
-                                            value={
-                                                data.email
-                                            }
+                                            value={data.email}
                                             name="email"
-                                            onChange={
-                                                handleChange
-                                            }
+                                            onChange={handleChange}
                                         />
                                     </FormControl>
                                 </HStack>
@@ -258,9 +190,7 @@ const Dashboard = ({
                                                 <Radio
                                                     required
                                                     name="gender"
-                                                    onChange={
-                                                        handleChange
-                                                    }
+                                                    onChange={handleChange}
                                                     value="female">
                                                     Female
                                                 </Radio>
@@ -268,9 +198,7 @@ const Dashboard = ({
                                                     required
                                                     name="gender"
                                                     value="male"
-                                                    onChange={
-                                                        handleChange
-                                                    }>
+                                                    onChange={handleChange}>
                                                     Male
                                                 </Radio>
                                             </HStack>
@@ -280,19 +208,13 @@ const Dashboard = ({
                                 </FormHelperText> */}
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel>
-                                            Address
-                                        </FormLabel>
+                                        <FormLabel>Address</FormLabel>
                                         <Input
                                             required
                                             placeholder="Address"
-                                            value={
-                                                data.address
-                                            }
+                                            value={data.address}
                                             name="address"
-                                            onChange={
-                                                handleChange
-                                            }
+                                            onChange={handleChange}
                                         />
                                         {/* <Textarea
                                         borderRadius="xs"
@@ -303,20 +225,14 @@ const Dashboard = ({
                                 </HStack>
                                 <HStack mb={2}>
                                     <FormControl as="fieldset">
-                                        <FormLabel as="legend">
-                                            Age
-                                        </FormLabel>
+                                        <FormLabel as="legend">Age</FormLabel>
                                         <Input
                                             required
                                             placeholder="Age"
                                             type="text"
-                                            value={
-                                                data.age
-                                            }
+                                            value={data.age}
                                             name="age"
-                                            onChange={
-                                                handleChange
-                                            }
+                                            onChange={handleChange}
                                         />
 
                                         {/* <FormHelperText>
@@ -324,20 +240,14 @@ const Dashboard = ({
                                 </FormHelperText> */}
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel>
-                                            Mobile
-                                        </FormLabel>
+                                        <FormLabel>Mobile</FormLabel>
                                         <Input
                                             required
                                             placeholder="8969846714"
                                             type="number"
-                                            value={
-                                                data.mobileNumber
-                                            }
+                                            value={data.mobileNumber}
                                             name="mobileNumber"
-                                            onChange={
-                                                handleChange
-                                            }
+                                            onChange={handleChange}
                                         />
                                         {/* <Textarea
                                         borderRadius="xs"
@@ -349,17 +259,12 @@ const Dashboard = ({
                             </ModalBody>
 
                             <ModalFooter>
-                                <Button
-                                    colorScheme="blue"
-                                    mr={3}
-                                    type="submit">
+                                <Button colorScheme="blue" mr={3} type="submit">
                                     Save
                                 </Button>
                                 <Button
                                     onClick={() => {
-                                        setOpenModal(
-                                            false
-                                        );
+                                        setOpenModal(false);
                                     }}>
                                     Cancel
                                 </Button>
@@ -373,50 +278,20 @@ const Dashboard = ({
 };
 
 const SidebarContent = ({ onClose, ...rest }) => {
-    const history = useNavigate();
     return (
         <Box
             transition="3s ease"
-            bg={useColorModeValue(
-                'white',
-                'gray.900'
-            )}
+            bg={useColorModeValue('white', 'gray.900')}
             borderRight="1px"
-            borderRightColor={useColorModeValue(
-                'gray.200',
-                'gray.700'
-            )}
+            borderRightColor={useColorModeValue('gray.200', 'gray.700')}
             w={{ base: 'full', md: 60 }}
             pos="fixed"
+            marginTop="10vh"
+            zIndex="1"
             h="full"
             {...rest}>
-            <Flex
-                h="20"
-                alignItems="center"
-                mx="8"
-                justifyContent="space-between">
-                <Text
-                    fontSize="2xl"
-                    fontFamily="monospace"
-                    fontWeight="bold"
-                    onClick={() => {
-                        history('/');
-                    }}>
-                    Logo
-                </Text>
-                <CloseButton
-                    display={{
-                        base: 'flex',
-                        md: 'none',
-                    }}
-                    onClick={onClose}
-                />
-            </Flex>
             {LinkItems.map((link) => (
-                <NavItem
-                    key={link.name}
-                    icon={link.icon}
-                    to={link.route}>
+                <NavItem key={link.name} icon={link.icon} to={link.route}>
                     {link.name}
                 </NavItem>
             ))}
@@ -424,26 +299,19 @@ const SidebarContent = ({ onClose, ...rest }) => {
     );
 };
 
-const NavItem = ({
-    to,
-    icon,
-    children,
-    ...rest
-}) => {
+const NavItem = ({ to, icon, children, ...rest }) => {
     const history = useNavigate();
     const handlePush = (e) => {
         e.preventDefault();
         history(to);
     };
     return (
-        <Link
-            href="#"
-            onClick={handlePush}
-            style={{ textDecoration: 'none' }}>
+        <Link href="#" onClick={handlePush} style={{ textDecoration: 'none' }}>
             <Flex
                 align="center"
                 p="4"
                 mx="4"
+                my="4"
                 borderRadius="lg"
                 role="group"
                 cursor="pointer"
@@ -468,14 +336,8 @@ const NavItem = ({
     );
 };
 
-// const MobileNav = ({
-//     onOpen,
-//     setOpenModal,
-//     ...rest
-// }) => {
-//     const { user } = useSelector(
-//         (state) => state.profile
-//     );
+// const MobileNav = ({ onOpen, setOpenModal, ...rest }) => {
+//     const { user } = useSelector((state) => state.profile);
 //     const history = useNavigate();
 //     const dispatch = useDispatch();
 //     return (
@@ -484,15 +346,9 @@ const NavItem = ({
 //             px={{ base: 4, md: 4 }}
 //             height="20"
 //             alignItems="center"
-//             bg={useColorModeValue(
-//                 'white',
-//                 'gray.900'
-//             )}
+//             bg={useColorModeValue('white', 'gray.900')}
 //             borderBottomWidth="1px"
-//             borderBottomColor={useColorModeValue(
-//                 'gray.200',
-//                 'gray.700'
-//             )}
+//             borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
 //             justifyContent={{
 //                 base: 'space-between',
 //                 md: 'flex-end',
@@ -523,8 +379,7 @@ const NavItem = ({
 //                 Logo
 //             </Text>
 
-//             <HStack
-//                 spacing={{ base: '0', md: '6' }}>
+//             <HStack spacing={{ base: '0', md: '6' }}>
 //                 <IconButton
 //                     size="lg"
 //                     variant="ghost"
@@ -563,15 +418,8 @@ const NavItem = ({
 //                                     alignItems="flex-start"
 //                                     spacing="1px"
 //                                     ml="2">
-//                                     <Text fontSize="sm">
-//                                         {' '}
-//                                         {
-//                                             user.fullName
-//                                         }{' '}
-//                                     </Text>
-//                                     <Text
-//                                         fontSize="xs"
-//                                         color="gray.600">
+//                                     <Text fontSize="sm"> {user.fullName} </Text>
+//                                     <Text fontSize="xs" color="gray.600">
 //                                         Admin
 //                                     </Text>
 //                                 </VStack>
@@ -585,64 +433,39 @@ const NavItem = ({
 //                             </HStack>
 //                         </MenuButton>
 //                         <MenuList
-//                             bg={useColorModeValue(
-//                                 'white',
-//                                 'gray.900'
-//                             )}
+//                             bg={useColorModeValue('white', 'gray.900')}
 //                             borderColor={useColorModeValue(
 //                                 'gray.200',
 //                                 'gray.700'
 //                             )}>
-//                             <MenuItem>
-//                                 Profile
-//                             </MenuItem>
-//                             <MenuItem>
-//                                 Settings
-//                             </MenuItem>
-//                             <MenuItem>
-//                                 Billing
-//                             </MenuItem>
+//                             <MenuItem>Profile</MenuItem>
+//                             <MenuItem>Settings</MenuItem>
+//                             <MenuItem>Billing</MenuItem>
 //                             <MenuDivider />
 //                             <MenuItem
-//                                 onClick={async (
-//                                     e
-//                                 ) => {
-//                                     console.log(
-//                                         'Res'
-//                                     );
+//                                 onClick={async (e) => {
+//                                     console.log('Res');
 //                                     try {
-//                                         const data =
-//                                             await axios.get(
-//                                                 `${BACK_END_URL}/user/logout`,
-//                                                 {
-//                                                     headers:
+//                                         const data = await axios.get(
+//                                             `${BACK_END_URL}/user/logout`,
+//                                             {
+//                                                 headers: {
+//                                                     authorization: cookie.get(
+//                                                         'session',
 //                                                         {
-//                                                             authorization:
-//                                                                 cookie.get(
-//                                                                     'session',
-//                                                                     {
-//                                                                         path: '/',
-//                                                                     }
-//                                                                 ),
-//                                                         },
-//                                                 }
-//                                             );
-//                                         if (
-//                                             data.status ===
-//                                             200
-//                                         ) {
-//                                             dispatch(
-//                                                 logoutUser()
-//                                             );
-//                                             history(
-//                                                 '/'
-//                                             );
+//                                                             path: '/',
+//                                                         }
+//                                                     ),
+//                                                 },
+//                                             }
+//                                         );
+//                                         if (data.status === 200) {
+//                                             dispatch(logoutUser());
+//                                             history('/');
 //                                         }
 //                                         // console.log('data', data);
 //                                     } catch (error) {
-//                                         console.log(
-//                                             error
-//                                         );
+//                                         console.log(error);
 //                                     }
 //                                 }}>
 //                                 Sign out
