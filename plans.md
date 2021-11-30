@@ -7,3 +7,4 @@
 -   [ ] don't show patient to the dashboard directly show them to the doc dashboard to the to which they are assigned
 -   [ ] while adding patients if possible show them the doc list and assign them there only
 -   [ ] define role doctor admin
+-   [ ] add type on login doc or user
