@@ -148,9 +148,14 @@ const RegisterCard = () => {
             minH={'100vh'}
             align={'center'}
             justify={'center'}
-            bg={useColorModeValue('gray.50', 'gray.800')}
-        >
-            <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+            bg={useColorModeValue('gray.50', 'gray.800')}>
+            <Stack
+                marginTop="10vh"
+                spacing={8}
+                mx={'auto'}
+                maxW={'lg'}
+                py={12}
+                px={6}>
                 <Stack align={'center'}>
                     <Heading fontSize={'4xl'}>Register</Heading>
                     <Text fontSize={'lg'} color={'gray.600'}>
@@ -163,8 +168,7 @@ const RegisterCard = () => {
                     rounded={'lg'}
                     bg={useColorModeValue('white', 'gray.700')}
                     boxShadow={'lg'}
-                    p={8}
-                >
+                    p={8}>
                     <form onSubmit={handleSubmit}>
                         <Stack spacing={5}>
                             <FormControl id="fname">
@@ -211,8 +215,7 @@ const RegisterCard = () => {
                                 <Stack
                                     direction={{ base: 'column', sm: 'row' }}
                                     align={'start'}
-                                    justify={'space-between'}
-                                >
+                                    justify={'space-between'}>
                                     <Checkbox>Remember me</Checkbox>
                                     <Link color={'blue.400'}>
                                         Forgot password?
@@ -224,8 +227,7 @@ const RegisterCard = () => {
                                     _hover={{
                                         bg: 'blue.500',
                                     }}
-                                    type="submit"
-                                >
+                                    type="submit">
                                     Sign in
                                 </Button>
                             </Stack>

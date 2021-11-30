@@ -19,9 +19,11 @@ import {
     Box,
     ModalBody,
     ModalCloseButton,
+    InputGroup,
     Stack,
     SimpleGrid,
     ButtonGroup,
+    InputLeftAddon,
     IconButton,
     Spinner,
     HStack,
@@ -54,9 +56,11 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
     };
 
     const [data, setData] = useState(initialState);
+    console.log(data);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+
         try {
             const response = await axios.post(
                 `${BACK_END_URL}/doctor/create`,
@@ -108,13 +112,16 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
                             <HStack mb={2}>
                                 <FormControl>
                                     <FormLabel>Name</FormLabel>
-                                    <Input
-                                        required
-                                        placeholder="Name"
-                                        value={data.name}
-                                        name="name"
-                                        onChange={handleChange}
-                                    />
+                                    <InputGroup>
+                                        <InputLeftAddon children="Dr." />
+                                        <Input
+                                            required
+                                            placeholder="Name"
+                                            value={data.name}
+                                            name="name"
+                                            onChange={handleChange}
+                                        />
+                                    </InputGroup>
                                 </FormControl>
 
                                 {/* <FormControl mt={4}>

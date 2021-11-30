@@ -69,7 +69,6 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
                     },
                 }
             );
-
             toast({
                 description: 'Doctor Created',
                 position: 'top-right',
