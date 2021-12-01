@@ -7,7 +7,7 @@ import Patient from '../Components/Dashboard/UI/Patient/Patient';
 const DashboardPage = () => {
     const [update, setUpdate] = useState(false);
     const [newPtOpenModal, setPtOpenModal] = useState(false);
-    console.log('haello', newPtOpenModal);
+    // console.log('haello', newPtOpenModal);
     return (
         <>
             <Dashboard

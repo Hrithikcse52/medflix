@@ -37,14 +37,11 @@ function App() {
 
     const validate_user = async () => {
         try {
-            const { data: response } = await axios.get(
-                `${BACK_END_URL}/user/check`,
-                {
-                    headers: {
-                        authorization: cookie.get('session', { path: '/' }),
-                    },
-                }
-            );
+            const { data: response } = await axios.get(`${BACK_END_URL}/user/check`, {
+                headers: {
+                    authorization: cookie.get('session', { path: '/' }),
+                },
+            });
             // console.log('Validate user', response);
             dispatch(
                 loginUser({
@@ -63,6 +60,7 @@ function App() {
     if (!user && cookie.get('session')) {
         validate_user();
     }
+    //TODO: check if login is done redirec to home. user cant assess login if session is present
     return (
         <>
             <Router>
@@ -90,7 +88,6 @@ function App() {
                         <Route path="report" />
                         <Route path="settings" />
                     </Route>
-
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>

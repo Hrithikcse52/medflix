@@ -1,294 +1,70 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
     chakra,
     Flex,
     Icon,
     useColorModeValue,
     Button,
-    RadioGroup,
-    Radio,
-    Modal,
-    ModalOverlay,
-    useToast,
-    ModalContent,
-    ModalHeader,
-    FormControl,
-    FormLabel,
-    Input,
-    ModalFooter,
     Box,
-    ModalBody,
-    ModalCloseButton,
     Stack,
     SimpleGrid,
     ButtonGroup,
     IconButton,
-    Spinner,
-    HStack,
 } from '@chakra-ui/react';
-import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
+import { AiFillEdit } from 'react-icons/ai';
 import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { useNavigate } from 'react-router';
-import { FiUserPlus } from 'react-icons/fi';
+// import { useNavigate } from 'react-router';
 import { BACK_END_URL } from '../../env';
+import { differenceInDays, format } from 'date-fns';
 const cookie = new Cookies();
 
-function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
-    const toast = useToast();
-    const initialRef = React.useRef();
-    const finalRef = React.useRef();
-    const initialState = {
-        name: '',
-        gender: 'male',
-        mobileNumber: '',
-        specialization: 'MBBS',
-    };
-
-    const handleChange = (e) => {
-        setData({
-            ...data,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const [data, setData] = useState(initialState);
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        try {
-            const response = await axios.post(
-                `${BACK_END_URL}/doctor/create`,
-                data,
-                {
-                    headers: {
-                        authorization: cookie.get('session', {
-                            path: '/',
-                        }),
-                    },
-                }
-            );
-            toast({
-                description: 'Doctor Created',
-                position: 'top-right',
-            });
-            console.log(response);
-        } catch (err) {
-            console.log(err);
-            toast({
-                description: err.response.data?.message || "Couldn't Create",
-                position: 'top-right',
-                status: 'error',
-            });
-        }
-        setOpenModal(false);
-        setData(initialState);
-        setLoading(false);
-    };
-
-    return (
-        <>
-            <Modal
-                initialFocusRef={initialRef}
-                finalFocusRef={finalRef}
-                size="xl"
-                isOpen={isOpen}
-                onClose={() => {
-                    setOpenModal(false);
-                    setData(initialState);
-                }}>
-                <ModalOverlay />
-                <ModalContent>
-                    <form onSubmit={handleSubmit}>
-                        <ModalHeader>Add Doctor</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody pb={6}>
-                            <HStack mb={2}>
-                                <FormControl>
-                                    <FormLabel>Name</FormLabel>
-                                    <Input
-                                        required
-                                        placeholder="Name"
-                                        value={data.name}
-                                        name="name"
-                                        onChange={handleChange}
-                                    />
-                                </FormControl>
-
-                                {/* <FormControl mt={4}>
-                                <FormLabel>Email</FormLabel>
-                                <Input
-                                    placeholder="Email"
-                                    value={data.email}
-                                    name="email"
-                                    onChange={handleChange}
-                                />
-                            </FormControl> */}
-                            </HStack>
-                            <HStack mb={2}>
-                                <FormControl as="fieldset">
-                                    <FormLabel as="legend">Gender</FormLabel>
-                                    <RadioGroup defaultValue="male">
-                                        <HStack>
-                                            <Radio
-                                                required
-                                                name="gender"
-                                                onChange={handleChange}
-                                                value="female">
-                                                Female
-                                            </Radio>
-                                            <Radio
-                                                required
-                                                name="gender"
-                                                value="male"
-                                                onChange={handleChange}>
-                                                Male
-                                            </Radio>
-                                        </HStack>
-                                    </RadioGroup>
-                                    {/* <FormHelperText>
-                                    Select only if you're a fan.
-                                </FormHelperText> */}
-                                </FormControl>
-                                <FormControl>
-                                    <FormLabel>Specialization</FormLabel>
-                                    <Input
-                                        required
-                                        placeholder="Spec"
-                                        value={data.specialization}
-                                        name="specialization"
-                                        onChange={handleChange}
-                                    />
-                                </FormControl>
-                            </HStack>
-                            <HStack mb={2}>
-                                {/* <FormControl as="fieldset">
-                                <FormLabel as="legend">Age</FormLabel>
-                                <Input
-                                    required
-                                    placeholder="Age"
-                                    type="text"
-                                    value={data.age}
-                                    name="age"
-                                    onChange={handleChange}
-                                />
-                            </FormControl> */}
-                                <FormControl>
-                                    <FormLabel>Mobile</FormLabel>
-                                    <Input
-                                        required
-                                        placeholder="8969846714"
-                                        type="number"
-                                        value={data.mobileNumber}
-                                        name="mobileNumber"
-                                        onChange={handleChange}
-                                    />
-                                    {/* <Textarea
-                                        borderRadius="xs"
-                                        placeholder="Here is a sample placeholder"
-                                        size="xs"
-                                    /> */}
-                                </FormControl>
-                            </HStack>
-                        </ModalBody>
-
-                        <ModalFooter>
-                            <Button
-                                type="submit"
-                                disabled={loading ? true : false}
-                                colorScheme="blue"
-                                mr={3}>
-                                {loading ? <Spinner size="sm" /> : 'Save'}
-                            </Button>
-                            <Button
-                                onClick={() => {
-                                    setOpenModal(false);
-                                    setData(initialState);
-                                }}>
-                                Cancel
-                            </Button>
-                        </ModalFooter>
-                    </form>
-                </ModalContent>
-            </Modal>
-        </>
-    );
-}
-
 const DoctorDash = () => {
-    // const bg = useColorModeValue(
-    //     'white',
-    //     'gray.800'
-    // );
-    // const mobileNav = useDisclosure();
-    const [loading, setLoading] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
-    const history = useNavigate();
+    const { id } = useParams();
+    // console.log('doc Active id', id);
+    // const history = useNavigate();
     const bgColor = useColorModeValue('white', 'gray.800');
     const bgColor2 = useColorModeValue('gray.100', 'gray.700');
     const bgColor3 = useColorModeValue('gray.500');
     const [patients, setPatients] = useState([]);
+    const gridColumns = 6;
     useEffect(() => {
         (async () => {
             try {
                 const {
                     data: { data: response },
-                } = await axios.get(`${BACK_END_URL}/doctor/getDoc`, {
-                    headers: {
-                        authorization: cookie.get('session', {
-                            path: '/',
-                        }),
-                    },
-                });
+                } = await axios.post(
+                    `${BACK_END_URL}/patient/all`,
+                    { docId: id },
+                    {
+                        headers: {
+                            authorization: cookie.get('session', {
+                                path: '/',
+                            }),
+                        },
+                    }
+                );
                 console.log(response);
                 setPatients(response);
             } catch (error) {
                 console.log(error);
             }
         })();
-    }, [openModal]);
+    }, [id]);
     return (
         <>
             <Flex>
                 <Box marginTop="10vh" w="full">
-                    <InitialFocus
-                        isOpen={openModal}
-                        setOpenModal={setOpenModal}
-                        loading={loading}
-                        setLoading={setLoading}
-                    />
-                    <Flex
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mx="auto">
-                        <HStack
-                            display="flex"
-                            spacing={3}
-                            marginY={5}
-                            alignItems="center">
-                            <Flex
-                                justify={{
-                                    md: 'center',
-                                }}>
-                                <Button
-                                    size="sm"
-                                    variant="solid"
-                                    onClick={() => {
-                                        setOpenModal(true);
-                                    }}
-                                    leftIcon={<Icon as={FiUserPlus} />}
-                                    colorScheme="purple">
-                                    Add New Doctor
-                                </Button>
-                            </Flex>
-                        </HStack>
-                    </Flex>
                     <Flex
                         w="full"
-                        //   bg="gray.600"
-                        //   p={50}
-                        alignItems="center"
+                        h="90vh"
+                        bg="gray.600"
+                        // marginTop={}
+                        py={10}
+                        px={25}
+                        // alignItems="center"
                         justifyContent="center">
                         <Stack
                             direction={{ base: 'column' }}
@@ -299,10 +75,12 @@ const DoctorDash = () => {
                                 spacingY={3}
                                 bg={bgColor2}
                                 color={bgColor3}
-                                columns={{
-                                    base: 1,
-                                    md: 4,
-                                }}
+                                columns={gridColumns}
+                                justifyItems="center"
+                                // columns={{
+                                //     base: 3,
+                                //     md: 3,
+                                // }}
                                 w="full"
                                 py={2}
                                 px={10}
@@ -313,6 +91,18 @@ const DoctorDash = () => {
                                     overflow="hidden"
                                     whiteSpace="nowrap">
                                     Created
+                                </chakra.span>
+                                <chakra.span
+                                    textOverflow="ellipsis"
+                                    overflow="hidden"
+                                    whiteSpace="nowrap">
+                                    Recent Visit
+                                </chakra.span>
+                                <chakra.span
+                                    textOverflow="ellipsis"
+                                    overflow="hidden"
+                                    whiteSpace="nowrap">
+                                    Time
                                 </chakra.span>
                                 <Flex
                                     justify={{
@@ -333,7 +123,10 @@ const DoctorDash = () => {
                                 </Flex>
                             </SimpleGrid>
                             {patients.map((token, tid) => {
-                                console.log(token._id);
+                                const dateDiff = differenceInDays(
+                                    new Date(),
+                                    new Date(token.updatedAt)
+                                );
                                 return (
                                     <Flex
                                         direction={{
@@ -344,10 +137,12 @@ const DoctorDash = () => {
                                         key={tid}>
                                         <SimpleGrid
                                             spacingY={3}
-                                            columns={{
-                                                base: 4,
-                                                md: 4,
-                                            }}
+                                            // columns={{
+                                            //     base: 4,
+                                            //     md: 4,
+                                            // }}
+                                            columns={gridColumns}
+                                            justifyItems="center"
                                             w="full"
                                             py={2}
                                             px={10}
@@ -357,7 +152,19 @@ const DoctorDash = () => {
                                                 textOverflow="ellipsis"
                                                 overflow="hidden"
                                                 whiteSpace="nowrap">
-                                                {token.doc_id}
+                                                {token.pt_id}
+                                            </chakra.span>
+                                            <chakra.span
+                                                textOverflow="ellipsis"
+                                                overflow="hidden"
+                                                whiteSpace="nowrap">
+                                                {dateDiff === 0 ? 'Today' : `${dateDiff} Days Ago`}
+                                            </chakra.span>
+                                            <chakra.span
+                                                textOverflow="ellipsis"
+                                                overflow="hidden"
+                                                whiteSpace="nowrap">
+                                                {format(new Date(token.updatedAt), 'hh:mm:aa')}
                                             </chakra.span>
                                             <Flex
                                                 justify={{
@@ -366,24 +173,17 @@ const DoctorDash = () => {
                                                 <Button
                                                     size="sm"
                                                     variant="solid"
-                                                    leftIcon={
-                                                        <Icon
-                                                            as={AiTwotoneLock}
-                                                        />
-                                                    }
+                                                    leftIcon={<Icon as={BsBoxArrowUpRight} />}
                                                     colorScheme="purple">
-                                                    View Profile
+                                                    View
                                                 </Button>
                                             </Flex>
                                             <Flex
                                                 justify={{
                                                     md: 'center',
                                                 }}>
-                                                <ButtonGroup
-                                                    variant="solid"
-                                                    size="sm"
-                                                    spacing={3}>
-                                                    <IconButton
+                                                <ButtonGroup variant="solid" size="sm" spacing={3}>
+                                                    {/* <IconButton
                                                         colorScheme="blue"
                                                         onClick={() => {
                                                             history(
@@ -393,7 +193,7 @@ const DoctorDash = () => {
                                                         icon={
                                                             <BsBoxArrowUpRight />
                                                         }
-                                                    />
+                                                    /> */}
                                                     <IconButton
                                                         colorScheme="green"
                                                         icon={<AiFillEdit />}
@@ -401,9 +201,8 @@ const DoctorDash = () => {
                                                     <IconButton
                                                         colorScheme="red"
                                                         variant="outline"
-                                                        icon={
-                                                            <BsFillTrashFill />
-                                                        }
+                                                        icon={<BsFillTrashFill />}
+                                                        //TODO Add modal to prompt confirm delete and toast on deletion
                                                     />
                                                 </ButtonGroup>
                                             </Flex>

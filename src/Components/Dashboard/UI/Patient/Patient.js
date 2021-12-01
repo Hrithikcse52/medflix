@@ -23,6 +23,7 @@ import {
     SimpleGrid,
     ButtonGroup,
     IconButton,
+    Select,
     HStack,
 } from '@chakra-ui/react';
 import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
@@ -46,6 +47,7 @@ function InitialFocus({ isOpen, setOpenModalPt, loading, setLoading }) {
         address: '',
         age: '',
         mobileNumber: '',
+        docId: '',
     };
 
     const handleChange = (e) => {
@@ -55,20 +57,38 @@ function InitialFocus({ isOpen, setOpenModalPt, loading, setLoading }) {
         });
     };
     const [data, setData] = useState(initialState);
+    const [doc, setDoc] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const {
+                    data: { data: response },
+                } = await axios.get(`${BACK_END_URL}/doctor/getDoc`, {
+                    headers: {
+                        authorization: cookie.get('session', {
+                            path: '/',
+                        }),
+                    },
+                });
+                // console.log('Doc List', response);
+                setDoc(response);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
+
     const handleSubmitPt = async (e) => {
         e.preventDefault();
         setLoading(true);
-        console.log(data);
+        // console.log(data);
         try {
-            const { data: response } = await axios.post(
-                `${BACK_END_URL}/patient/create`,
-                data,
-                {
-                    headers: {
-                        authorization: cookie.get('session', { path: '/' }),
-                    },
-                }
-            );
+            const { data: response } = await axios.post(`${BACK_END_URL}/patient/create`, data, {
+                headers: {
+                    authorization: cookie.get('session', { path: '/' }),
+                },
+            });
             toast({
                 description: 'Patient Created',
                 position: 'top-right',
@@ -86,7 +106,7 @@ function InitialFocus({ isOpen, setOpenModalPt, loading, setLoading }) {
         setData(initialState);
         setOpenModalPt(false);
     };
-    console.log(data);
+    // console.log(data);
     return (
         <>
             <Modal
@@ -193,13 +213,29 @@ function InitialFocus({ isOpen, setOpenModalPt, loading, setLoading }) {
                                         name="mobileNumber"
                                         onChange={handleChange}
                                     />
-                                    {/* <Textarea
-                                        borderRadius="xs"
-                                        placeholder="Here is a sample placeholder"
-                                        size="xs"
-                                    /> */}
                                 </FormControl>
                             </HStack>
+                            <FormControl>
+                                <FormLabel>Select Doctor</FormLabel>
+                                {doc && (
+                                    <Select
+                                        required
+                                        variant="outline"
+                                        name="docId"
+                                        placeholder=" "
+                                        onChange={handleChange}
+                                        value={data.docId}>
+                                        {doc.map((doctor, index) => {
+                                            // console.log(doctor._id);
+                                            return (
+                                                <option key={index} value={doctor._id}>
+                                                    {doctor.name}
+                                                </option>
+                                            );
+                                        })}
+                                    </Select>
+                                )}
+                            </FormControl>
                         </ModalBody>
 
                         <ModalFooter>
@@ -253,7 +289,7 @@ const Patient = () => {
                         }),
                     },
                 });
-                console.log(response);
+                // console.log(response);
                 setPatients(response);
             } catch (error) {
                 console.log(error);
@@ -262,12 +298,6 @@ const Patient = () => {
         })();
     }, [openPtModal]);
 
-    // const data = [
-    //     { name: 'Daggy', created: '7 days ago' },
-    //     { name: 'Anubra', created: '23 hours ago' },
-    //     { name: 'Josef', created: 'A few seconds ago' },
-    //     { name: 'Sage', created: 'A few hours ago' },
-    // ];
     return (
         <>
             <Box marginTop="10vh">
@@ -277,15 +307,8 @@ const Patient = () => {
                     loading={loading}
                     setLoading={setLoading}
                 />
-                <Flex
-                    alignItems="center"
-                    justifyContent="space-between"
-                    mx="auto">
-                    <HStack
-                        display="flex"
-                        spacing={3}
-                        marginY={5}
-                        alignItems="center">
+                <Flex alignItems="center" justifyContent="space-between" mx="auto">
+                    <HStack display="flex" spacing={3} marginY={5} alignItems="center">
                         <Flex
                             justify={{
                                 md: 'center',
@@ -310,36 +333,7 @@ const Patient = () => {
                     //   p={50}
                     alignItems="center"
                     justifyContent="center">
-                    <Stack
-                        direction={{ base: 'column' }}
-                        w="full"
-                        bg={{ md: bgColor }}
-                        shadow="lg">
-                        {/* <SimpleGrid
-                    //   style={{
-                    //     display: "flex",
-                    //     flexDirection: "row",
-                    //     justifyContent: "space-between",
-                    //   }}
-                    spacingY={3}
-                    columns={{ base: 1, md: 4 }}
-                    w={{ base: 120, md: 'full' }}
-                    textTransform="uppercase"
-                    bg={bgColor2}
-                    color={bgColor3}
-                    py={{ base: 1, md: 4 }}
-                    px={{ base: 2, md: 10 }}
-                    fontSize="md"
-                    fontWeight="hairline"
-                    display="table-header-group"
-                >
-                    <span>Name</span>
-                    <span>Created</span>
-                    <span>Data</span>
-                    <chakra.span textAlign={{ md: 'right' }}>
-                        Actions
-                    </chakra.span>
-                </SimpleGrid> */}
+                    <Stack direction={{ base: 'column' }} w="full" bg={{ md: bgColor }} shadow="lg">
                         <SimpleGrid
                             spacingY={3}
                             bg={bgColor2}
@@ -359,15 +353,6 @@ const Patient = () => {
                                 whiteSpace="nowrap">
                                 Created
                             </chakra.span>
-                            {/* <chakra.span
-                        textOverflow="ellipsis"
-                        overflow="hidden"
-                        whiteSpace="nowrap"
-                    >
-                        Created
-                    </chakra.span> */}
-                            {/* <span>Name</span> */}
-
                             <Flex
                                 justify={{
                                     md: 'center',
@@ -395,7 +380,7 @@ const Patient = () => {
                             </Flex>
                         </SimpleGrid>
                         {patients.map((token, tid) => {
-                            console.log(token._id);
+                            // console.log(token._id);
                             return (
                                 <Flex
                                     direction={{
@@ -437,9 +422,7 @@ const Patient = () => {
                                             <Button
                                                 size="sm"
                                                 variant="solid"
-                                                leftIcon={
-                                                    <Icon as={AiTwotoneLock} />
-                                                }
+                                                leftIcon={<Icon as={AiTwotoneLock} />}
                                                 colorScheme="purple">
                                                 View Profile
                                             </Button>
@@ -448,16 +431,11 @@ const Patient = () => {
                                             justify={{
                                                 md: 'center',
                                             }}>
-                                            <ButtonGroup
-                                                variant="solid"
-                                                size="sm"
-                                                spacing={3}>
+                                            <ButtonGroup variant="solid" size="sm" spacing={3}>
                                                 <IconButton
                                                     colorScheme="blue"
                                                     onClick={() => {
-                                                        history(
-                                                            `/patient/${token._id}`
-                                                        );
+                                                        history(`/patient/${token._id}`);
                                                     }}
                                                     icon={<BsBoxArrowUpRight />}
                                                 />
