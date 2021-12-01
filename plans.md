@@ -8,3 +8,4 @@
 -   [ ] while adding patients if possible show them the doc list and assign them there only
 -   [ ] define role doctor admin
 -   [ ] add type on login doc or user
+-   [ ] add dropdown in nav for easy active doc change

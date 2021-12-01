@@ -13,8 +13,7 @@ const FeatureItem = ({ title, text, icon }) => {
                 color={'white'}
                 rounded={'full'}
                 bg={'gray.100'}
-                mb={1}
-            >
+                mb={1}>
                 {icon}
             </Flex>
             <Text fontWeight={600}>{title}</Text>

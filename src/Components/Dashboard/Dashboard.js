@@ -1,27 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Box,
     Flex,
-    HStack,
     Icon,
     useColorModeValue,
     Link,
     Drawer,
     DrawerContent,
     useDisclosure,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalCloseButton,
-    ModalBody,
-    FormControl,
-    FormLabel,
-    Input,
-    ModalFooter,
-    Button,
-    Radio,
-    RadioGroup,
 } from '@chakra-ui/react';
 
 import {
@@ -36,16 +22,16 @@ import {
 } from 'react-icons/fi';
 import { FaStethoscope } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
-import axios from 'axios';
-import { BACK_END_URL } from '../../env';
+// import axios from 'axios';
+// import { BACK_END_URL } from '../../env';
 // import {
 //     useDispatch,
 //     useSelector,
 // } from 'react-redux';
 // import { logoutUser } from '../../redux/actions/userAuth';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 
-const cookie = new Cookies();
+// const cookie = new Cookies();
 
 const LinkItems = [
     {
@@ -75,50 +61,8 @@ const LinkItems = [
     },
 ];
 
-const Dashboard = ({ setUpdate, children, setOpenModal, openModal }) => {
-    const initialState = {
-        name: '',
-        email: '',
-        gender: 'male',
-        address: '',
-        age: '',
-        mobileNumber: '',
-    };
+const Dashboard = ({ children }) => {
     const { isOpen, onClose } = useDisclosure();
-    // const [openModal, setOpenModal] =
-    //     useState(false);
-
-    console.log(openModal);
-    const [data, setData] = useState(initialState);
-
-    const handleChange = (e) => {
-        setData({
-            ...data,
-            [e.target.name]: e.target.value,
-        });
-    };
-    const handleSubmitPt = async (e) => {
-        e.preventDefault();
-        console.log(data);
-        try {
-            const { data: response } = await axios.post(
-                `${BACK_END_URL}/patient/create`,
-                data,
-                // {
-                //     withCredentials: true,
-                // }
-                {
-                    headers: {
-                        authorization: cookie.get('session', { path: '/' }),
-                    },
-                }
-            );
-            console.log(response);
-        } catch (error) {}
-        setUpdate(true);
-        setData(initialState);
-        setOpenModal(false);
-    };
 
     return (
         <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
@@ -141,137 +85,9 @@ const Dashboard = ({ setUpdate, children, setOpenModal, openModal }) => {
                     <SidebarContent onClose={onClose} />
                 </DrawerContent>
             </Drawer>
-            {/* mobilenav */}
             {/* <MobileNav onOpen={onOpen} setOpenModal={setOpenModal} /> */}
             <Box ml={{ base: 0, md: 60 }} p="4">
                 {children}
-                <Modal
-                    isOpen={openModal}
-                    onClose={(e) => {
-                        // console.log(e);
-                        setOpenModal(false);
-                    }}
-                    size="xl">
-                    <ModalOverlay />
-                    <ModalContent>
-                        <form onSubmit={handleSubmitPt}>
-                            <ModalHeader>Create Patient</ModalHeader>
-                            <ModalCloseButton />
-                            <ModalBody pb={6}>
-                                <HStack mb={2}>
-                                    <FormControl>
-                                        <FormLabel>Name</FormLabel>
-                                        <Input
-                                            required
-                                            placeholder="Name"
-                                            value={data.name}
-                                            name="name"
-                                            onChange={handleChange}
-                                        />
-                                    </FormControl>
-
-                                    <FormControl mt={4}>
-                                        <FormLabel>Email</FormLabel>
-                                        <Input
-                                            placeholder="Email"
-                                            value={data.email}
-                                            name="email"
-                                            onChange={handleChange}
-                                        />
-                                    </FormControl>
-                                </HStack>
-                                <HStack mb={2}>
-                                    <FormControl as="fieldset">
-                                        <FormLabel as="legend">
-                                            Gender
-                                        </FormLabel>
-                                        <RadioGroup defaultValue="male">
-                                            <HStack>
-                                                <Radio
-                                                    required
-                                                    name="gender"
-                                                    onChange={handleChange}
-                                                    value="female">
-                                                    Female
-                                                </Radio>
-                                                <Radio
-                                                    required
-                                                    name="gender"
-                                                    value="male"
-                                                    onChange={handleChange}>
-                                                    Male
-                                                </Radio>
-                                            </HStack>
-                                        </RadioGroup>
-                                        {/* <FormHelperText>
-                                    Select only if you're a fan.
-                                </FormHelperText> */}
-                                    </FormControl>
-                                    <FormControl>
-                                        <FormLabel>Address</FormLabel>
-                                        <Input
-                                            required
-                                            placeholder="Address"
-                                            value={data.address}
-                                            name="address"
-                                            onChange={handleChange}
-                                        />
-                                        {/* <Textarea
-                                        borderRadius="xs"
-                                        placeholder="Here is a sample placeholder"
-                                        size="xs"
-                                    /> */}
-                                    </FormControl>
-                                </HStack>
-                                <HStack mb={2}>
-                                    <FormControl as="fieldset">
-                                        <FormLabel as="legend">Age</FormLabel>
-                                        <Input
-                                            required
-                                            placeholder="Age"
-                                            type="text"
-                                            value={data.age}
-                                            name="age"
-                                            onChange={handleChange}
-                                        />
-
-                                        {/* <FormHelperText>
-                                    Select only if you're a fan.
-                                </FormHelperText> */}
-                                    </FormControl>
-                                    <FormControl>
-                                        <FormLabel>Mobile</FormLabel>
-                                        <Input
-                                            required
-                                            placeholder="8969846714"
-                                            type="number"
-                                            value={data.mobileNumber}
-                                            name="mobileNumber"
-                                            onChange={handleChange}
-                                        />
-                                        {/* <Textarea
-                                        borderRadius="xs"
-                                        placeholder="Here is a sample placeholder"
-                                        size="xs"
-                                    /> */}
-                                    </FormControl>
-                                </HStack>
-                            </ModalBody>
-
-                            <ModalFooter>
-                                <Button colorScheme="blue" mr={3} type="submit">
-                                    Save
-                                </Button>
-                                <Button
-                                    onClick={() => {
-                                        setOpenModal(false);
-                                    }}>
-                                    Cancel
-                                </Button>
-                            </ModalFooter>
-                        </form>
-                    </ModalContent>
-                </Modal>
             </Box>
         </Box>
     );

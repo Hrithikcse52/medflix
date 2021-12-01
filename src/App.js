@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import axios from 'axios';
 import { BACK_END_URL } from './env';
-import { loginUser } from './redux/actions/userAuth';
+import { loginUser, logoutUser } from './redux/actions/userAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import PatientProfile from './Components/PatientProfile/PatientProfile';
 import Nav from './Components/Nav/Nav';
@@ -37,17 +37,11 @@ function App() {
 
     const validate_user = async () => {
         try {
-            const { data: response } = await axios.get(
-                `${BACK_END_URL}/user/check`,
-                // {
-                //     withCredentials: true,
-                // }
-                {
-                    headers: {
-                        authorization: cookie.get('session', { path: '/' }),
-                    },
-                }
-            );
+            const { data: response } = await axios.get(`${BACK_END_URL}/user/check`, {
+                headers: {
+                    authorization: cookie.get('session', { path: '/' }),
+                },
+            });
             // console.log('Validate user', response);
             dispatch(
                 loginUser({
@@ -58,12 +52,15 @@ function App() {
             );
         } catch (err) {
             console.log(err);
+            dispatch(logoutUser());
+            window.location.href = '/login';
         }
     };
 
     if (!user && cookie.get('session')) {
         validate_user();
     }
+    //TODO: check if login is done redirec to home. user cant assess login if session is present
     return (
         <>
             <Router>
@@ -91,7 +88,6 @@ function App() {
                         <Route path="report" />
                         <Route path="settings" />
                     </Route>
-
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>
