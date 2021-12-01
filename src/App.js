@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import axios from 'axios';
 import { BACK_END_URL } from './env';
-import { loginUser } from './redux/actions/userAuth';
+import { loginUser, logoutUser } from './redux/actions/userAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import PatientProfile from './Components/PatientProfile/PatientProfile';
 import Nav from './Components/Nav/Nav';
@@ -39,9 +39,6 @@ function App() {
         try {
             const { data: response } = await axios.get(
                 `${BACK_END_URL}/user/check`,
-                // {
-                //     withCredentials: true,
-                // }
                 {
                     headers: {
                         authorization: cookie.get('session', { path: '/' }),
@@ -58,6 +55,8 @@ function App() {
             );
         } catch (err) {
             console.log(err);
+            dispatch(logoutUser());
+            window.location.href = '/login';
         }
     };
 
