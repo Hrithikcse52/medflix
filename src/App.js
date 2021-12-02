@@ -12,6 +12,8 @@ import Nav from './Components/Nav/Nav';
 import NotFound from './pages/NotFound';
 import { cookie } from './utils';
 import DoctorDash from './Components/DoctorPage/DoctorDash';
+import Patient from './Components/Dashboard/UI/Patient/Patient';
+import Doctor from './Components/Dashboard/UI/Doctors/Doctor';
 
 // function Root() {
 //   const routes = useRoutes([
@@ -82,11 +84,26 @@ function App() {
                                 <Login />
                             )
                         }>
-                        <Route path="patient" />
+                        <Route
+                            path="patient"
+                            element={
+                                <Patient
+                                // update={update}
+                                // setUpdate={setUpdate}
+                                // setOpenModal={setPtOpenModal}
+                                />
+                            }
+                        />
+                        <Route path="doctor" element={<Doctor />} />
+
+                        <Route path="prescription" element={<Doctor />} />
+                        <Route path="report" element={<Doctor />} />
+                        <Route path="settings" element={<Doctor />} />
+                        {/*                         
                         <Route path="log" />
                         <Route path="prescription" />
                         <Route path="report" />
-                        <Route path="settings" />
+                        <Route path="settings" /> */}
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>
