@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
     chakra,
     Flex,
@@ -8,8 +8,12 @@ import {
     Button,
     Box,
     Stack,
+    HStack,
+    Select,
     SimpleGrid,
     ButtonGroup,
+    FormControl,
+    FormLabel,
     IconButton,
 } from '@chakra-ui/react';
 import { AiFillEdit } from 'react-icons/ai';
@@ -19,15 +23,20 @@ import Cookies from 'universal-cookie';
 // import { useNavigate } from 'react-router';
 import { BACK_END_URL } from '../../env';
 import { differenceInDays, format } from 'date-fns';
+
 const cookie = new Cookies();
 
 const DoctorDash = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     // console.log('doc Active id', id);
     // const history = useNavigate();
-    const bgColor = useColorModeValue('white', 'gray.800');
-    const bgColor2 = useColorModeValue('gray.100', 'gray.700');
+    const bgColor2 = useColorModeValue('white', 'gray.800');
+    const bgColor = useColorModeValue('gray.100', 'gray.700');
     const bgColor3 = useColorModeValue('gray.500');
+    // const bgColor = useColorModeValue('gray.200', 'white');
+    // const bgColor2 = useColorModeValue('white', 'gray.900');
+    // const bgColor3 = useColorModeValue('gray.500');
     const [patients, setPatients] = useState([]);
     const gridColumns = 6;
     useEffect(() => {
@@ -53,6 +62,29 @@ const DoctorDash = () => {
             }
         })();
     }, [id]);
+
+    const [doc, setDoc] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const {
+                    data: { data: response },
+                } = await axios.get(`${BACK_END_URL}/doctor/getDoc`, {
+                    headers: {
+                        authorization: cookie.get('session', {
+                            path: '/',
+                        }),
+                    },
+                });
+                // console.log('Doc List', response);
+                setDoc(response);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
+
     return (
         <>
             <Flex>
@@ -60,20 +92,72 @@ const DoctorDash = () => {
                     <Flex
                         w="full"
                         h="90vh"
-                        bg="gray.600"
+                        // bg="gray.900"
+                        bg={bgColor2}
                         // marginTop={}
                         py={10}
                         px={25}
                         // alignItems="center"
-                        justifyContent="center">
+                        flexDirection={'column'}
+                        // justifyContent="center"
+                    >
+                        <HStack
+                            display="flex"
+                            // bg="gray.900"
+                            bg={bgColor2}
+                            spacing={7}
+                            marginY={5}
+                            alignItems="center">
+                            <Flex justify={'center'} alignItems={'center'}>
+                                <FormControl>
+                                    <HStack>
+                                        <FormLabel width={200}>Active Doctor:</FormLabel>
+                                        <Select
+                                            required
+                                            variant="outline"
+                                            name="docId"
+                                            value={id}
+                                            placeholder=" "
+                                            onChange={(e) => {
+                                                console.log(e.target.value);
+                                                navigate(`/doctorPanel/${e.target.value}`, {
+                                                    replace: true,
+                                                });
+                                            }}>
+                                            {doc.map((doctor, index) => {
+                                                // console.log(doctor._id);
+                                                return (
+                                                    <option key={index} value={doctor._id}>
+                                                        {doctor.name}
+                                                    </option>
+                                                );
+                                            })}
+                                        </Select>
+                                    </HStack>
+                                </FormControl>
+
+                                {/* <Button
+                                    size="sm"
+                                    variant="solid"
+                                    onClick={() => {
+                                        // setOpenModal(true);
+                                        // setOpenPtModal(true);
+                                    }}
+                                    leftIcon={<Icon as={FiUserPlus} />}
+                                    colorScheme="purple">
+                                    Create New Patient
+                                </Button> */}
+                            </Flex>
+                        </HStack>
                         <Stack
                             direction={{ base: 'column' }}
-                            w="full"
                             bg={{ md: bgColor }}
+                            w="full"
                             shadow="lg">
                             <SimpleGrid
                                 spacingY={3}
-                                bg={bgColor2}
+                                // bg={bgColor2}
+                                bg={bgColor}
                                 color={bgColor3}
                                 columns={gridColumns}
                                 justifyItems="center"
@@ -133,7 +217,8 @@ const DoctorDash = () => {
                                             base: 'row',
                                             md: 'column',
                                         }}
-                                        bg={bgColor}
+                                        // bg={bgColor}
+                                        bg={bgColor2}
                                         key={tid}>
                                         <SimpleGrid
                                             spacingY={3}

@@ -24,12 +24,7 @@ import {
     MenuDivider,
 } from '@chakra-ui/react';
 
-import {
-    HamburgerIcon,
-    CloseIcon,
-    ChevronDownIcon,
-    ChevronRightIcon,
-} from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { FiBell, FiChevronDown } from 'react-icons/fi';
 import { useNavigate } from 'react-router';
 import { BACK_END_URL } from '../../env';
@@ -39,6 +34,15 @@ import { logoutUser } from '../../redux/actions/userAuth';
 import { cookie } from '../../utils';
 
 export default function Nav() {
+    // console.log(window.location);
+    // const loc = window.location.toString().split('/');
+    // console.log(loc[loc.length - 1]);
+
+    // const location = useLocation();
+    // console.log('LOCA', location.pathname);
+    // let match = useMatch('/doctorPanel/:id');
+    // console.log(match);
+
     const { user } = useSelector((state) => state.profile);
     const dispatch = useDispatch();
     const history = useNavigate();
@@ -66,19 +70,14 @@ export default function Nav() {
                     }}>
                     <IconButton
                         onClick={onToggle}
-                        icon={
-                            isOpen ? (
-                                <CloseIcon w={3} h={3} />
-                            ) : (
-                                <HamburgerIcon w={5} h={5} />
-                            )
-                        }
+                        icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
                         variant={'ghost'}
                         aria-label={'Toggle Navigation'}
                     />
                 </Flex>
                 <Flex
                     flex={{ base: 1 }}
+                    alignItems={'center'}
                     justify={{
                         base: 'center',
                         md: 'start',
@@ -104,6 +103,13 @@ export default function Nav() {
                         ml={10}>
                         <DesktopNav />
                     </Flex>
+                    {/* <Flex ml={10}>
+                        <Select placeholder="Select option">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                        </Select>
+                    </Flex> */}
                 </Flex>
                 {user ? (
                     <HStack
@@ -140,12 +146,8 @@ export default function Nav() {
                                             alignItems="flex-start"
                                             spacing="1px"
                                             ml="2">
-                                            <Text fontSize="sm">
-                                                {user.fullName}
-                                            </Text>
-                                            <Text
-                                                fontSize="xs"
-                                                color="gray.600">
+                                            <Text fontSize="sm">{user.fullName}</Text>
+                                            <Text fontSize="xs" color="gray.600">
                                                 Admin
                                             </Text>
                                         </VStack>
@@ -173,13 +175,9 @@ export default function Nav() {
                                                     // }
                                                     {
                                                         headers: {
-                                                            authorization:
-                                                                cookie.get(
-                                                                    'session',
-                                                                    {
-                                                                        path: '/',
-                                                                    }
-                                                                ),
+                                                            authorization: cookie.get('session', {
+                                                                path: '/',
+                                                            }),
                                                         },
                                                     }
                                                 );
@@ -276,10 +274,7 @@ const DesktopNav = () => {
                                 minW={'sm'}>
                                 <Stack>
                                     {navItem.children.map((child) => (
-                                        <DesktopSubNav
-                                            key={child.label}
-                                            {...child}
-                                        />
+                                        <DesktopSubNav key={child.label} {...child} />
                                     ))}
                                 </Stack>
                             </PopoverContent>
@@ -325,12 +320,7 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
                     justify={'flex-end'}
                     align={'center'}
                     flex={1}>
-                    <Icon
-                        color={'pink.400'}
-                        w={5}
-                        h={5}
-                        as={ChevronRightIcon}
-                    />
+                    <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
                 </Flex>
             </Stack>
         </Link>
@@ -339,10 +329,7 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 
 const MobileNav = () => {
     return (
-        <Stack
-            bg={useColorModeValue('white', 'gray.800')}
-            p={4}
-            display={{ md: 'none' }}>
+        <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
             {NAV_ITEMS.map((navItem) => (
                 <MobileNavItem key={navItem.label} {...navItem} />
             ))}
@@ -364,9 +351,7 @@ const MobileNavItem = ({ label, children, href }) => {
                 _hover={{
                     textDecoration: 'none',
                 }}>
-                <Text
-                    fontWeight={600}
-                    color={useColorModeValue('gray.600', 'gray.200')}>
+                <Text fontWeight={600} color={useColorModeValue('gray.600', 'gray.200')}>
                     {label}
                 </Text>
                 {children && (

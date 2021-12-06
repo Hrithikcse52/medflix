@@ -205,12 +205,7 @@ const NavItem = ({ to, icon, children, ...rest }) => {
 //                         setOpenModal(true);
 //                     }}
 //                 />
-//                 <IconButton
-//                     size="lg"
-//                     variant="ghost"
-//                     aria-label="open menu"
-//                     icon={<FiBell />}
-//                 />
+//                 <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
 //                 <Flex alignItems={'center'}>
 //                     <Menu>
 //                         <MenuButton
@@ -250,10 +245,7 @@ const NavItem = ({ to, icon, children, ...rest }) => {
 //                         </MenuButton>
 //                         <MenuList
 //                             bg={useColorModeValue('white', 'gray.900')}
-//                             borderColor={useColorModeValue(
-//                                 'gray.200',
-//                                 'gray.700'
-//                             )}>
+//                             borderColor={useColorModeValue('gray.200', 'gray.700')}>
 //                             <MenuItem>Profile</MenuItem>
 //                             <MenuItem>Settings</MenuItem>
 //                             <MenuItem>Billing</MenuItem>
@@ -266,12 +258,9 @@ const NavItem = ({ to, icon, children, ...rest }) => {
 //                                             `${BACK_END_URL}/user/logout`,
 //                                             {
 //                                                 headers: {
-//                                                     authorization: cookie.get(
-//                                                         'session',
-//                                                         {
-//                                                             path: '/',
-//                                                         }
-//                                                     ),
+//                                                     authorization: cookie.get('session', {
+//                                                         path: '/',
+//                                                     }),
 //                                                 },
 //                                             }
 //                                         );
