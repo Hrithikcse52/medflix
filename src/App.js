@@ -14,6 +14,7 @@ import { cookie } from './utils';
 import DoctorDash from './Components/DoctorPage/DoctorDash';
 import Patient from './Components/Dashboard/UI/Patient/Patient';
 import Doctor from './Components/Dashboard/UI/Doctors/Doctor';
+import Prescription from './Components/Prescription/Prescription';
 
 // function Root() {
 //   const routes = useRoutes([
@@ -73,6 +74,8 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/patient/:id" element={<PatientProfile />} />
                     <Route path="/doctorPanel/:id" element={<DoctorDash />} />
+                    <Route path="/prescription/:id" element={<Prescription />} />
+
                     <Route
                         path="dashboard/*"
                         element={
