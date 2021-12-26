@@ -9,7 +9,7 @@ import { store } from './redux/store';
 
 const theme = extendTheme({
     config: {
-        useSystemColorMode: true,
+        useSystemColorMode: false,
         initialColorMode: 'dark',
     },
 });

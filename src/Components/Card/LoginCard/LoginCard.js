@@ -3,13 +3,15 @@ import axios from 'axios';
 import { BACK_END_URL } from '../../../env';
 import {
     Button,
-    Checkbox,
+    // Checkbox,
     Flex,
     FormControl,
     FormLabel,
     Heading,
     Input,
-    Link,
+    InputRightElement,
+    InputGroup,
+    // Link,
     Spinner,
     Stack,
     useToast,
@@ -26,7 +28,7 @@ const LoginCard = () => {
     const toast = useToast();
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-
+    const [passShow, setPassShow] = useState(false);
     const resetState = () => {
         setEmail('');
         setPassword('');
@@ -61,9 +63,10 @@ const LoginCard = () => {
         resetState();
         setLoading(false);
     };
+    // console.log(passShow);
     return (
         <Stack
-            minH={'90vh'}
+            minH={'100vh'}
             direction={{
                 base: 'column',
                 md: 'row',
@@ -75,6 +78,7 @@ const LoginCard = () => {
                         <FormControl id="email">
                             <FormLabel>Email address</FormLabel>
                             <Input
+                                required
                                 placeholder="Email"
                                 value={email}
                                 type="email"
@@ -86,15 +90,29 @@ const LoginCard = () => {
                         </FormControl>
                         <FormControl id="password">
                             <FormLabel>Password</FormLabel>
-                            <Input
-                                placeholder="Password"
-                                value={password}
-                                type="password"
-                                name="password"
-                                onChange={(e) => {
-                                    setPassword(e.target.value);
-                                }}
-                            />
+                            <InputGroup size="md">
+                                <Input
+                                    pr="4.5rem"
+                                    type={passShow ? 'text' : 'password'}
+                                    // type={show ? 'text' : 'password'}
+                                    placeholder="Enter password"
+                                    value={password}
+                                    name="password"
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                    }}
+                                />
+                                <InputRightElement width="4.5rem">
+                                    <Button
+                                        h="1.75rem"
+                                        size="sm"
+                                        onClick={() => {
+                                            setPassShow(!passShow);
+                                        }}>
+                                        {passShow ? 'Hide' : 'Show'}
+                                    </Button>
+                                </InputRightElement>
+                            </InputGroup>
                         </FormControl>
                         <Stack spacing={6}>
                             <Stack
@@ -104,8 +122,9 @@ const LoginCard = () => {
                                 }}
                                 align={'start'}
                                 justify={'space-between'}>
-                                <Checkbox>Remember me</Checkbox>
-                                <Link color={'blue.500'}>Forgot password?</Link>
+                                {/* <Checkbox>Remember me</Checkbox> */}
+                                {/* //TODO: mailler for forget password */}
+                                {/* <Link color={'blue.500'}>Forgot password?</Link> */}
                             </Stack>
                             <Button
                                 colorScheme={'blue'}

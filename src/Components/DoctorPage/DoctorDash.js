@@ -258,6 +258,9 @@ const DoctorDash = () => {
                                                 <Button
                                                     size="sm"
                                                     variant="solid"
+                                                    onClick={() => {
+                                                        navigate(`/prescription/${token._id}`);
+                                                    }}
                                                     leftIcon={<Icon as={BsBoxArrowUpRight} />}
                                                     colorScheme="purple">
                                                     View
