@@ -14,28 +14,7 @@ import { cookie } from './utils';
 import DoctorDash from './Components/DoctorPage/DoctorDash';
 import Patient from './Components/Dashboard/UI/Patient/Patient';
 import Doctor from './Components/Dashboard/UI/Doctors/Doctor';
-
 import Prescription from './Components/Prescription/Prescription';
-
-
-// function Root() {
-//   const routes = useRoutes([
-//     { path: "/", element: <Home /> },
-//     { path: "/login", element: <Login /> },
-//     { path: "/register", element: <Register /> },
-//     {
-//       path: "/dashboard",
-//       element: <DashboardPage />,
-//       children: [
-//         { path: "patient", element: <Register /> },
-//         { path: "logs", element: <Login /> },
-//       ],
-//     },
-//   ]);
-
-//   return routes;
-// }
-
 function App() {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.profile);

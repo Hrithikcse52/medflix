@@ -1,27 +1,17 @@
 import {
     Box,
     Button,
-    ButtonGroup,
     chakra,
-    Flex,
     FormControl,
     FormLabel,
     GridItem,
-    IconButton,
     Input,
     SimpleGrid,
     Stack,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
     useColorModeValue,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import React, { useMemo, useState } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
-import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
@@ -29,7 +19,7 @@ import { cookie } from '../../utils';
 const Prescription = () => {
     const { id } = useParams();
     const [ptData, setPtData] = useState({});
-    useMemo(() => {
+    useEffect(() => {
         (async () => {
             try {
                 const { data: response } = await axios.get(`${BACK_END_URL}/patient/${id}`, {
@@ -39,6 +29,7 @@ const Prescription = () => {
                         }),
                     },
                 });
+                console.log('Prescription Response:', response);
                 setPtData(response);
             } catch (error) {
                 console.log(error);
@@ -49,6 +40,7 @@ const Prescription = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
     };
+
     return (
         <Stack>
             <Box marginTop={'10vh'} bg={useColorModeValue('inherit', 'inherit')} p={10}>
@@ -308,7 +300,7 @@ const Prescription = () => {
                                     />
                                 </FormControl>
 
-                                <Table />
+                                {/* <Table /> */}
                             </SimpleGrid>
                         </Stack>
                         <Box
@@ -339,141 +331,141 @@ const Prescription = () => {
     );
 };
 
-function Table() {
-    const header = ['name', 'created', 'actions'];
-    const data = [
-        { name: 'Daggy', created: '7 days ago' },
-        { name: 'Anubra', created: '23 hours ago' },
-        { name: 'Josef', created: 'A few seconds ago' },
-        { name: 'Sage', created: 'A few hours ago' },
-    ];
-    return (
-        <Flex w="full" bg="gray.600" p={50} alignItems="center" justifyContent="center">
-            <Table
-                w="full"
-                bg={useColorModeValue('white', 'gray.800')}
-                display={{
-                    base: 'block',
-                    md: 'table',
-                }}
-                sx={{
-                    '@media print': {
-                        display: 'table',
-                    },
-                }}>
-                <Thead
-                    display={{
-                        base: 'none',
-                        md: 'table-header-group',
-                    }}
-                    sx={{
-                        '@media print': {
-                            display: 'table-header-group',
-                        },
-                    }}>
-                    <Tr>
-                        {header.map((x) => (
-                            <Th key={x}>{x}</Th>
-                        ))}
-                    </Tr>
-                </Thead>
-                <Tbody
-                    display={{
-                        base: 'block',
-                        lg: 'table-row-group',
-                    }}
-                    sx={{
-                        '@media print': {
-                            display: 'table-row-group',
-                        },
-                    }}>
-                    {data.map((token, tid) => {
-                        return (
-                            <Tr
-                                key={tid}
-                                display={{
-                                    base: 'grid',
-                                    md: 'table-row',
-                                }}
-                                sx={{
-                                    '@media print': {
-                                        display: 'table-row',
-                                    },
-                                    gridTemplateColumns: 'minmax(0px, 35%) minmax(0px, 65%)',
-                                    gridGap: '10px',
-                                }}>
-                                {Object.keys(token).map((x) => {
-                                    return (
-                                        <React.Fragment key={`${tid}${x}`}>
-                                            <Td
-                                                display={{
-                                                    base: 'table-cell',
-                                                    md: 'none',
-                                                }}
-                                                sx={{
-                                                    '@media print': {
-                                                        display: 'none',
-                                                    },
-                                                    textTransform: 'uppercase',
-                                                    // color: useColorModeValue(
-                                                    //     'gray.400',
-                                                    //     'gray.400'
-                                                    // ),
-                                                    fontSize: 'xs',
-                                                    fontWeight: 'bold',
-                                                    letterSpacing: 'wider',
-                                                    fontFamily: 'heading',
-                                                }}>
-                                                {x}
-                                            </Td>
-                                            <Td
-                                                // color={useColorModeValue('gray.500')}
-                                                fontSize="md"
-                                                fontWeight="hairline">
-                                                {token[x]}
-                                            </Td>
-                                        </React.Fragment>
-                                    );
-                                })}
-                                <Td
-                                    display={{
-                                        base: 'table-cell',
-                                        md: 'none',
-                                    }}
-                                    sx={{
-                                        '@media print': {
-                                            display: 'none',
-                                        },
-                                        textTransform: 'uppercase',
-                                        color: 'inherit',
-                                        fontSize: 'xs',
-                                        fontWeight: 'bold',
-                                        letterSpacing: 'wider',
-                                        fontFamily: 'heading',
-                                    }}>
-                                    Actions
-                                </Td>
-                                <Td>
-                                    <ButtonGroup variant="solid" size="sm" spacing={3}>
-                                        <IconButton
-                                            colorScheme="blue"
-                                            icon={<BsBoxArrowUpRight />}
-                                        />
-                                        <IconButton colorScheme="green" icon={<AiFillEdit />} />
-                                        <IconButton
-                                            colorScheme="red"
-                                            variant="outline"
-                                            icon={<BsFillTrashFill />}
-                                        />
-                                    </ButtonGroup>
-                                </Td>
-                            </Tr>
-                        );
-                    })}
-                </Tbody>
-            </Table>
-        </Flex>
-    );
-}
+// function Table() {
+//     const header = ['name', 'created', 'actions'];
+//     const data = [
+//         { name: 'Daggy', created: '7 days ago' },
+//         { name: 'Anubra', created: '23 hours ago' },
+//         { name: 'Josef', created: 'A few seconds ago' },
+//         { name: 'Sage', created: 'A few hours ago' },
+//     ];
+//     return (
+//         <Flex w="full" bg="gray.600" p={50} alignItems="center" justifyContent="center">
+//             <Table
+//                 w="full"
+//                 bg={useColorModeValue('white', 'gray.800')}
+//                 display={{
+//                     base: 'block',
+//                     md: 'table',
+//                 }}
+//                 sx={{
+//                     '@media print': {
+//                         display: 'table',
+//                     },
+//                 }}>
+//                 <Thead
+//                     display={{
+//                         base: 'none',
+//                         md: 'table-header-group',
+//                     }}
+//                     sx={{
+//                         '@media print': {
+//                             display: 'table-header-group',
+//                         },
+//                     }}>
+//                     <Tr>
+//                         {header.map((x) => (
+//                             <Th key={x}>{x}</Th>
+//                         ))}
+//                     </Tr>
+//                 </Thead>
+//                 <Tbody
+//                     display={{
+//                         base: 'block',
+//                         lg: 'table-row-group',
+//                     }}
+//                     sx={{
+//                         '@media print': {
+//                             display: 'table-row-group',
+//                         },
+//                     }}>
+//                     {data.map((token, tid) => {
+//                         return (
+//                             <Tr
+//                                 key={tid}
+//                                 display={{
+//                                     base: 'grid',
+//                                     md: 'table-row',
+//                                 }}
+//                                 sx={{
+//                                     '@media print': {
+//                                         display: 'table-row',
+//                                     },
+//                                     gridTemplateColumns: 'minmax(0px, 35%) minmax(0px, 65%)',
+//                                     gridGap: '10px',
+//                                 }}>
+//                                 {Object.keys(token).map((x) => {
+//                                     return (
+//                                         <React.Fragment key={`${tid}${x}`}>
+//                                             <Td
+//                                                 display={{
+//                                                     base: 'table-cell',
+//                                                     md: 'none',
+//                                                 }}
+//                                                 sx={{
+//                                                     '@media print': {
+//                                                         display: 'none',
+//                                                     },
+//                                                     textTransform: 'uppercase',
+//                                                     // color: useColorModeValue(
+//                                                     //     'gray.400',
+//                                                     //     'gray.400'
+//                                                     // ),
+//                                                     fontSize: 'xs',
+//                                                     fontWeight: 'bold',
+//                                                     letterSpacing: 'wider',
+//                                                     fontFamily: 'heading',
+//                                                 }}>
+//                                                 {x}
+//                                             </Td>
+//                                             <Td
+//                                                 // color={useColorModeValue('gray.500')}
+//                                                 fontSize="md"
+//                                                 fontWeight="hairline">
+//                                                 {token[x]}
+//                                             </Td>
+//                                         </React.Fragment>
+//                                     );
+//                                 })}
+//                                 <Td
+//                                     display={{
+//                                         base: 'table-cell',
+//                                         md: 'none',
+//                                     }}
+//                                     sx={{
+//                                         '@media print': {
+//                                             display: 'none',
+//                                         },
+//                                         textTransform: 'uppercase',
+//                                         color: 'inherit',
+//                                         fontSize: 'xs',
+//                                         fontWeight: 'bold',
+//                                         letterSpacing: 'wider',
+//                                         fontFamily: 'heading',
+//                                     }}>
+//                                     Actions
+//                                 </Td>
+//                                 <Td>
+//                                     <ButtonGroup variant="solid" size="sm" spacing={3}>
+//                                         <IconButton
+//                                             colorScheme="blue"
+//                                             icon={<BsBoxArrowUpRight />}
+//                                         />
+//                                         <IconButton colorScheme="green" icon={<AiFillEdit />} />
+//                                         <IconButton
+//                                             colorScheme="red"
+//                                             variant="outline"
+//                                             icon={<BsFillTrashFill />}
+//                                         />
+//                                     </ButtonGroup>
+//                                 </Td>
+//                             </Tr>
+//                         );
+//                     })}
+//                 </Tbody>
+//             </Table>
+//         </Flex>
+//     );
+// }
 
 export default Prescription;
