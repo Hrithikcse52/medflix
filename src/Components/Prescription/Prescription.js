@@ -1,27 +1,17 @@
 import {
     Box,
     Button,
-    ButtonGroup,
     chakra,
-    Flex,
     FormControl,
     FormLabel,
     GridItem,
-    IconButton,
     Input,
     SimpleGrid,
     Stack,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
     useColorModeValue,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
-import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
