@@ -14,7 +14,13 @@ import { cookie } from './utils';
 import DoctorDash from './Components/DoctorPage/DoctorDash';
 import Patient from './Components/Dashboard/UI/Patient/Patient';
 import Doctor from './Components/Dashboard/UI/Doctors/Doctor';
+<<<<<<< HEAD
 import Prescription from './Components/Prescription/Prescription';
+=======
+
+import Prescription from './Components/Prescription/Prescription';
+
+>>>>>>> c4ad9de8494200ec4dc86bb8bc36077291c37970
 
 // function Root() {
 //   const routes = useRoutes([
