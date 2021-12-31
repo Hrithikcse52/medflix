@@ -37,7 +37,7 @@ const Prescription = () => {
     const handleAddClick = () => {
         setAdviceData([...adviceData, { med: '', dose: '', for: '' }]);
     };
-    // console.log('data:', adviceData);
+    console.log('data:', adviceData);
 
     const handleDataChnage = (e) => {
         setPresData({ ...presData, [e.target.name]: e.target.value });
@@ -61,7 +61,6 @@ const Prescription = () => {
         const list = [...adviceData];
         list[index][name] = value;
         setAdviceData(list);
-        setInitialData();
     };
     // console.log('PresData', presData);
 
@@ -83,10 +82,16 @@ const Prescription = () => {
         })();
     }, [id]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let finalData = { ...ptData, ...presData, medAdvice: adviceData };
         console.log('Final Data', finalData);
+        const { data: response } = axios.post(
+            `${BACK_END_URL}/reports/make/${ptData._id}`,
+            finalData
+        );
+        console.log('Reponse Submit', response);
+        setInitialData();
     };
 
     return (
