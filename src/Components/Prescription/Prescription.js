@@ -53,7 +53,6 @@ const Prescription = () => {
             comp: '',
         });
         setAdviceData([{ med: '', dose: '', for: '' }]);
-        setPtData({});
     };
 
     const handleInputChange = (e, index) => {
@@ -81,15 +80,16 @@ const Prescription = () => {
             }
         })();
     }, [id]);
-
+    // console.log('ptData', ptData);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let finalData = { ...ptData, ...presData, medAdvice: adviceData };
+        let finalData = { profileData: presData, medAdvice: adviceData };
         console.log('Final Data', finalData);
-        const { data: response } = axios.post(
-            `${BACK_END_URL}/reports/make/${ptData._id}`,
+        const { data: response } = await axios.post(
+            `${BACK_END_URL}/reports/save/${ptData._id}`,
             finalData
         );
+        window.open(`${BACK_END_URL}/reports/getpdf/${response._id}`);
         console.log('Reponse Submit', response);
         setInitialData();
     };
