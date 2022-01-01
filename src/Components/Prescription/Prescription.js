@@ -6,8 +6,10 @@ import {
     FormControl,
     FormLabel,
     GridItem,
+
     HStack,
     IconButton,
+
     Input,
     SimpleGrid,
     Stack,
@@ -15,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-// import { AiOutlinePlus } from 'react-icons/ai';
+
 import { useParams } from 'react-router-dom';
 import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
@@ -33,6 +35,7 @@ const Prescription = () => {
     });
     const { id } = useParams();
     const [ptData, setPtData] = useState({});
+
 
     const handleAddClick = () => {
         setAdviceData([...adviceData, { med: '', dose: '', for: '' }]);
@@ -62,6 +65,7 @@ const Prescription = () => {
         setAdviceData(list);
     };
     // console.log('PresData', presData);
+
 
     useEffect(() => {
         (async () => {
