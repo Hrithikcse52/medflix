@@ -1,3 +1,4 @@
+import { AddIcon } from '@chakra-ui/icons';
 import {
     Box,
     Button,
@@ -5,6 +6,10 @@ import {
     FormControl,
     FormLabel,
     GridItem,
+
+    HStack,
+    IconButton,
+
     Input,
     SimpleGrid,
     Stack,
@@ -12,13 +17,56 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+
 import { useParams } from 'react-router-dom';
 import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
 
 const Prescription = () => {
+    const [adviceData, setAdviceData] = useState([{ med: '', dose: '', for: '' }]);
+    const [presData, setPresData] = useState({
+        diagnosis: '',
+        temp: '',
+        height: '',
+        weight: '',
+        pulse: '',
+        bp: '',
+        comp: '',
+    });
     const { id } = useParams();
     const [ptData, setPtData] = useState({});
+
+
+    const handleAddClick = () => {
+        setAdviceData([...adviceData, { med: '', dose: '', for: '' }]);
+    };
+    console.log('data:', adviceData);
+
+    const handleDataChnage = (e) => {
+        setPresData({ ...presData, [e.target.name]: e.target.value });
+    };
+    const setInitialData = () => {
+        setPresData({
+            diagnosis: '',
+            temp: '',
+            height: '',
+            weight: '',
+            pulse: '',
+            bp: '',
+            comp: '',
+        });
+        setAdviceData([{ med: '', dose: '', for: '' }]);
+    };
+
+    const handleInputChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...adviceData];
+        list[index][name] = value;
+        setAdviceData(list);
+    };
+    // console.log('PresData', presData);
+
+
     useEffect(() => {
         (async () => {
             try {
@@ -36,9 +84,18 @@ const Prescription = () => {
             }
         })();
     }, [id]);
-
-    const handleSubmit = (e) => {
+    // console.log('ptData', ptData);
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        let finalData = { profileData: presData, medAdvice: adviceData };
+        console.log('Final Data', finalData);
+        const { data: response } = await axios.post(
+            `${BACK_END_URL}/reports/save/${ptData._id}`,
+            finalData
+        );
+        window.open(`${BACK_END_URL}/reports/getpdf/${response._id}`);
+        console.log('Reponse Submit', response);
+        setInitialData();
     };
 
     return (
@@ -169,8 +226,10 @@ const Prescription = () => {
                                     </FormLabel>
                                     <Input
                                         type="text"
-                                        name="complaint"
-                                        id="complaint"
+                                        name="bp"
+                                        id="bp"
+                                        value={presData.bp}
+                                        onChange={handleDataChnage}
                                         mt={1}
                                         focusBorderColor="brand.400"
                                         shadow="sm"
@@ -189,11 +248,13 @@ const Prescription = () => {
                                     </FormLabel>
                                     <Input
                                         type="text"
-                                        name="complaint"
-                                        id="complaint"
+                                        name="pulse"
+                                        id="pulse"
                                         mt={1}
                                         focusBorderColor="brand.400"
                                         shadow="sm"
+                                        value={presData.pulse}
+                                        onChange={handleDataChnage}
                                         size="sm"
                                         w="full"
                                         rounded="md"
@@ -209,12 +270,14 @@ const Prescription = () => {
                                     </FormLabel>
                                     <Input
                                         type="text"
-                                        name="complaint"
-                                        id="complaint"
+                                        name="weight"
+                                        id="weight"
                                         mt={1}
                                         focusBorderColor="brand.400"
                                         shadow="sm"
                                         size="sm"
+                                        value={presData.weight}
+                                        onChange={handleDataChnage}
                                         w="full"
                                         rounded="md"
                                     />
@@ -229,12 +292,14 @@ const Prescription = () => {
                                     </FormLabel>
                                     <Input
                                         type="text"
-                                        name="complaint"
-                                        id="complaint"
+                                        name="height"
+                                        id="height"
                                         mt={1}
                                         focusBorderColor="brand.400"
                                         shadow="sm"
                                         size="sm"
+                                        value={presData.height}
+                                        onChange={handleDataChnage}
                                         w="full"
                                         rounded="md"
                                     />
@@ -249,9 +314,11 @@ const Prescription = () => {
                                     </FormLabel>
                                     <Input
                                         type="text"
-                                        name="complaint"
-                                        id="complaint"
+                                        name="temp"
+                                        id="temp"
                                         mt={1}
+                                        value={presData.temp}
+                                        onChange={handleDataChnage}
                                         focusBorderColor="brand.400"
                                         shadow="sm"
                                         size="sm"
@@ -269,9 +336,11 @@ const Prescription = () => {
                                     </FormLabel>
                                     <Input
                                         type="text"
-                                        name="complaint"
+                                        name="comp"
                                         id="complaint"
                                         mt={1}
+                                        value={presData.comp}
+                                        onChange={handleDataChnage}
                                         focusBorderColor="brand.400"
                                         shadow="sm"
                                         size="sm"
@@ -289,8 +358,10 @@ const Prescription = () => {
                                     </FormLabel>
                                     <Input
                                         type="text"
-                                        name="complaint"
-                                        id="complaint"
+                                        name="diagnosis"
+                                        id="diagnosis"
+                                        value={presData.diagnosis}
+                                        onChange={handleDataChnage}
                                         mt={1}
                                         focusBorderColor="brand.400"
                                         shadow="sm"
@@ -299,23 +370,77 @@ const Prescription = () => {
                                         rounded="md"
                                     />
                                 </FormControl>
+                                <FormControl as={GridItem} colSpan={[6, 6]}>
+                                    <FormLabel
+                                        htmlFor="email_address"
+                                        fontSize="sm"
+                                        fontWeight="md"
+                                        color={useColorModeValue('gray.700', 'gray.50')}>
+                                        Advice
+                                    </FormLabel>
+
+                                    {adviceData.map((advice, i) => (
+                                        <>
+                                            <HStack mt={3}>
+                                                <Input
+                                                    type="text"
+                                                    name="med"
+                                                    focusBorderColor="brand.400"
+                                                    shadow="sm"
+                                                    size="sm"
+                                                    value={advice.med}
+                                                    w="40%"
+                                                    onChange={(e) => handleInputChange(e, i)}
+                                                    rounded="md"
+                                                />
+                                                <Input
+                                                    type="text"
+                                                    name="dose"
+                                                    focusBorderColor="brand.400"
+                                                    shadow="sm"
+                                                    size="sm"
+                                                    value={advice.dose}
+                                                    w="30%"
+                                                    onChange={(e) => handleInputChange(e, i)}
+                                                    rounded="md"
+                                                />
+                                                <Input
+                                                    type="text"
+                                                    name="for"
+                                                    focusBorderColor="brand.400"
+                                                    shadow="sm"
+                                                    size="sm"
+                                                    value={advice.for}
+                                                    w="20%"
+                                                    onChange={(e) => handleInputChange(e, i)}
+                                                    rounded="md"
+                                                />
+                                                <IconButton
+                                                    aria-label="add more advice"
+                                                    icon={<AddIcon />}
+                                                    onClick={handleAddClick}
+                                                />
+                                            </HStack>
+                                        </>
+                                    ))}
+                                </FormControl>
 
                                 {/* <Table /> */}
                             </SimpleGrid>
+                            <Box
+                                px={{ base: 4, sm: 6 }}
+                                py={3}
+                                // bg={useColorModeValue('gray.500', 'gray.900')}
+                                textAlign="right">
+                                <Button
+                                    type="submit"
+                                    // colorScheme="brand"
+                                    _focus={{ shadow: '' }}
+                                    fontWeight="md">
+                                    Save
+                                </Button>
+                            </Box>
                         </Stack>
-                        <Box
-                            px={{ base: 4, sm: 6 }}
-                            py={3}
-                            bg={useColorModeValue('gray.50', 'gray.900')}
-                            textAlign="right">
-                            <Button
-                                type="submit"
-                                colorScheme="brand"
-                                _focus={{ shadow: '' }}
-                                fontWeight="md">
-                                Save
-                            </Button>
-                        </Box>
                     </chakra.form>
                 </Box>
 
