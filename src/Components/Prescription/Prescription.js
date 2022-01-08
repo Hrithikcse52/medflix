@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+
 import { useParams } from 'react-router-dom';
 import { BACK_END_URL } from '../../env';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +23,9 @@ import { cookie } from '../../utils';
 
 const Prescription = () => {
     const [adviceData, setAdviceData] = useState([{ med: '', dose: '', for: '' }]);
+
     const navigate = useNavigate();
+
     const [presData, setPresData] = useState({
         diagnosis: '',
         temp: '',
@@ -90,10 +93,12 @@ const Prescription = () => {
             `${BACK_END_URL}/reports/save/${ptData._id}`,
             finalData
         );
+
         window.open(`${BACK_END_URL}/pug/${response._id}`);
         console.log('Reponse Submit', response);
         setInitialData();
         navigate(-1);
+
     };
 
     return (
