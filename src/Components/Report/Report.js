@@ -8,7 +8,6 @@ import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
 
 export const Report = () => {
-    const tableHeaders = ['PtName', 'Created', 'Actions'];
     const [reportsData, setReportData] = useState([]);
     const [headers, setHeader] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -34,6 +33,16 @@ export const Report = () => {
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    const tableRenderData = reportsData.map((report) => {
+        return {
+            patientID: report.patient.pt_id,
+            patientName: report.patient.name,
+            doctorName: report.doctor.name,
+            reportType: report.type,
+            reportId: report._id,
+        };
+    });
+    console.log(tableRenderData);
     console.log('reports', reportsData);
     return (
         <>
@@ -56,7 +65,11 @@ export const Report = () => {
                         </Flex>
                     </HStack>
                 </Flex>
-                <TableComponent tableData={[]} tableHeaders={['']} iconSet={[]} />
+                <TableComponent
+                    tableData={tableRenderData}
+                    tableHeaders={['Patient ID', 'Patient Name', 'Doctor Name', 'Report Type']}
+                    iconSet={[]}
+                />
             </Box>
         </>
     );
