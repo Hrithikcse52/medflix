@@ -9,3 +9,4 @@
 -   [ ] define role doctor admin
 -   [ ] add type on login doc or user
 -   [ ] add dropdown in nav for easy active doc change
+-   [ ] on dashboard patitens add patient at doc?? and in doc dashboard add numbers of active patient

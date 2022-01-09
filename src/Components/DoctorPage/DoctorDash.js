@@ -29,6 +29,7 @@ const cookie = new Cookies();
 const DoctorDash = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+
     // console.log('doc Active id', id);
     // const history = useNavigate();
     const bgColor2 = useColorModeValue('white', 'gray.800');
@@ -120,7 +121,7 @@ const DoctorDash = () => {
                                             placeholder=" "
                                             onChange={(e) => {
                                                 console.log(e.target.value);
-                                                navigate(`/doctorPanel/${e.target.value}`, {
+                                                navigate(`/dashboard/doctor/${e.target.value}`, {
                                                     replace: true,
                                                 });
                                             }}>
@@ -259,7 +260,9 @@ const DoctorDash = () => {
                                                     size="sm"
                                                     variant="solid"
                                                     onClick={() => {
-                                                        navigate(`/prescription/${token._id}`);
+                                                        navigate(
+                                                            `/dashboard/prescription/${token._id}`
+                                                        );
                                                     }}
                                                     leftIcon={<Icon as={BsBoxArrowUpRight} />}
                                                     colorScheme="purple">
@@ -284,8 +287,17 @@ const DoctorDash = () => {
                                                     /> */}
                                                     <IconButton
                                                         colorScheme="green"
-                                                        icon={<AiFillEdit />}
+                                                        icon={
+                                                            <AiFillEdit
+                                                                onClick={() => {
+                                                                    console.log(
+                                                                        'Clicked Iframe opne '
+                                                                    );
+                                                                }}
+                                                            />
+                                                        }
                                                     />
+
                                                     <IconButton
                                                         colorScheme="red"
                                                         variant="outline"

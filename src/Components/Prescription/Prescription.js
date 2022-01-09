@@ -11,20 +11,29 @@ import {
     Input,
     SimpleGrid,
     Stack,
+    Modal,
+    ModalFooter,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
     useColorModeValue,
+    useDisclosure,
+    useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
+import Iframe from 'react-iframe';
 import { BACK_END_URL } from '../../env';
-import { useNavigate } from 'react-router-dom';
 import { cookie } from '../../utils';
 
 const Prescription = () => {
     const [adviceData, setAdviceData] = useState([{ med: '', dose: '', for: '' }]);
-
-    const navigate = useNavigate();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const toast = useToast();
 
     const [presData, setPresData] = useState({
         diagnosis: '',
@@ -37,6 +46,7 @@ const Prescription = () => {
     });
     const { id } = useParams();
     const [ptData, setPtData] = useState({});
+    const [reportId, setReportId] = useState('');
 
     const handleAddClick = () => {
         setAdviceData([...adviceData, { med: '', dose: '', for: '' }]);
@@ -85,6 +95,7 @@ const Prescription = () => {
         })();
     }, [id]);
     // console.log('ptData', ptData);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         let finalData = { profileData: presData, medAdvice: adviceData };
@@ -93,16 +104,65 @@ const Prescription = () => {
             `${BACK_END_URL}/reports/save/${ptData._id}`,
             finalData
         );
+        if (response !== 200) {
+            toast({
+                description: 'Report Not Created',
+                position: 'top-right',
+                status: 'error',
+            });
+        } else {
+            setReportId(response.data._id);
+            onOpen();
+            console.log('Reponse Submit', response);
+            setInitialData();
+            toast({
+                description: 'Report Created',
+                position: 'top-right',
+            });
+        }
 
-        window.open(`${BACK_END_URL}/pug/${response._id}`);
-        console.log('Reponse Submit', response);
-        setInitialData();
-        navigate(-1);
-
+        // navigate(-1);
     };
 
     return (
         <Stack>
+            <>
+                <Modal onClose={onClose} size={'4xl'} isOpen={isOpen}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>Print Preview</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            <Box
+                                as={'div'}
+                                id="pdfPreview"
+                                style={{
+                                    backgroundColor: 'white',
+                                    borderRadius: '20px',
+                                }}>
+                                <Iframe
+                                    url={`${BACK_END_URL}/pug/preview/${reportId}`}
+                                    width="100%"
+                                    height="450px"
+                                    id="pdfPreviewIframe"
+                                    className="myClassname"
+                                    display="initial"
+                                    position="relative"
+                                    styles={{ backgroundColor: 'white' }}
+                                />
+                            </Box>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button
+                                onClick={() => {
+                                    window.open(`${BACK_END_URL}/pug/${reportId}`);
+                                }}>
+                                Print
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </>
             <Box marginTop={'10vh'} bg={useColorModeValue('inherit', 'inherit')} p={10}>
                 {/* <Box visibility={{ base: 'hidden', sm: 'visible' }} aria-hidden="true">
                     <Box py={5}>

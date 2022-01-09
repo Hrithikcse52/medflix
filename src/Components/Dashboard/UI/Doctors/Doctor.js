@@ -46,33 +46,32 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
         gender: 'male',
         mobileNumber: '',
         specialization: 'MBBS',
+        spec: '',
+        position: '',
     };
 
+    const [data, setData] = useState(initialState);
     const handleChange = (e) => {
+        console.log(e.target.name, e.target.value);
         setData({
             ...data,
             [e.target.name]: e.target.value,
         });
     };
 
-    const [data, setData] = useState(initialState);
     console.log(data);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         try {
-            const response = await axios.post(
-                `${BACK_END_URL}/doctor/create`,
-                data,
-                {
-                    headers: {
-                        authorization: cookie.get('session', {
-                            path: '/',
-                        }),
-                    },
-                }
-            );
+            const response = await axios.post(`${BACK_END_URL}/doctor/create`, data, {
+                headers: {
+                    authorization: cookie.get('session', {
+                        path: '/',
+                    }),
+                },
+            });
 
             toast({
                 description: 'Doctor Created',
@@ -123,16 +122,6 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
                                         />
                                     </InputGroup>
                                 </FormControl>
-
-                                {/* <FormControl mt={4}>
-                                <FormLabel>Email</FormLabel>
-                                <Input
-                                    placeholder="Email"
-                                    value={data.email}
-                                    name="email"
-                                    onChange={handleChange}
-                                />
-                            </FormControl> */}
                             </HStack>
                             <HStack mb={2}>
                                 <FormControl as="fieldset">
@@ -155,9 +144,8 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
                                             </Radio>
                                         </HStack>
                                     </RadioGroup>
-                                    {/* <FormHelperText>
-                                    Select only if you're a fan.
-                                </FormHelperText> */}
+
+                                    {/* <FormHelperText>Select only if you're a fan.</FormHelperText> */}
                                 </FormControl>
                                 <FormControl>
                                     <FormLabel>Specialization</FormLabel>
@@ -171,17 +159,32 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
                                 </FormControl>
                             </HStack>
                             <HStack mb={2}>
-                                {/* <FormControl as="fieldset">
-                                <FormLabel as="legend">Age</FormLabel>
-                                <Input
-                                    required
-                                    placeholder="Age"
-                                    type="text"
-                                    value={data.age}
-                                    name="age"
-                                    onChange={handleChange}
-                                />
-                            </FormControl> */}
+                                <FormControl>
+                                    <FormLabel>Awards and Positions</FormLabel>
+                                    <Input
+                                        required
+                                        placeholder="Member at IMA, Former Senior Resident"
+                                        type="text"
+                                        value={data.spec}
+                                        name="spec"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </HStack>
+                            <HStack mb={2}>
+                                <FormControl>
+                                    <FormLabel> Current Postitions </FormLabel>
+                                    <Input
+                                        required
+                                        placeholder="Consultant Gynaecologist, Infertility Specialist & Sonologist"
+                                        type="text"
+                                        value={data.position}
+                                        name="position"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </HStack>
+                            <HStack mb={2}>
                                 <FormControl>
                                     <FormLabel>Mobile</FormLabel>
                                     <Input
@@ -192,11 +195,6 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
                                         name="mobileNumber"
                                         onChange={handleChange}
                                     />
-                                    {/* <Textarea
-                                        borderRadius="xs"
-                                        placeholder="Here is a sample placeholder"
-                                        size="xs"
-                                    /> */}
                                 </FormControl>
                             </HStack>
                         </ModalBody>
@@ -265,15 +263,8 @@ const Doctor = () => {
                     loading={loading}
                     setLoading={setLoading}
                 />
-                <Flex
-                    alignItems="center"
-                    justifyContent="space-between"
-                    mx="auto">
-                    <HStack
-                        display="flex"
-                        spacing={3}
-                        marginY={5}
-                        alignItems="center">
+                <Flex alignItems="center" justifyContent="space-between" mx="auto">
+                    <HStack display="flex" spacing={3} marginY={5} alignItems="center">
                         <Flex
                             justify={{
                                 md: 'center',
@@ -297,11 +288,7 @@ const Doctor = () => {
                     //   p={50}
                     alignItems="center"
                     justifyContent="center">
-                    <Stack
-                        direction={{ base: 'column' }}
-                        w="full"
-                        bg={{ md: bgColor }}
-                        shadow="lg">
+                    <Stack direction={{ base: 'column' }} w="full" bg={{ md: bgColor }} shadow="lg">
                         <SimpleGrid
                             spacingY={3}
                             bg={bgColor2}
@@ -373,9 +360,7 @@ const Doctor = () => {
                                             <Button
                                                 size="sm"
                                                 variant="solid"
-                                                leftIcon={
-                                                    <Icon as={AiTwotoneLock} />
-                                                }
+                                                leftIcon={<Icon as={AiTwotoneLock} />}
                                                 colorScheme="purple">
                                                 View Profile
                                             </Button>
@@ -384,16 +369,11 @@ const Doctor = () => {
                                             justify={{
                                                 md: 'center',
                                             }}>
-                                            <ButtonGroup
-                                                variant="solid"
-                                                size="sm"
-                                                spacing={3}>
+                                            <ButtonGroup variant="solid" size="sm" spacing={3}>
                                                 <IconButton
                                                     colorScheme="blue"
                                                     onClick={() => {
-                                                        history(
-                                                            `/doctorPanel/${token._id}`
-                                                        );
+                                                        history(`/dashboard/doctor/${token._id}`);
                                                     }}
                                                     icon={<BsBoxArrowUpRight />}
                                                 />

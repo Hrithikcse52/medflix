@@ -4,13 +4,13 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Checkbox,
     Stack,
     Link,
     Button,
     Heading,
     Text,
     useColorModeValue,
+    HStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useState } from 'react';
@@ -19,28 +19,42 @@ import { BACK_END_URL } from '../../../env';
 
 const RegisterCard = () => {
     const history = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [details, setDetails] = useState({
+        name: '',
+        password: '',
+        subTitle: '',
+        punchLine: '',
+        webSite: '',
+        address: '',
+        contact: '',
+        logo: '',
+        email: '',
+    });
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
     const resetDefault = () => {
-        setEmail('');
-        setFirstName('');
-        setLastName('');
-        setPassword('');
+        setDetails({
+            name: '',
+            password: '',
+            subTitle: '',
+            punchLine: '',
+            webSite: '',
+            address: '',
+            contact: '',
+            logo: '',
+            email: '',
+        });
     };
+
+    const handleChange = (e) => {
+        console.log(e.target.name, e.target.value);
+        setDetails({ ...details, [e.target.name]: e.target.value });
+    };
+    console.log(details);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email, password);
 
         try {
-            const response = await axios.post(`${BACK_END_URL}/user/register`, {
-                first_name: firstName,
-                last_name: lastName,
-                email,
-                password,
-            });
+            const response = await axios.post(`${BACK_END_URL}/user/register`, details);
             console.log(response.data);
             resetDefault();
             history('/login');
@@ -52,18 +66,11 @@ const RegisterCard = () => {
             align={'center'}
             justify={'center'}
             bg={useColorModeValue('gray.50', 'gray.800')}>
-            <Stack
-                marginTop="10vh"
-                spacing={8}
-                mx={'auto'}
-                maxW={'lg'}
-                py={12}
-                px={6}>
+            <Stack marginTop="10vh" spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
                 <Stack align={'center'}>
                     <Heading fontSize={'4xl'}>Register</Heading>
                     <Text fontSize={'lg'} color={'gray.600'}>
-                        to enjoy all of our cool{' '}
-                        <Link color={'blue.400'}>features</Link> ✌️
+                        to enjoy all of our cool <Link color={'blue.400'}>features</Link> ✌️
                     </Text>
                 </Stack>
                 <Box
@@ -75,55 +82,110 @@ const RegisterCard = () => {
                     <form onSubmit={handleSubmit}>
                         <Stack spacing={5}>
                             <FormControl id="fname">
-                                <FormLabel>First Name</FormLabel>
+                                <FormLabel>Name</FormLabel>
                                 <Input
+                                    required
                                     type="text"
-                                    value={firstName}
-                                    onChange={(e) => {
-                                        setFirstName(e.target.value);
-                                    }}
+                                    name="name"
+                                    value={details.name}
+                                    onChange={handleChange}
                                 />
                             </FormControl>
-                            <FormControl id="lemail">
-                                <FormLabel>Last Name</FormLabel>
+                            <HStack>
+                                <FormControl id="subTitle">
+                                    <FormLabel>SubTitle</FormLabel>
+                                    <Input
+                                        required
+                                        type="text"
+                                        name="subTitle"
+                                        value={details.subTitle}
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                                <FormControl id="punchLine">
+                                    <FormLabel>PunchLine</FormLabel>
+                                    <Input
+                                        required
+                                        type="text"
+                                        name="punchLine"
+                                        value={details.punchLine}
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </HStack>
+
+                            <FormControl id="address">
+                                <FormLabel>Address</FormLabel>
                                 <Input
+                                    required
                                     type="text"
-                                    value={lastName}
-                                    onChange={(e) => {
-                                        setLastName(e.target.value);
-                                    }}
+                                    name="address"
+                                    value={details.address}
+                                    onChange={handleChange}
                                 />
                             </FormControl>
-                            <FormControl id="email">
-                                <FormLabel>Email address</FormLabel>
+                            <FormControl id="contact">
+                                <FormLabel>Contact</FormLabel>
                                 <Input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => {
-                                        setEmail(e.target.value);
-                                    }}
+                                    required
+                                    type="text"
+                                    name="contact"
+                                    value={details.contact}
+                                    onChange={handleChange}
                                 />
                             </FormControl>
-                            <FormControl id="password">
-                                <FormLabel>Password</FormLabel>
+                            <HStack>
+                                <FormControl id="website">
+                                    <FormLabel>Website</FormLabel>
+                                    <Input
+                                        required
+                                        type="text"
+                                        name="webSite"
+                                        value={details.webSite}
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </HStack>
+                            <HStack>
+                                <FormControl id="email">
+                                    <FormLabel>Email address</FormLabel>
+                                    <Input
+                                        required
+                                        type="email"
+                                        name="email"
+                                        value={details.email}
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                                <FormControl id="password">
+                                    <FormLabel>Password</FormLabel>
+                                    <Input
+                                        required
+                                        type="password"
+                                        name="password"
+                                        value={details.password}
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </HStack>
+                            <FormControl id="logo">
+                                <FormLabel>Logo</FormLabel>
                                 <Input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => {
-                                        setPassword(e.target.value);
-                                    }}
+                                    required
+                                    type="text"
+                                    name="logo"
+                                    value={details.logo}
+                                    onChange={handleChange}
                                 />
                             </FormControl>
                             <Stack spacing={10}>
-                                <Stack
+                                {/* <Stack
                                     direction={{ base: 'column', sm: 'row' }}
                                     align={'start'}
                                     justify={'space-between'}>
                                     <Checkbox>Remember me</Checkbox>
-                                    <Link color={'blue.400'}>
-                                        Forgot password?
-                                    </Link>
-                                </Stack>
+                                    <Link color={'blue.400'}>Forgot password?</Link>
+                                </Stack> */}
                                 <Button
                                     bg={'blue.400'}
                                     color={'white'}
@@ -131,7 +193,7 @@ const RegisterCard = () => {
                                         bg: 'blue.500',
                                     }}
                                     type="submit">
-                                    Sign in
+                                    Register
                                 </Button>
                             </Stack>
                         </Stack>
