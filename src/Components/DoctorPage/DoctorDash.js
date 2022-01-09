@@ -29,6 +29,7 @@ const cookie = new Cookies();
 const DoctorDash = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+
     // console.log('doc Active id', id);
     // const history = useNavigate();
     const bgColor2 = useColorModeValue('white', 'gray.800');
@@ -284,8 +285,17 @@ const DoctorDash = () => {
                                                     /> */}
                                                     <IconButton
                                                         colorScheme="green"
-                                                        icon={<AiFillEdit />}
+                                                        icon={
+                                                            <AiFillEdit
+                                                                onClick={() => {
+                                                                    console.log(
+                                                                        'Clicked Iframe opne '
+                                                                    );
+                                                                }}
+                                                            />
+                                                        }
                                                     />
+
                                                     <IconButton
                                                         colorScheme="red"
                                                         variant="outline"
