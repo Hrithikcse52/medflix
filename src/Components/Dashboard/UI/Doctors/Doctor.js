@@ -62,17 +62,13 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
         setLoading(true);
 
         try {
-            const response = await axios.post(
-                `${BACK_END_URL}/doctor/create`,
-                data,
-                {
-                    headers: {
-                        authorization: cookie.get('session', {
-                            path: '/',
-                        }),
-                    },
-                }
-            );
+            const response = await axios.post(`${BACK_END_URL}/doctor/create`, data, {
+                headers: {
+                    authorization: cookie.get('session', {
+                        path: '/',
+                    }),
+                },
+            });
 
             toast({
                 description: 'Doctor Created',
@@ -265,15 +261,8 @@ const Doctor = () => {
                     loading={loading}
                     setLoading={setLoading}
                 />
-                <Flex
-                    alignItems="center"
-                    justifyContent="space-between"
-                    mx="auto">
-                    <HStack
-                        display="flex"
-                        spacing={3}
-                        marginY={5}
-                        alignItems="center">
+                <Flex alignItems="center" justifyContent="space-between" mx="auto">
+                    <HStack display="flex" spacing={3} marginY={5} alignItems="center">
                         <Flex
                             justify={{
                                 md: 'center',
@@ -297,11 +286,7 @@ const Doctor = () => {
                     //   p={50}
                     alignItems="center"
                     justifyContent="center">
-                    <Stack
-                        direction={{ base: 'column' }}
-                        w="full"
-                        bg={{ md: bgColor }}
-                        shadow="lg">
+                    <Stack direction={{ base: 'column' }} w="full" bg={{ md: bgColor }} shadow="lg">
                         <SimpleGrid
                             spacingY={3}
                             bg={bgColor2}
@@ -373,9 +358,7 @@ const Doctor = () => {
                                             <Button
                                                 size="sm"
                                                 variant="solid"
-                                                leftIcon={
-                                                    <Icon as={AiTwotoneLock} />
-                                                }
+                                                leftIcon={<Icon as={AiTwotoneLock} />}
                                                 colorScheme="purple">
                                                 View Profile
                                             </Button>
@@ -384,16 +367,11 @@ const Doctor = () => {
                                             justify={{
                                                 md: 'center',
                                             }}>
-                                            <ButtonGroup
-                                                variant="solid"
-                                                size="sm"
-                                                spacing={3}>
+                                            <ButtonGroup variant="solid" size="sm" spacing={3}>
                                                 <IconButton
                                                     colorScheme="blue"
                                                     onClick={() => {
-                                                        history(
-                                                            `/doctorPanel/${token._id}`
-                                                        );
+                                                        history(`/dashboard/doctor/${token._id}`);
                                                     }}
                                                     icon={<BsBoxArrowUpRight />}
                                                 />

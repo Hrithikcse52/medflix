@@ -15,6 +15,7 @@ import DoctorDash from './Components/DoctorPage/DoctorDash';
 import Patient from './Components/Dashboard/UI/Patient/Patient';
 import Doctor from './Components/Dashboard/UI/Doctors/Doctor';
 import Prescription from './Components/Prescription/Prescription';
+import { Report } from './Components/Report/Report';
 function App() {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.profile);
@@ -54,7 +55,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/patient/:id" element={<PatientProfile />} />
-                    <Route path="/doctorPanel/:id" element={<DoctorDash />} />
+                    {/* <Route path="/doctorPanel/:id" element={<DoctorDash />} /> */}
                     <Route path="/prescription/:id" element={<Prescription />} />
 
                     <Route
@@ -68,26 +69,12 @@ function App() {
                                 <Login />
                             )
                         }>
-                        <Route
-                            path="patient"
-                            element={
-                                <Patient
-                                // update={update}
-                                // setUpdate={setUpdate}
-                                // setOpenModal={setPtOpenModal}
-                                />
-                            }
-                        />
+                        <Route path="patient" element={<Patient />} />
                         <Route path="doctor" element={<Doctor />} />
-
-                        <Route path="prescription" element={<Doctor />} />
-                        <Route path="report" element={<Doctor />} />
+                        <Route path="doctor/:id" element={<DoctorDash />} />
+                        <Route path="prescription/:id" element={<Prescription />} />
+                        <Route path="report" element={<Report />} />
                         <Route path="settings" element={<Doctor />} />
-                        {/*                         
-                        <Route path="log" />
-                        <Route path="prescription" />
-                        <Route path="report" />
-                        <Route path="settings" /> */}
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

@@ -121,7 +121,7 @@ const DoctorDash = () => {
                                             placeholder=" "
                                             onChange={(e) => {
                                                 console.log(e.target.value);
-                                                navigate(`/doctorPanel/${e.target.value}`, {
+                                                navigate(`/dashboard/doctor/${e.target.value}`, {
                                                     replace: true,
                                                 });
                                             }}>
@@ -260,7 +260,9 @@ const DoctorDash = () => {
                                                     size="sm"
                                                     variant="solid"
                                                     onClick={() => {
-                                                        navigate(`/prescription/${token._id}`);
+                                                        navigate(
+                                                            `/dashboard/prescription/${token._id}`
+                                                        );
                                                     }}
                                                     leftIcon={<Icon as={BsBoxArrowUpRight} />}
                                                     colorScheme="purple">

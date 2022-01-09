@@ -110,7 +110,7 @@ export default function Hero() {
                                         },
                                     });
                                     console.log(response);
-                                    history('/dashboard');
+                                    history('/dashboard/patient');
                                 } catch (err) {
                                     console.log(err);
                                 }

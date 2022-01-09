@@ -26,9 +26,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 import Iframe from 'react-iframe';
-
 import { BACK_END_URL } from '../../env';
-
 import { cookie } from '../../utils';
 
 const Prescription = () => {

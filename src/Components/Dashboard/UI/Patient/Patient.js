@@ -435,7 +435,9 @@ const Patient = () => {
                                                 <IconButton
                                                     colorScheme="blue"
                                                     onClick={() => {
-                                                        history(`/patient/${token._id}`);
+                                                        history(
+                                                            `/dashboard/prescription/${token._id}`
+                                                        );
                                                     }}
                                                     icon={<BsBoxArrowUpRight />}
                                                 />
