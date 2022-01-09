@@ -31,7 +31,7 @@ function App() {
             dispatch(
                 loginUser({
                     email: response.email,
-                    fullName: response.full_name,
+                    name: response.name,
                     token: response.token,
                 })
             );

@@ -20,6 +20,7 @@ import {
     ModalBody,
     useColorModeValue,
     useDisclosure,
+    useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -32,6 +33,7 @@ import { cookie } from '../../utils';
 const Prescription = () => {
     const [adviceData, setAdviceData] = useState([{ med: '', dose: '', for: '' }]);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const toast = useToast();
 
     const [presData, setPresData] = useState({
         diagnosis: '',
@@ -102,10 +104,23 @@ const Prescription = () => {
             `${BACK_END_URL}/reports/save/${ptData._id}`,
             finalData
         );
-        setReportId(response._id);
-        onOpen();
-        console.log('Reponse Submit', response);
-        setInitialData();
+        if (response !== 200) {
+            toast({
+                description: 'Report Not Created',
+                position: 'top-right',
+                status: 'error',
+            });
+        } else {
+            setReportId(response.data._id);
+            onOpen();
+            console.log('Reponse Submit', response);
+            setInitialData();
+            toast({
+                description: 'Report Created',
+                position: 'top-right',
+            });
+        }
+
         // navigate(-1);
     };
 

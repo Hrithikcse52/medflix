@@ -34,15 +34,6 @@ import { logoutUser } from '../../redux/actions/userAuth';
 import { cookie } from '../../utils';
 
 export default function Nav() {
-    // console.log(window.location);
-    // const loc = window.location.toString().split('/');
-    // console.log(loc[loc.length - 1]);
-
-    // const location = useLocation();
-    // console.log('LOCA', location.pathname);
-    // let match = useMatch('/doctorPanel/:id');
-    // console.log(match);
-
     const { user } = useSelector((state) => state.profile);
     const dispatch = useDispatch();
     const history = useNavigate();
@@ -146,7 +137,7 @@ export default function Nav() {
                                             alignItems="flex-start"
                                             spacing="1px"
                                             ml="2">
-                                            <Text fontSize="sm">{user.fullName}</Text>
+                                            <Text fontSize="sm">{user.name}</Text>
                                             <Text fontSize="xs" color="gray.600">
                                                 Admin
                                             </Text>

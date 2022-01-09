@@ -27,6 +27,7 @@ import {
     IconButton,
     Spinner,
     HStack,
+    FormHelperText,
 } from '@chakra-ui/react';
 import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
 import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
@@ -46,16 +47,19 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
         gender: 'male',
         mobileNumber: '',
         specialization: 'MBBS',
+        spec: '',
+        position: '',
     };
 
+    const [data, setData] = useState(initialState);
     const handleChange = (e) => {
+        console.log(e.target.name, e.target.value);
         setData({
             ...data,
             [e.target.name]: e.target.value,
         });
     };
 
-    const [data, setData] = useState(initialState);
     console.log(data);
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -119,16 +123,6 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
                                         />
                                     </InputGroup>
                                 </FormControl>
-
-                                {/* <FormControl mt={4}>
-                                <FormLabel>Email</FormLabel>
-                                <Input
-                                    placeholder="Email"
-                                    value={data.email}
-                                    name="email"
-                                    onChange={handleChange}
-                                />
-                            </FormControl> */}
                             </HStack>
                             <HStack mb={2}>
                                 <FormControl as="fieldset">
@@ -151,9 +145,8 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
                                             </Radio>
                                         </HStack>
                                     </RadioGroup>
-                                    {/* <FormHelperText>
-                                    Select only if you're a fan.
-                                </FormHelperText> */}
+
+                                    {/* <FormHelperText>Select only if you're a fan.</FormHelperText> */}
                                 </FormControl>
                                 <FormControl>
                                     <FormLabel>Specialization</FormLabel>
@@ -167,17 +160,32 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
                                 </FormControl>
                             </HStack>
                             <HStack mb={2}>
-                                {/* <FormControl as="fieldset">
-                                <FormLabel as="legend">Age</FormLabel>
-                                <Input
-                                    required
-                                    placeholder="Age"
-                                    type="text"
-                                    value={data.age}
-                                    name="age"
-                                    onChange={handleChange}
-                                />
-                            </FormControl> */}
+                                <FormControl>
+                                    <FormLabel>Awards and Positions</FormLabel>
+                                    <Input
+                                        required
+                                        placeholder="Member at IMA, Former Senior Resident"
+                                        type="text"
+                                        value={data.spec}
+                                        name="spec"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </HStack>
+                            <HStack mb={2}>
+                                <FormControl>
+                                    <FormLabel> Current Postitions </FormLabel>
+                                    <Input
+                                        required
+                                        placeholder="Consultant Gynaecologist, Infertility Specialist & Sonologist"
+                                        type="text"
+                                        value={data.position}
+                                        name="position"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </HStack>
+                            <HStack mb={2}>
                                 <FormControl>
                                     <FormLabel>Mobile</FormLabel>
                                     <Input
@@ -188,11 +196,6 @@ function InitialFocus({ isOpen, setOpenModal, loading, setLoading }) {
                                         name="mobileNumber"
                                         onChange={handleChange}
                                     />
-                                    {/* <Textarea
-                                        borderRadius="xs"
-                                        placeholder="Here is a sample placeholder"
-                                        size="xs"
-                                    /> */}
                                 </FormControl>
                             </HStack>
                         </ModalBody>

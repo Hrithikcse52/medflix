@@ -48,9 +48,11 @@ function InitialFocus({ isOpen, setOpenModalPt, loading, setLoading }) {
         age: '',
         mobileNumber: '',
         docId: '',
+        docName: '',
     };
 
     const handleChange = (e) => {
+        console.log(e.target.name, e.target.value);
         setData({
             ...data,
             [e.target.name]: e.target.value,
@@ -71,8 +73,9 @@ function InitialFocus({ isOpen, setOpenModalPt, loading, setLoading }) {
                         }),
                     },
                 });
-                // console.log('Doc List', response);
+                console.log('Doc List', response);
                 setDoc(response);
+                setData({ ...data, docId: response[0]._id, docName: response[0].name });
             } catch (error) {
                 console.log(error);
             }
@@ -106,7 +109,7 @@ function InitialFocus({ isOpen, setOpenModalPt, loading, setLoading }) {
         setData(initialState);
         setOpenModalPt(false);
     };
-    // console.log(data);
+    console.log(data);
     return (
         <>
             <Modal
@@ -222,8 +225,21 @@ function InitialFocus({ isOpen, setOpenModalPt, loading, setLoading }) {
                                         required
                                         variant="outline"
                                         name="docId"
-                                        placeholder=" "
-                                        onChange={handleChange}
+                                        // placeholder=" "
+                                        onChange={(e) => {
+                                            // handleChange(e);
+                                            const docItem = doc.find(
+                                                (item) => item._id === e.target.value
+                                            );
+                                            setData({
+                                                ...data,
+                                                docId: e.target.value,
+                                                docName: docItem.name,
+                                            });
+                                            console.log(
+                                                doc.find((item) => item._id === e.target.value)
+                                            );
+                                        }}
                                         value={data.docId}>
                                         {doc.map((doctor, index) => {
                                             // console.log(doctor._id);

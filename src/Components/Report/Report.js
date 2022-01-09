@@ -9,6 +9,7 @@ import { cookie } from '../../utils';
 export const Report = () => {
     const tableHeaders = ['PtName', 'Created', 'Actions'];
     const [reportsData, setReportData] = useState([]);
+    const [headers, setHeader] = useState([]);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         (async () => {
@@ -21,7 +22,10 @@ export const Report = () => {
                         }),
                     },
                 });
-                setReportData(response);
+                if (response.code === 200) {
+                    setReportData(response.data);
+                    if (reportsData.length > 0) console.log(Object.keys(reportsData[0]));
+                }
                 setLoading(false);
             } catch (error) {
                 console.log(error);
@@ -50,7 +54,7 @@ export const Report = () => {
                         </Flex>
                     </HStack>
                 </Flex>
-                <TableComponent tableData={reportsData} tableHeaders={[]} iconSet={[]} />
+                <TableComponent tableData={[]} tableHeaders={['']} iconSet={[]} />
             </Box>
         </>
     );
