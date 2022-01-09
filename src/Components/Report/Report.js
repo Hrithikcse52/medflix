@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Button, HStack, Flex, Box, Icon } from '@chakra-ui/react';
 import { FiUserPlus } from 'react-icons/fi';
@@ -31,6 +32,7 @@ export const Report = () => {
                 console.log(error);
             }
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     console.log('reports', reportsData);
     return (

@@ -80,6 +80,7 @@ function InitialFocus({ isOpen, setOpenModalPt, loading, setLoading }) {
                 console.log(error);
             }
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSubmitPt = async (e) => {

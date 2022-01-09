@@ -27,7 +27,6 @@ import {
     IconButton,
     Spinner,
     HStack,
-    FormHelperText,
 } from '@chakra-ui/react';
 import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
 import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';

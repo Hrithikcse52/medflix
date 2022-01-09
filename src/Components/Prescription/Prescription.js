@@ -141,7 +141,7 @@ const Prescription = () => {
                                     borderRadius: '20px',
                                 }}>
                                 <Iframe
-                                    url={`${BACK_END_URL}/pug/p`}
+                                    url={`${BACK_END_URL}/pug/preview/${reportId}`}
                                     width="100%"
                                     height="450px"
                                     id="pdfPreviewIframe"
