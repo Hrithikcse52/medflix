@@ -104,7 +104,7 @@ const Prescription = () => {
             `${BACK_END_URL}/reports/save/${ptData._id}`,
             finalData
         );
-        if (response !== 200) {
+        if (response.code !== 200) {
             toast({
                 description: 'Report Not Created',
                 position: 'top-right',

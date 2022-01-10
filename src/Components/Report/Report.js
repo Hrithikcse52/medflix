@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { Button, HStack, Flex, Box, Icon } from '@chakra-ui/react';
+import { Button, HStack, Flex, Box } from '@chakra-ui/react';
 import { FiUserPlus } from 'react-icons/fi';
 import { TableComponent } from '../TabelComponent/TableComponent';
 import axios from 'axios';
@@ -42,6 +42,7 @@ export const Report = () => {
             reportId: report._id,
         };
     });
+    const [selectedReport, setSelectedReport] = useState('');
     console.log(tableRenderData);
     console.log('reports', reportsData);
     return (
