@@ -62,6 +62,8 @@ const Doctor = () => {
                         setOpenModal={setOpenModal}
                         loading={loading}
                         setLoading={setLoading}
+                        reload={reload}
+                        setReload={setReload}
                     />
                 )}
                 {openEditModal && (
