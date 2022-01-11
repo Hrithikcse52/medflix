@@ -80,7 +80,7 @@ const Prescription = () => {
     useEffect(() => {
         (async () => {
             try {
-                const { data: response } = await axios.get(`${BACK_END_URL}/patient/${id}`, {
+                const { data: response } = await axios.get(`${BACK_END_URL}/patient/at/${id}`, {
                     headers: {
                         authorization: cookie.get('session', {
                             path: '/',
@@ -106,7 +106,6 @@ const Prescription = () => {
         );
 
         if (response.code !== 200) {
-
             toast({
                 description: 'Report Not Created',
                 position: 'top-right',
@@ -446,7 +445,7 @@ const Prescription = () => {
 
                                     {adviceData.map((advice, i) => (
                                         <>
-                                            <HStack mt={3}>
+                                            <HStack key={i} mt={3}>
                                                 <Input
                                                     type="text"
                                                     name="med"
