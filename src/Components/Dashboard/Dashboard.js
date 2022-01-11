@@ -108,7 +108,6 @@ const NavItem = ({ to, icon, children, ...rest }) => {
     const history = useNavigate();
     const location = useLocation();
     const tab = location.pathname.split('/');
-    console.log(tab);
     const currentLoc = tab[2];
     const handlePush = (e) => {
         history(to);

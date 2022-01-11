@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import DashboardPage from './pages/DashboardPage';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import { BACK_END_URL } from './env';
 import { loginUser, logoutUser } from './redux/actions/userAuth';
 import { useDispatch, useSelector } from 'react-redux';
-import PatientProfile from './Components/PatientProfile/PatientProfile';
+import { PatientProfile } from './Components/PatientProfile/PatientProfile';
 import Nav from './Components/Nav/Nav';
 import NotFound from './pages/NotFound';
 import { cookie } from './utils';
@@ -52,11 +52,23 @@ function App() {
                 <Nav />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route
+                        path="/login"
+                        element={
+                            user ? (
+                                <>
+                                    <Home />
+                                </>
+                            ) : (
+                                <>
+                                    <Navigate replace to="/" />
+                                </>
+                            )
+                        }
+                    />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/patient/:id" element={<PatientProfile />} />
                     {/* <Route path="/doctorPanel/:id" element={<DoctorDash />} /> */}
-                    <Route path="/prescription/:id" element={<Prescription />} />
+                    {/* <Route path="/prescription/:id" element={<Prescription />} /> */}
 
                     <Route
                         path="dashboard/*"
@@ -70,6 +82,7 @@ function App() {
                             )
                         }>
                         <Route path="patient" element={<Patient />} />
+                        <Route path="patient/:id" element={<PatientProfile />} />
                         <Route path="doctor" element={<Doctor />} />
                         <Route path="doctor/:id" element={<DoctorDash />} />
                         <Route path="prescription/:id" element={<Prescription />} />

@@ -24,11 +24,6 @@ import { InitialFocus } from './Modal/PtInitialFocus';
 const cookie = new Cookies();
 
 const Patient = () => {
-    // const bg = useColorModeValue(
-    //     'white',
-    //     'gray.800'
-    // );
-    // const mobileNav = useDisclosure();
     const [openPtModal, setOpenPtModal] = useState(false);
     const history = useNavigate();
     const bgColor = useColorModeValue('white', 'gray.800');
@@ -105,12 +100,7 @@ const Patient = () => {
                         </Flex>
                     </HStack>
                 </Flex>
-                <Flex
-                    w="full"
-                    //   bg="gray.600"
-                    //   p={50}
-                    alignItems="center"
-                    justifyContent="center">
+                <Flex w="full" alignItems="center" justifyContent="center">
                     <Stack direction={{ base: 'column' }} w="full" bg={{ md: bgColor }} shadow="lg">
                         <SimpleGrid
                             spacingY={3}
@@ -182,7 +172,13 @@ const Patient = () => {
                                                 md: 'center',
                                             }}>
                                             <Button
+                                                title="View Profile"
                                                 size="sm"
+                                                onClick={() => {
+                                                    history(`/dashboard/patient/${token._id}`, {
+                                                        state: { token },
+                                                    });
+                                                }}
                                                 variant="solid"
                                                 leftIcon={<Icon as={AiTwotoneLock} />}
                                                 colorScheme="purple">
@@ -196,6 +192,7 @@ const Patient = () => {
                                             <ButtonGroup variant="solid" size="sm" spacing={3}>
                                                 <IconButton
                                                     colorScheme="blue"
+                                                    title="Create Prescription"
                                                     onClick={() => {
                                                         history(
                                                             `/dashboard/prescription/${token._id}`
@@ -203,8 +200,10 @@ const Patient = () => {
                                                     }}
                                                     icon={<BsBoxArrowUpRight />}
                                                 />
+
                                                 <IconButton
                                                     colorScheme="green"
+                                                    title="Edit Profile"
                                                     onClick={() => {
                                                         // console.log('SELECTED ITd', tid);
                                                         setPtToEdit(tid);

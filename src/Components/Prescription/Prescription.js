@@ -87,7 +87,7 @@ const Prescription = () => {
                         }),
                     },
                 });
-                console.log('Prescription Response:', response);
+                // console.log('Prescription Response:', response);
                 setPtData(response);
             } catch (error) {
                 console.log(error);
@@ -114,7 +114,7 @@ const Prescription = () => {
         } else {
             setReportId(response.data._id);
             onOpen();
-            console.log('Reponse Submit', response);
+            // console.log('Reponse Submit', response);
             setInitialData();
             toast({
                 description: 'Report Created',
@@ -165,14 +165,14 @@ const Prescription = () => {
                 </Modal>
             </>
             <Box marginTop={'10vh'} bg={useColorModeValue('inherit', 'inherit')} p={10}>
-                {/* <Box visibility={{ base: 'hidden', sm: 'visible' }} aria-hidden="true">
+                Create Prescription
+                <Box visibility={{ base: 'hidden', sm: 'visible' }} aria-hidden="true">
                     <Box py={5}>
                         <Box
                             borderTop="solid 1px"
                             borderTopColor={useColorModeValue('gray.200', 'whiteAlpha.200')}></Box>
                     </Box>
-                </Box> */}
-
+                </Box>
                 <Box alignItems={'center'} justifyContent={'center'}>
                     <chakra.form
                         onSubmit={handleSubmit}
@@ -507,7 +507,6 @@ const Prescription = () => {
                         </Stack>
                     </chakra.form>
                 </Box>
-
                 <Box visibility={{ base: 'hidden', sm: 'visible' }} aria-hidden="true">
                     <Box py={5}>
                         <Box
