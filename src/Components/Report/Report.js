@@ -8,6 +8,7 @@ import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
 
 export const Report = () => {
+
     const [reportsData, setReportData] = useState([]);
     const [headers, setHeader] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -33,6 +34,7 @@ export const Report = () => {
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     const tableRenderData = reportsData.map((report) => {
         return {
             patientID: report.patient.pt_id,
@@ -66,11 +68,13 @@ export const Report = () => {
                         </Flex>
                     </HStack>
                 </Flex>
+
                 <TableComponent
                     tableData={tableRenderData}
                     tableHeaders={['Patient ID', 'Patient Name', 'Doctor Name', 'Report Type']}
                     iconSet={[]}
                 />
+
             </Box>
         </>
     );

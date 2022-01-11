@@ -8,6 +8,7 @@ import {
     SimpleGrid,
     Stack,
     useColorModeValue,
+
     Modal,
     Box,
     ModalOverlay,
@@ -141,6 +142,7 @@ export const TableComponent = ({ tableData, tableHeaders }) => {
             >
               View Profile
             </Button> */}
+
                         </Flex>
                         <Flex
                             justify={{
@@ -189,6 +191,7 @@ export const TableComponent = ({ tableData, tableHeaders }) => {
                                 >
                                     {token._id}
                                 </chakra.span> */}
+
                                     {/* <span>{token.mobile_number}</span> */}
 
                                     <Flex
