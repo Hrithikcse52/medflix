@@ -15,14 +15,12 @@ import {
     ModalHeader,
     ModalCloseButton,
     ModalBody,
-    ModalFooter,
     useDisclosure,
 } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react';
 import Iframe from 'react-iframe';
 import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
 import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
 import { BACK_END_URL } from '../../env';
 import { useReactToPrint } from 'react-to-print';
 
@@ -54,10 +52,13 @@ const ModelPreview = ({ onClick, onClose, isOpen, reportId, patientName }) => {
                             id="pdfPreview"
                             // ref={componentRef}
                             style={{
-                                backgroundColor: 'white',
+                                // backgroundColor: 'white',
                                 borderRadius: '20px',
                                 // height: '600px',
                             }}>
+                            <Button style={{ marginBottom: '1rem' }} onClick={handlePrint}>
+                                Print
+                            </Button>
                             <div ref={componentRef} style={{ backgroundColor: 'white' }}>
                                 <Iframe
                                     url={`${BACK_END_URL}/pug/preview/${reportId}`}
@@ -72,17 +73,14 @@ const ModelPreview = ({ onClick, onClose, isOpen, reportId, patientName }) => {
                             </div>
                         </Box>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button onClick={handlePrint}>Print</Button>
-                    </ModalFooter>
+                    {/* <ModalFooter></ModalFooter> */}
                 </ModalContent>
             </Modal>
         </>
     );
 };
 
-export const TableComponent = ({ tableData, tableHeaders, iconSet }) => {
-    const history = useNavigate();
+export const TableComponent = ({ tableData, tableHeaders }) => {
     const bgColor = useColorModeValue('white', 'gray.800');
     const bgColor2 = useColorModeValue('gray.100', 'gray.700');
     const bgColor3 = useColorModeValue('gray.500');
