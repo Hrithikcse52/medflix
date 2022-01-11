@@ -16,7 +16,6 @@ import {
     Button,
     InputGroup,
     InputLeftAddon,
-    Spinner,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { isEqual } from 'lodash';
