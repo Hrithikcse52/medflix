@@ -8,7 +8,6 @@ import {
     ModalBody,
     RadioGroup,
     Radio,
-    Select,
     HStack,
     FormControl,
     FormLabel,
@@ -17,7 +16,7 @@ import {
     Button,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
 import ButtonLoader from '../Util/ButtonLoader';
@@ -42,11 +41,11 @@ export const ModalForEndo = ({ isOpen, setOpen, setReload, reload, ptDetails }) 
         orgName: ptDetails.pt_at.name,
         email: ptDetails.email,
         address: ptDetails.address,
-        lnoseImp: 'lnos',
-        rnoseImp: 'rnos',
-        learImp: 'lear',
-        rearImp: 'rear',
-        tonsilImp: 'ton',
+        lnoseImp: '',
+        rnoseImp: '',
+        learImp: '',
+        rearImp: '',
+        tonsilImp: '',
     };
 
     const handleChange = (e) => {

@@ -118,7 +118,7 @@ const Patient = () => {
                                 textOverflow="ellipsis"
                                 overflow="hidden"
                                 whiteSpace="nowrap">
-                                Patient ID
+                                Date
                             </chakra.span>
                             <span>Name</span>
                             <span>Doctor Assigned</span>
@@ -141,6 +141,7 @@ const Patient = () => {
                             </Flex>
                         </SimpleGrid>
                         {patients.map((token, tid) => {
+                            const date = new Date(token.updatedAt);
                             return (
                                 <Flex
                                     direction={{
@@ -163,9 +164,11 @@ const Patient = () => {
                                             textOverflow="ellipsis"
                                             overflow="hidden"
                                             whiteSpace="nowrap">
-                                            {token.pt_id}
+                                            {date.toDateString()}
                                         </chakra.span>
-                                        <span>{token.name}</span>
+                                        <span>
+                                            {token.name},({token.pt_id})
+                                        </span>
                                         <span>{token.doctor.name}</span>
                                         <Flex
                                             justify={{

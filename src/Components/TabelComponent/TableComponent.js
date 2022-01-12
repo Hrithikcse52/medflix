@@ -113,22 +113,14 @@ export const TableComponent = ({ tableData, tableHeaders, tableDatatoShow }) => 
                         }}
                         w="full"
                         py={2}
-                        px={10}
                         fontWeight="hairline">
-                        <span> {tableHeaders[0] ?? 'name'} </span>
-                        {/* <chakra.span textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap"> */}
-                        <chakra.span>{tableHeaders[1]}</chakra.span>
-                        {/* <chakra.span textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap"> */}
-                        <chakra.span>{tableHeaders[2]}</chakra.span>
+                        <span style={{ textAlign: 'center' }}> {tableHeaders[0] ?? 'name'} </span>
+                        <chakra.span textAlign={'center'}>{tableHeaders[1]}</chakra.span>
+                        <chakra.span textAlign={'center'}>{tableHeaders[2]}</chakra.span>
                         <Flex
                             justify={{
                                 md: 'center',
                             }}>
-                            {/* <chakra.span
-                                textOverflow="ellipsis"
-                                overflow="hidden"
-                                whiteSpace="nowrap">
-                            </chakra.span> */}
                             <chakra.span>{tableHeaders[3]}</chakra.span>
                         </Flex>
                         <Flex
@@ -139,7 +131,7 @@ export const TableComponent = ({ tableData, tableHeaders, tableDatatoShow }) => 
                         </Flex>
                     </SimpleGrid>
                     {tableData.map((token, tid) => {
-                        // console.log(token);
+                        console.log(token);
                         return (
                             <Flex
                                 direction={{
@@ -154,18 +146,18 @@ export const TableComponent = ({ tableData, tableHeaders, tableDatatoShow }) => 
                                         base: colume,
                                         md: colume,
                                     }}
-                                    // columns={colume}
                                     w="full"
                                     py={2}
-                                    px={10}
                                     fontWeight="hairline">
                                     {/* <span>{token.patientID}</span> */}
-                                    <span>{token[tableDatatoShow[0]]}</span>
+                                    <span style={{ textAlign: 'center' }}>
+                                        {token[tableDatatoShow[0]]}
+                                    </span>
                                     {/* <chakra.span
                                         textOverflow="ellipsis"
                                         overflow="hidden"
                                         whiteSpace="nowrap"> */}
-                                    <chakra.span>
+                                    <chakra.span textAlign={'center'}>
                                         {/* {token.patientName} */}
                                         {token[tableDatatoShow[1]]}
                                     </chakra.span>
@@ -173,7 +165,7 @@ export const TableComponent = ({ tableData, tableHeaders, tableDatatoShow }) => 
                                         textOverflow="ellipsis"
                                         overflow="hidden"
                                         whiteSpace="nowrap"> */}
-                                    <chakra.span>
+                                    <chakra.span textAlign={'center'}>
                                         {/* {token.doctorName} */}
                                         {token[tableDatatoShow[2]]}
                                     </chakra.span>
