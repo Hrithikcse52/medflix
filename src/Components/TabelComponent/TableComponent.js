@@ -85,7 +85,7 @@ export const TableComponent = ({ tableData, tableHeaders, tableDatatoShow }) => 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedId, setSelectedId] = useState('');
     const [selectedName, setSelectedName] = useState('');
-    console.log(tableHeaders.length);
+    // console.log(tableHeaders.length);
     const colume = tableHeaders.length + 1;
     return (
         <>
@@ -139,7 +139,7 @@ export const TableComponent = ({ tableData, tableHeaders, tableDatatoShow }) => 
                         </Flex>
                     </SimpleGrid>
                     {tableData.map((token, tid) => {
-                        console.log(token);
+                        // console.log(token);
                         return (
                             <Flex
                                 direction={{

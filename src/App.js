@@ -57,11 +57,11 @@ function App() {
                         element={
                             user ? (
                                 <>
-                                    <Home />
+                                    <Navigate replace to="/" />
                                 </>
                             ) : (
                                 <>
-                                    <Navigate replace to="/" />
+                                    <Login />
                                 </>
                             )
                         }
