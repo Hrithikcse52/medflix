@@ -104,6 +104,7 @@ const LoginCard = () => {
                                 />
                                 <InputRightElement width="4.5rem">
                                     <Button
+                                        title="show Password"
                                         h="1.75rem"
                                         size="sm"
                                         onClick={() => {
@@ -127,6 +128,7 @@ const LoginCard = () => {
                                 {/* <Link color={'blue.500'}>Forgot password?</Link> */}
                             </Stack>
                             <Button
+                                title="Login"
                                 colorScheme={'blue'}
                                 variant={'solid'}
                                 disabled={loading ? true : false}

@@ -8,7 +8,6 @@ import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
 
 export const Report = () => {
-
     const [reportsData, setReportData] = useState([]);
     const [headers, setHeader] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -40,11 +39,13 @@ export const Report = () => {
             patientID: report.patient.pt_id,
             patientName: report.patient.name,
             doctorName: report.doctor.name,
-            reportType: report.type,
+            reportType: report.reportType,
             reportId: report._id,
         };
     });
     const [selectedReport, setSelectedReport] = useState('');
+    // console.log(Object.keys(tableRenderData[0]));
+
     console.log(tableRenderData);
     console.log('reports', reportsData);
     return (
@@ -69,12 +70,14 @@ export const Report = () => {
                     </HStack>
                 </Flex>
 
-                <TableComponent
-                    tableData={tableRenderData}
-                    tableHeaders={['Patient ID', 'Patient Name', 'Doctor Name', 'Report Type']}
-                    iconSet={[]}
-                />
-
+                {tableRenderData.length > 0 && (
+                    <TableComponent
+                        tableData={tableRenderData}
+                        tableHeaders={['Patient ID', 'Patient Name', 'Doctor Name', 'Report Type']}
+                        tableDatatoShow={['patientID', 'patientName', 'doctorName', 'reportType']}
+                        iconSet={[]}
+                    />
+                )}
             </Box>
         </>
     );

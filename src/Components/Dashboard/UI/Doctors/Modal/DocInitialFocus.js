@@ -23,7 +23,7 @@ import { useRef, useState } from 'react';
 import { BACK_END_URL } from '../../../../../env';
 import { cookie } from '../../../../../utils';
 
-export const InitialFocus = ({ isOpen, setOpenModal, loading, setLoading }) => {
+export const InitialFocus = ({ isOpen, setOpenModal, loading, setLoading, reload, setReload }) => {
     const toast = useToast();
     const initialRef = useRef();
     const finalRef = useRef();
@@ -75,6 +75,7 @@ export const InitialFocus = ({ isOpen, setOpenModal, loading, setLoading }) => {
         setOpenModal(false);
         setData(initialState);
         setLoading(false);
+        setReload(!reload);
     };
 
     return (

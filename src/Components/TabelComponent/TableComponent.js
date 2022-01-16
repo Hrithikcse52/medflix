@@ -3,12 +3,10 @@ import {
     ButtonGroup,
     chakra,
     Flex,
-    Icon,
     IconButton,
     SimpleGrid,
     Stack,
     useColorModeValue,
-
     Modal,
     Box,
     ModalOverlay,
@@ -20,19 +18,18 @@ import {
 } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react';
 import Iframe from 'react-iframe';
-import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
+import { AiFillEdit } from 'react-icons/ai';
 import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
 import { BACK_END_URL } from '../../env';
 import { useReactToPrint } from 'react-to-print';
 
-const ModelPreview = ({ onClick, onClose, isOpen, reportId, patientName }) => {
+const ModelPreview = ({ onClose, isOpen, reportId, patientName }) => {
     const componentRef = useRef();
     const pageStyle = `
     @page {
       size: 210mm 297mm;
       font-size: 23px;
     }
-
   `;
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -81,15 +78,15 @@ const ModelPreview = ({ onClick, onClose, isOpen, reportId, patientName }) => {
     );
 };
 
-export const TableComponent = ({ tableData, tableHeaders }) => {
+export const TableComponent = ({ tableData, tableHeaders, tableDatatoShow }) => {
     const bgColor = useColorModeValue('white', 'gray.800');
     const bgColor2 = useColorModeValue('gray.100', 'gray.700');
     const bgColor3 = useColorModeValue('gray.500');
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedId, setSelectedId] = useState('');
     const [selectedName, setSelectedName] = useState('');
-
-    // console.log('TableComponent', Object.keys(tableData[0]));
+    // console.log(tableHeaders.length);
+    const colume = tableHeaders.length + 1;
     return (
         <>
             <ModelPreview
@@ -109,40 +106,22 @@ export const TableComponent = ({ tableData, tableHeaders }) => {
                         spacingY={3}
                         bg={bgColor2}
                         color={bgColor3}
+                        // columns={colume}
                         columns={{
-                            base: 5,
-                            md: 5,
+                            base: colume,
+                            md: colume,
                         }}
                         w="full"
                         py={2}
-                        px={10}
                         fontWeight="hairline">
-                        <span> {tableHeaders[0] ?? 'name'} </span>
-                        <chakra.span textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
-                            {tableHeaders[1]}
-                        </chakra.span>
-                        <chakra.span textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
-                            {tableHeaders[2]}
-                        </chakra.span>
+                        <span style={{ textAlign: 'center' }}> {tableHeaders[0] ?? 'name'} </span>
+                        <chakra.span textAlign={'center'}>{tableHeaders[1]}</chakra.span>
+                        <chakra.span textAlign={'center'}>{tableHeaders[2]}</chakra.span>
                         <Flex
                             justify={{
                                 md: 'center',
                             }}>
-                            <chakra.span
-                                textOverflow="ellipsis"
-                                overflow="hidden"
-                                whiteSpace="nowrap">
-                                {tableHeaders[3]}
-                            </chakra.span>
-                            {/* <Button
-              size="sm"
-              variant="solid"
-              leftIcon={<Icon as={AiTwotoneLock} />}
-              colorScheme="purple"
-            >
-              View Profile
-            </Button> */}
-
+                            <chakra.span>{tableHeaders[3]}</chakra.span>
                         </Flex>
                         <Flex
                             justify={{
@@ -152,7 +131,7 @@ export const TableComponent = ({ tableData, tableHeaders }) => {
                         </Flex>
                     </SimpleGrid>
                     {tableData.map((token, tid) => {
-                        // console.log(token._id);
+                        console.log(token);
                         return (
                             <Flex
                                 direction={{
@@ -164,47 +143,38 @@ export const TableComponent = ({ tableData, tableHeaders }) => {
                                 <SimpleGrid
                                     spacingY={3}
                                     columns={{
-                                        base: 5,
-                                        md: 5,
+                                        base: colume,
+                                        md: colume,
                                     }}
                                     w="full"
                                     py={2}
-                                    px={10}
                                     fontWeight="hairline">
-                                    <span>{token.patientID}</span>
-                                    <chakra.span
+                                    {/* <span>{token.patientID}</span> */}
+                                    <span style={{ textAlign: 'center' }}>
+                                        {token[tableDatatoShow[0]]}
+                                    </span>
+                                    {/* <chakra.span
                                         textOverflow="ellipsis"
                                         overflow="hidden"
-                                        whiteSpace="nowrap">
-                                        {token.patientName}
-                                    </chakra.span>
-                                    <chakra.span
-                                        textOverflow="ellipsis"
-                                        overflow="hidden"
-                                        whiteSpace="nowrap">
-                                        {token.doctorName}
+                                        whiteSpace="nowrap"> */}
+                                    <chakra.span textAlign={'center'}>
+                                        {/* {token.patientName} */}
+                                        {token[tableDatatoShow[1]]}
                                     </chakra.span>
                                     {/* <chakra.span
-                                    textOverflow="ellipsis"
-                                    overflow="hidden"
-                                    whiteSpace="nowrap"
-                                >
-                                    {token._id}
-                                </chakra.span> */}
-
-                                    {/* <span>{token.mobile_number}</span> */}
-
+                                        textOverflow="ellipsis"
+                                        overflow="hidden"
+                                        whiteSpace="nowrap"> */}
+                                    <chakra.span textAlign={'center'}>
+                                        {/* {token.doctorName} */}
+                                        {token[tableDatatoShow[2]]}
+                                    </chakra.span>
                                     <Flex
                                         justify={{
                                             md: 'center',
                                         }}>
-                                        <Button
-                                            size="sm"
-                                            variant="solid"
-                                            leftIcon={<Icon as={AiTwotoneLock} />}
-                                            colorScheme="purple">
-                                            View Profile
-                                        </Button>
+                                        {/* {token.reportType} */}
+                                        {token[tableDatatoShow[3]]}
                                     </Flex>
                                     <Flex
                                         justify={{
@@ -214,6 +184,7 @@ export const TableComponent = ({ tableData, tableHeaders }) => {
                                             <IconButton
                                                 colorScheme="blue"
                                                 onClick={() => {
+                                                    console.log('report', token.reportId);
                                                     setSelectedId(token.reportId);
                                                     setSelectedName(token.patientName);
                                                     onOpen();
