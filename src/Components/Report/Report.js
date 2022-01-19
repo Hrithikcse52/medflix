@@ -6,6 +6,7 @@ import { TableComponent } from '../TabelComponent/TableComponent';
 import axios from 'axios';
 import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
+import { Loader } from '../Util/Loader';
 
 export const Report = () => {
     const [reportsData, setReportData] = useState([]);
@@ -69,14 +70,27 @@ export const Report = () => {
                         </Flex>
                     </HStack>
                 </Flex>
-
-                {tableRenderData.length > 0 && (
-                    <TableComponent
-                        tableData={tableRenderData}
-                        tableHeaders={['Patient ID', 'Patient Name', 'Doctor Name', 'Report Type']}
-                        tableDatatoShow={['patientID', 'patientName', 'doctorName', 'reportType']}
-                        iconSet={[]}
-                    />
+                {loading ? (
+                    <Loader />
+                ) : (
+                    tableRenderData.length > 0 && (
+                        <TableComponent
+                            tableData={tableRenderData}
+                            tableHeaders={[
+                                'Patient ID',
+                                'Patient Name',
+                                'Doctor Name',
+                                'Report Type',
+                            ]}
+                            tableDatatoShow={[
+                                'patientID',
+                                'patientName',
+                                'doctorName',
+                                'reportType',
+                            ]}
+                            iconSet={[]}
+                        />
+                    )
                 )}
             </Box>
         </>

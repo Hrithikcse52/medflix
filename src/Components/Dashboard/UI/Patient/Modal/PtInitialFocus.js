@@ -22,11 +22,9 @@ import { BACK_END_URL } from '../../../../../env';
 import { cookie } from '../../../../../utils';
 import ButtonLoader from '../../../../Util/ButtonLoader';
 
-export const InitialFocus = (
-    { isOpen, setOpenModalPt, loading, setLoading, setReload, reload },
-    props
-) => {
+export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, props) => {
     console.log('props', props);
+    const [loading, setLoading] = useState(false);
     const toast = useToast();
     const initialRef = useRef();
     const finalRef = useRef();

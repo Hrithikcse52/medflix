@@ -23,8 +23,9 @@ import { useRef, useState } from 'react';
 import { BACK_END_URL } from '../../../../../env';
 import { cookie } from '../../../../../utils';
 
-export const InitialFocus = ({ isOpen, setOpenModal, loading, setLoading, reload, setReload }) => {
+export const InitialFocus = ({ isOpen, setOpenModal, reload, setReload }) => {
     const toast = useToast();
+    const [loading, setLoading] = useState(false);
     const initialRef = useRef();
     const finalRef = useRef();
     const initialState = {

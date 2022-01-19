@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Cookies from 'universal-cookie';
 import { useSelector } from 'react-redux';
+import { images } from '../../Images';
 const cookie = new Cookies();
 // import { loginUser } from '../../redux/actions/userAuth';
 
@@ -51,7 +52,7 @@ export default function Hero() {
                         bgClip="text"
                         bgGradient="linear(to-r, green.400,purple.500)"
                         fontWeight="extrabold">
-                        customer feedback{' '}
+                        patients{' '}
                     </Text>
                     in one single place.
                 </chakra.h1>
@@ -69,9 +70,6 @@ export default function Hero() {
                         sec="Where you can Allow Patients to interact with their medical Records"
                         thrd="with a complete feedback loop"
                     />
-                    {/* Hellonext is a feature voting software where you can allow your users
-          to vote on features, publish roadmap, and complete your customer
-          feedback loop. */}
                 </chakra.p>
                 <Stack
                     direction={{
@@ -154,7 +152,7 @@ export default function Hero() {
                     w="full"
                     rounded="lg"
                     shadow="2xl"
-                    src="https://kutty.netlify.app/hero.jpg"
+                    src={images.heroImg}
                     alt="Hellonext feedback boards software screenshot"
                 />
             </Box>
