@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router';
 import { FiUserPlus } from 'react-icons/fi';
 import { InitialFocus } from './Modal/DocInitialFocus';
 import { DocEditModal } from './Modal/DocEditModal';
+import { Loader } from '../../../Util/Loader';
 const cookie = new Cookies();
 
 const Doctor = () => {
@@ -37,6 +38,7 @@ const Doctor = () => {
     useEffect(() => {
         (async () => {
             try {
+                setLoading(true);
                 const {
                     data: { data: response },
                 } = await axios.get(`${BACK_END_URL}/doctor/getDoc`, {
@@ -51,6 +53,7 @@ const Doctor = () => {
             } catch (error) {
                 console.log(error);
             }
+            setLoading(false);
         })();
     }, [reload]);
     return (
@@ -60,8 +63,8 @@ const Doctor = () => {
                     <InitialFocus
                         isOpen={openModal}
                         setOpenModal={setOpenModal}
-                        loading={loading}
-                        setLoading={setLoading}
+                        // loading={loading}
+                        // setLoading={setLoading}
                         reload={reload}
                         setReload={setReload}
                     />
@@ -100,116 +103,126 @@ const Doctor = () => {
                     //   p={50}
                     alignItems="center"
                     justifyContent="center">
-                    <Stack direction={{ base: 'column' }} w="full" bg={{ md: bgColor }} shadow="lg">
-                        <SimpleGrid
-                            spacingY={3}
-                            bg={bgColor2}
-                            color={bgColor3}
-                            columns={{
-                                base: 1,
-                                md: 4,
-                            }}
+                    {loading ? (
+                        <Loader />
+                    ) : (
+                        <Stack
+                            direction={{ base: 'column' }}
                             w="full"
-                            py={2}
-                            px={10}
-                            fontWeight="hairline">
-                            <span>Name</span>
-                            <chakra.span
-                                textOverflow="ellipsis"
-                                overflow="hidden"
-                                whiteSpace="nowrap">
-                                Created
-                            </chakra.span>
-                            <Flex
-                                justify={{
-                                    md: 'center',
-                                }}>
+                            bg={{ md: bgColor }}
+                            shadow="lg">
+                            <SimpleGrid
+                                spacingY={3}
+                                bg={bgColor2}
+                                color={bgColor3}
+                                columns={{
+                                    base: 1,
+                                    md: 4,
+                                }}
+                                w="full"
+                                py={2}
+                                px={10}
+                                fontWeight="hairline">
+                                <span>Name</span>
                                 <chakra.span
                                     textOverflow="ellipsis"
                                     overflow="hidden"
                                     whiteSpace="nowrap">
-                                    Data
+                                    Created
                                 </chakra.span>
-                            </Flex>
-                            <Flex
-                                justify={{
-                                    md: 'center',
-                                }}>
-                                Actions
-                            </Flex>
-                        </SimpleGrid>
-                        {patients.map((token, tid) => {
-                            console.log(token._id);
-                            return (
                                 <Flex
-                                    direction={{
-                                        base: 'row',
-                                        md: 'column',
-                                    }}
-                                    bg={bgColor}
-                                    key={tid}>
-                                    <SimpleGrid
-                                        spacingY={3}
-                                        columns={{
-                                            base: 4,
-                                            md: 4,
-                                        }}
-                                        w="full"
-                                        py={2}
-                                        px={10}
-                                        fontWeight="hairline">
-                                        <span>{token.name}</span>
-                                        <chakra.span
-                                            textOverflow="ellipsis"
-                                            overflow="hidden"
-                                            whiteSpace="nowrap">
-                                            {token.doc_id}
-                                        </chakra.span>
-                                        <Flex
-                                            justify={{
-                                                md: 'center',
-                                            }}>
-                                            <Button
-                                                size="sm"
-                                                variant="solid"
-                                                leftIcon={<Icon as={AiTwotoneLock} />}
-                                                colorScheme="purple">
-                                                View Profile
-                                            </Button>
-                                        </Flex>
-                                        <Flex
-                                            justify={{
-                                                md: 'center',
-                                            }}>
-                                            <ButtonGroup variant="solid" size="sm" spacing={3}>
-                                                <IconButton
-                                                    colorScheme="blue"
-                                                    onClick={() => {
-                                                        history(`/dashboard/doctor/${token._id}`);
-                                                    }}
-                                                    icon={<BsBoxArrowUpRight />}
-                                                />
-                                                <IconButton
-                                                    colorScheme="green"
-                                                    onClick={() => {
-                                                        console.log('Edit Clicked');
-                                                        setDocIndex(tid);
-                                                        setOpenEditModal(true);
-                                                    }}
-                                                    icon={<AiFillEdit />}
-                                                />
-                                                <IconButton
-                                                    colorScheme="red"
-                                                    variant="outline"
-                                                    icon={<BsFillTrashFill />}
-                                                />
-                                            </ButtonGroup>
-                                        </Flex>
-                                    </SimpleGrid>
+                                    justify={{
+                                        md: 'center',
+                                    }}>
+                                    <chakra.span
+                                        textOverflow="ellipsis"
+                                        overflow="hidden"
+                                        whiteSpace="nowrap">
+                                        Data
+                                    </chakra.span>
                                 </Flex>
-                            );
-                        })}
-                    </Stack>
+                                <Flex
+                                    justify={{
+                                        md: 'center',
+                                    }}>
+                                    Actions
+                                </Flex>
+                            </SimpleGrid>
+                            {patients.map((token, tid) => {
+                                console.log(token._id);
+                                return (
+                                    <Flex
+                                        direction={{
+                                            base: 'row',
+                                            md: 'column',
+                                        }}
+                                        bg={bgColor}
+                                        key={tid}>
+                                        <SimpleGrid
+                                            spacingY={3}
+                                            columns={{
+                                                base: 4,
+                                                md: 4,
+                                            }}
+                                            w="full"
+                                            py={2}
+                                            px={10}
+                                            fontWeight="hairline">
+                                            <span>{token.name}</span>
+                                            <chakra.span
+                                                textOverflow="ellipsis"
+                                                overflow="hidden"
+                                                whiteSpace="nowrap">
+                                                {token.doc_id}
+                                            </chakra.span>
+                                            <Flex
+                                                justify={{
+                                                    md: 'center',
+                                                }}>
+                                                <Button
+                                                    size="sm"
+                                                    variant="solid"
+                                                    leftIcon={<Icon as={AiTwotoneLock} />}
+                                                    colorScheme="purple">
+                                                    View Profile
+                                                </Button>
+                                            </Flex>
+                                            <Flex
+                                                justify={{
+                                                    md: 'center',
+                                                }}>
+                                                <ButtonGroup variant="solid" size="sm" spacing={3}>
+                                                    <IconButton
+                                                        colorScheme="blue"
+                                                        onClick={() => {
+                                                            history(
+                                                                `/dashboard/doctor/${token._id}`
+                                                            );
+                                                        }}
+                                                        icon={<BsBoxArrowUpRight />}
+                                                    />
+                                                    <IconButton
+                                                        colorScheme="green"
+                                                        onClick={() => {
+                                                            console.log('Edit Clicked');
+                                                            setDocIndex(tid);
+                                                            setOpenEditModal(true);
+                                                        }}
+                                                        icon={<AiFillEdit />}
+                                                    />
+                                                    <IconButton
+                                                        colorScheme="red"
+                                                        variant="outline"
+                                                        icon={<BsFillTrashFill />}
+                                                    />
+                                                </ButtonGroup>
+                                            </Flex>
+                                        </SimpleGrid>
+                                    </Flex>
+                                );
+                            })}
+                        </Stack>
+                    )}
                 </Flex>
             </Box>
         </>

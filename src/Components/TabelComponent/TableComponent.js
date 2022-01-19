@@ -24,6 +24,7 @@ import { BACK_END_URL } from '../../env';
 import { useReactToPrint } from 'react-to-print';
 
 const ModelPreview = ({ onClose, isOpen, reportId, patientName }) => {
+    console.log('asdasds', patientName);
     const componentRef = useRef();
     const pageStyle = `
     @page {
@@ -48,11 +49,8 @@ const ModelPreview = ({ onClose, isOpen, reportId, patientName }) => {
                         <Box
                             as={'div'}
                             id="pdfPreview"
-                            // ref={componentRef}
                             style={{
-                                // backgroundColor: 'white',
                                 borderRadius: '20px',
-                                // height: '600px',
                             }}>
                             <Button style={{ marginBottom: '1rem' }} onClick={handlePrint}>
                                 Print
@@ -85,6 +83,7 @@ export const TableComponent = ({ tableData, tableHeaders, tableDatatoShow }) => 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedId, setSelectedId] = useState('');
     const [selectedName, setSelectedName] = useState('');
+    console.log('dasd', selectedName);
     // console.log(tableHeaders.length);
     const colume = tableHeaders.length + 1;
     return (
@@ -186,7 +185,7 @@ export const TableComponent = ({ tableData, tableHeaders, tableDatatoShow }) => 
                                                 onClick={() => {
                                                     console.log('report', token.reportId);
                                                     setSelectedId(token.reportId);
-                                                    setSelectedName(token.patientName);
+                                                    setSelectedName(token[tableDatatoShow[1]]);
                                                     onOpen();
                                                 }}
                                                 icon={<BsBoxArrowUpRight />}

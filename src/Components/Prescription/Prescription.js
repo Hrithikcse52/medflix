@@ -23,18 +23,29 @@ import {
     useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 import Iframe from 'react-iframe';
 import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
+import { useReactToPrint } from 'react-to-print';
 
 const Prescription = () => {
     const [adviceData, setAdviceData] = useState([{ med: '', dose: '', for: '' }]);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
-
+    const componentRef = useRef();
+    const pageStyle = `
+    @page {
+      size: 210mm 297mm;
+      font-size: 23px;
+    }
+  `;
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        pageStyle: pageStyle,
+    });
     const [presData, setPresData] = useState({
         diagnosis: '',
         temp: '',
@@ -134,6 +145,14 @@ const Prescription = () => {
                         <ModalHeader>Print Preview</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
+                            <Button
+                                mb={2}
+                                // onClick={() => {
+                                //     window.open(`${BACK_END_URL}/pug/${reportId}`);
+                                // }}
+                                onClick={handlePrint}>
+                                Print
+                            </Button>
                             <Box
                                 as={'div'}
                                 id="pdfPreview"
@@ -141,26 +160,21 @@ const Prescription = () => {
                                     backgroundColor: 'white',
                                     borderRadius: '20px',
                                 }}>
-                                <Iframe
-                                    url={`${BACK_END_URL}/pug/preview/${reportId}`}
-                                    width="100%"
-                                    height="450px"
-                                    id="pdfPreviewIframe"
-                                    className="myClassname"
-                                    display="initial"
-                                    position="relative"
-                                    styles={{ backgroundColor: 'white' }}
-                                />
+                                <div ref={componentRef} style={{ backgroundColor: 'white' }}>
+                                    <Iframe
+                                        url={`${BACK_END_URL}/pug/preview/${reportId}`}
+                                        width="100%"
+                                        height="1045px"
+                                        id="pdfPreviewIframe"
+                                        className="myClassname"
+                                        display="initial"
+                                        position="relative"
+                                        styles={{ backgroundColor: 'white' }}
+                                    />
+                                </div>
                             </Box>
                         </ModalBody>
-                        <ModalFooter>
-                            <Button
-                                onClick={() => {
-                                    window.open(`${BACK_END_URL}/pug/${reportId}`);
-                                }}>
-                                Print
-                            </Button>
-                        </ModalFooter>
+                        <ModalFooter></ModalFooter>
                     </ModalContent>
                 </Modal>
             </>
