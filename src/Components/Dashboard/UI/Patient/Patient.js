@@ -11,6 +11,7 @@ import {
     ButtonGroup,
     IconButton,
     HStack,
+    useToast,
 } from '@chakra-ui/react';
 import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
 import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
@@ -22,11 +23,13 @@ import { FiUserPlus } from 'react-icons/fi';
 import { EditModal } from './Modal/PtEditModal';
 import { InitialFocus } from './Modal/PtInitialFocus';
 import { Loader } from '../../../Util/Loader';
+import { ConfirmModal } from '../../../Util/ConfirmModal';
 const cookie = new Cookies();
 
 const Patient = () => {
     const [openPtModal, setOpenPtModal] = useState(false);
     const history = useNavigate();
+    const toast = useToast();
     const bgColor = useColorModeValue('white', 'gray.800');
     const bgColor2 = useColorModeValue('gray.100', 'gray.700');
     const bgColor3 = useColorModeValue('gray.500');
@@ -35,6 +38,35 @@ const Patient = () => {
     const [openEditModal, setOpenEditMoal] = useState(false);
     const [reloadPatient, setReload] = useState(false);
     const [ptIndextoEdit, setPtToEdit] = useState();
+    const [ptIndextoDelete, setPtToDelete] = useState();
+    const [deleteConfirmModal, setDeleteConfModal] = useState(false);
+    const handleDelete = async () => {
+        console.log('called', ptIndextoDelete);
+        try {
+            const response = await axios.delete(`${BACK_END_URL}/patient/at/${ptIndextoDelete}`, {
+                headers: {
+                    authorization: cookie.get('session', {
+                        path: '/',
+                    }),
+                },
+            });
+            toast({
+                title: response.data.message ?? 'Delete was Succesfull',
+                position: 'top-right',
+                isClosable: true,
+            });
+        } catch (err) {
+            console.log(err);
+            toast({
+                description: err.response?.data?.message || "Couldn't delete",
+                position: 'top-right',
+                status: 'error',
+            });
+        }
+        setReload(!reloadPatient);
+        setDeleteConfModal(false);
+    };
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -81,6 +113,15 @@ const Patient = () => {
                         reload={reloadPatient}
                     />
                 )}
+
+                {deleteConfirmModal && (
+                    <ConfirmModal
+                        isOpen={deleteConfirmModal}
+                        onClose={setDeleteConfModal}
+                        onClick={handleDelete}
+                    />
+                )}
+
                 <Flex alignItems="center" justifyContent="space-between" mx="auto">
                     <HStack display="flex" spacing={3} marginY={5} alignItems="center">
                         <Flex
@@ -224,6 +265,10 @@ const Patient = () => {
                                                     />
                                                     <IconButton
                                                         colorScheme="red"
+                                                        onClick={() => {
+                                                            setPtToDelete(token._id);
+                                                            setDeleteConfModal(true);
+                                                        }}
                                                         variant="outline"
                                                         icon={<BsFillTrashFill />}
                                                     />

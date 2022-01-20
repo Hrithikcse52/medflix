@@ -11,15 +11,12 @@ import {
 
 import {
     FiHome,
-    // FiUserPlus,
     FiCompass,
     FiStar,
     FiSettings,
-    // FiMenu,
-    // FiBell,
-    // FiChevronDown,
 } from 'react-icons/fi';
 import { FaStethoscope } from 'react-icons/fa';
+import { RiBillLine } from 'react-icons/ri';
 import { useNavigate, useLocation } from 'react-router';
 
 const LinkItems = [
@@ -44,9 +41,14 @@ const LinkItems = [
         route: 'report',
     },
     {
-        name: 'Settings',
+        name: 'Services',
         icon: FiSettings,
-        route: 'settings',
+        route: 'services',
+    },
+    {
+        name: 'Billings',
+        icon: RiBillLine,
+        route: 'services',
     },
 ];
 

@@ -6,8 +6,8 @@ export const Loader = ({ width = '100px', height = '100px' }) => {
     return (
         <>
             <Flex w="full" alignItems="center" justifyContent="center">
-                <Box width={width} height={height} mx={'auto'} className="Loader">
-                    <img src={images.loader} alt="Loader" />
+                <Box mx={'auto'} className="Loader">
+                    <img width={width} src={images.loader} height={height} alt="Loader" />
                 </Box>
             </Flex>
         </>
