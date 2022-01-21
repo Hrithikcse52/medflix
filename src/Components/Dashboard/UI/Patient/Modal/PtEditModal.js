@@ -270,7 +270,7 @@ export const EditModal = ({ isOpen, setOpenModalPt, setReload, reload, ptDetails
                                             // console.log(doctor._id);
                                             return (
                                                 <option key={index} value={doctor._id}>
-                                                    {doctor.name}
+                                                    {doctor.name} {doctor.specialization}
                                                 </option>
                                             );
                                         })}

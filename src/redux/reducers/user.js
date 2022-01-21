@@ -10,7 +10,6 @@ export const userReducer = (state = initialState, action) => {
     const cookie = new UniversalCookie();
     switch (action.type) {
         case 'LOGIN_SUCCESS': {
-            // console.log(action.payload);
             cookie.set('session', action.payload.token, {
                 maxAge: 1000 * 60 * 60 * 5,
                 path: '/',
@@ -22,6 +21,7 @@ export const userReducer = (state = initialState, action) => {
                     id: action.payload.id,
                     name: action.payload.name,
                     email: action.payload.email,
+                    logo: action.payload.logo,
                 },
             };
         }

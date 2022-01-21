@@ -72,7 +72,6 @@ export default function PatientReg() {
         setLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userId]);
-    console.log('data', data);
     const handleChange = (e) => {
         console.log(e.target.name, e.target.value);
         setData({
@@ -145,7 +144,6 @@ export default function PatientReg() {
                                                     <VStack spacing={3} alignItems="center">
                                                         <Button
                                                             size="md"
-                                                            // height="48px"
                                                             variant="ghost"
                                                             p="3"
                                                             color="#DCE2FF"
@@ -309,9 +307,7 @@ export default function PatientReg() {
                                                                         required
                                                                         variant="outline"
                                                                         name="docId"
-                                                                        // placeholder=" "
                                                                         onChange={(e) => {
-                                                                            // handleChange(e);
                                                                             const docItem =
                                                                                 doc.find(
                                                                                     (item) =>
@@ -326,14 +322,6 @@ export default function PatientReg() {
                                                                                 docName:
                                                                                     docItem.name,
                                                                             });
-                                                                            // console.log(
-                                                                            //     doc.find(
-                                                                            //         (item) =>
-                                                                            //             item._id ===
-                                                                            //             e.target
-                                                                            //                 .value
-                                                                            //     )
-                                                                            // );
                                                                         }}
                                                                         value={data.docId}>
                                                                         {doc.map(

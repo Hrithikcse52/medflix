@@ -18,7 +18,6 @@ import {
     Menu,
     MenuList,
     MenuItem,
-    MenuDivider,
 } from '@chakra-ui/react';
 
 import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
@@ -38,6 +37,7 @@ export default function Nav() {
     const { isOpen, onToggle } = useDisclosure();
     const color1 = useColorModeValue('white', 'gray.900');
     const color2 = useColorModeValue('gray.200', 'gray.700');
+
     return (
         <Box pos="fixed" minW="100vw" zIndex="10">
             <Flex
@@ -81,7 +81,6 @@ export default function Nav() {
                         onClick={() => {
                             history('/');
                         }}>
-                        {/* MedFlix */}
                         <img src={images.logo} alt="asd" />
                     </Text>
 
@@ -123,10 +122,9 @@ export default function Nav() {
                                     }}>
                                     <HStack>
                                         <Avatar
+                                            name={user.name}
                                             size={'sm'}
-                                            src={
-                                                'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                                            }
+                                            backgroundColor={'#171923'}
                                         />
                                         <VStack
                                             display={{
@@ -137,9 +135,9 @@ export default function Nav() {
                                             spacing="1px"
                                             ml="2">
                                             <Text fontSize="sm">{user.name}</Text>
-                                            <Text fontSize="xs" color="gray.600">
+                                            {/* <Text fontSize="xs" color="gray.600">
                                                 Admin
-                                            </Text>
+                                            </Text> */}
                                         </VStack>
                                         <Box
                                             display={{
@@ -151,18 +149,15 @@ export default function Nav() {
                                     </HStack>
                                 </MenuButton>
                                 <MenuList bg={color1} borderColor={color2}>
-                                    <MenuItem>Profile</MenuItem>
+                                    {/* <MenuItem>Profile</MenuItem>
                                     <MenuItem>Settings</MenuItem>
-                                    <MenuItem>Billing</MenuItem>
-                                    <MenuDivider />
+                                    <MenuItem>Billing</MenuItem> */}
+                                    {/* <MenuDivider /> */}
                                     <MenuItem
                                         onClick={async (e) => {
                                             try {
                                                 const data = await axios.get(
                                                     `${BACK_END_URL}/user/logout`,
-                                                    // {
-                                                    //     withCredentials: true,
-                                                    // }
                                                     {
                                                         headers: {
                                                             authorization: cookie.get('session', {
@@ -174,6 +169,7 @@ export default function Nav() {
                                                 if (data.status === 200) {
                                                     dispatch(logoutUser());
                                                     history('/');
+                                                    console.log('cookie', cookie.getAll());
                                                 }
                                             } catch (error) {
                                                 console.log(error);

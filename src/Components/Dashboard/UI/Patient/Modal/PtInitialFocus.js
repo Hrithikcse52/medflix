@@ -158,9 +158,6 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
                                             </Radio>
                                         </HStack>
                                     </RadioGroup>
-                                    {/* <FormHelperText>
-                                    Select only if you're a fan.
-                                </FormHelperText> */}
                                 </FormControl>
                                 <FormControl>
                                     <FormLabel>Address</FormLabel>
@@ -171,11 +168,6 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
                                         name="address"
                                         onChange={handleChange}
                                     />
-                                    {/* <Textarea
-                                        borderRadius="xs"
-                                        placeholder="Here is a sample placeholder"
-                                        size="xs"
-                                    /> */}
                                 </FormControl>
                             </HStack>
                             <HStack mb={2}>
@@ -189,10 +181,6 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
                                         name="age"
                                         onChange={handleChange}
                                     />
-
-                                    {/* <FormHelperText>
-                                    Select only if you're a fan.
-                                </FormHelperText> */}
                                 </FormControl>
                                 <FormControl>
                                     <FormLabel>Mobile</FormLabel>
@@ -230,10 +218,9 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
                                         }}
                                         value={data.docId}>
                                         {doc.map((doctor, index) => {
-                                            // console.log(doctor._id);
                                             return (
                                                 <option key={index} value={doctor._id}>
-                                                    {doctor.name}
+                                                    {doctor.name} {doctor.specialization}
                                                 </option>
                                             );
                                         })}
@@ -243,9 +230,6 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
                         </ModalBody>
 
                         <ModalFooter>
-                            {/* <Button colorScheme="blue" mr={3} type="submit">
-                                Save
-                            </Button> */}
                             <ButtonLoader
                                 loading={loading}
                                 text="Save"

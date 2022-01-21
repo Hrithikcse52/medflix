@@ -18,6 +18,7 @@ import Prescription from './Components/Prescription/Prescription';
 import { Report } from './Components/Report/Report';
 import { Service } from './Components/Services/Service';
 import { OPDReg } from './pages/OPDReg';
+import { AboutUser } from './Components/AboutUser/AboutUser';
 
 function App() {
     const dispatch = useDispatch();
@@ -37,6 +38,7 @@ function App() {
                     email: response.email,
                     name: response.name,
                     token: response.token,
+                    logo: response.logo,
                 })
             );
         } catch (err) {
@@ -89,7 +91,7 @@ function App() {
                         <Route path="prescription/:id" element={<Prescription />} />
                         <Route path="report" element={<Report />} />
                         <Route path="services" element={<Service />} />
-                        <Route path="about" element={<Service />} />
+                        <Route path="about" element={<AboutUser />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

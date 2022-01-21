@@ -49,6 +49,7 @@ const LoginCard = () => {
                     name: response.data.name,
                     email: response.data.email,
                     token: response.data.token,
+                    logo: response.data.logo,
                 })
             );
             history('/');
