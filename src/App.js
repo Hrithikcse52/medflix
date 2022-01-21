@@ -33,6 +33,7 @@ function App() {
             // console.log('Validate user', response);
             dispatch(
                 loginUser({
+                    id: response.id,
                     email: response.email,
                     name: response.name,
                     token: response.token,
@@ -88,6 +89,7 @@ function App() {
                         <Route path="prescription/:id" element={<Prescription />} />
                         <Route path="report" element={<Report />} />
                         <Route path="services" element={<Service />} />
+                        <Route path="about" element={<Service />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

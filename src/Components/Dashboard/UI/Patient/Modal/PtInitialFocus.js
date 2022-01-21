@@ -20,11 +20,12 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { BACK_END_URL } from '../../../../../env';
 import { cookie } from '../../../../../utils';
+import { useSelector } from 'react-redux';
 import ButtonLoader from '../../../../Util/ButtonLoader';
 
 export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, props) => {
-    console.log('props', props);
     const [loading, setLoading] = useState(false);
+    const { user } = useSelector((state) => state.profile);
     const toast = useToast();
     const initialRef = useRef();
     const finalRef = useRef();
@@ -37,8 +38,10 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
         mobileNumber: '',
         docId: '',
         docName: '',
+        user_id: user?.id,
+        user_name: user?.name,
     };
-
+    console.log(user);
     const handleChange = (e) => {
         console.log(e.target.name, e.target.value);
         setData({
@@ -74,13 +77,8 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
     const handleSubmitPt = async (e) => {
         e.preventDefault();
         setLoading(true);
-        // console.log(data);
         try {
-            const { data: response } = await axios.post(`${BACK_END_URL}/patient/create`, data, {
-                headers: {
-                    authorization: cookie.get('session', { path: '/' }),
-                },
-            });
+            const { data: response } = await axios.post(`${BACK_END_URL}/patient/create`, data);
             toast({
                 description: 'Patient Created',
                 position: 'top-right',

@@ -45,6 +45,7 @@ const LoginCard = () => {
             });
             dispatch(
                 loginUser({
+                    id: response.data.id,
                     name: response.data.name,
                     email: response.data.email,
                     token: response.data.token,

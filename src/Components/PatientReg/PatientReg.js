@@ -15,6 +15,7 @@ import {
     Radio,
     Image,
     Select,
+    useToast,
 } from '@chakra-ui/react';
 import { MdPhone, MdEmail, MdLocationOn } from 'react-icons/md';
 import { useEffect, useState } from 'react';
@@ -23,10 +24,22 @@ import { Loader } from '../Util/Loader';
 import { BACK_END_URL } from '../../env';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import ButtonLoader from '../Util/ButtonLoader';
 
 export default function PatientReg() {
-    const [data, setData] = useState({});
     const { userId } = useParams();
+    const [data, setData] = useState({
+        name: '',
+        email: '',
+        gender: 'male',
+        address: '',
+        age: '',
+        mobileNumber: '',
+        docId: '',
+        docName: '',
+        user_id: userId,
+    });
+    const toast = useToast();
     const [doc, setDoc] = useState([]);
     const [loading, setLoading] = useState(false);
     const [userDetail, setUserDetail] = useState({});
@@ -34,27 +47,32 @@ export default function PatientReg() {
         setLoading(true);
         (async () => {
             try {
-                const {
-                    data: { data: response },
-                } = await axios.post(`${BACK_END_URL}/doctor/docs`, { user_id: userId });
-                setDoc(response);
-                // setData({ ...data, docId: response[0]._id, docName: response[0].name });
+                const { data: userData } = await axios.get(`${BACK_END_URL}/user/detail`, {
+                    params: { user_id: userId },
+                });
+                setUserDetail(userData);
+                document.title = userData.name + ': Registration';
+                setData({ ...data, user_id: userData._id, user_name: userData.name });
             } catch (error) {
                 console.log(error);
             }
         })();
         (async () => {
             try {
-                const { data: userData } = await axios.get(`${BACK_END_URL}/user/detail`, {
-                    params: { user_id: userId },
-                });
-                setUserDetail(userData);
+                const {
+                    data: { data: response },
+                } = await axios.post(`${BACK_END_URL}/doctor/docs`, { user_id: userId });
+                setDoc(response);
+                setData({ ...data, docId: response[0]._id, docName: response[0].name });
             } catch (error) {
                 console.log(error);
             }
         })();
+
         setLoading(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userId]);
+    console.log('data', data);
     const handleChange = (e) => {
         console.log(e.target.name, e.target.value);
         setData({
@@ -62,7 +80,38 @@ export default function PatientReg() {
             [e.target.name]: e.target.value,
         });
     };
-    console.log('user', userDetail);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const { data: response } = await axios.post(`${BACK_END_URL}/patient/create`, data);
+            toast({
+                description: 'Patient Created',
+                position: 'top-right',
+            });
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+            toast({
+                description: err.response.data?.message || "Couldn't Create",
+                position: 'top-right',
+                status: 'error',
+            });
+        }
+        setLoading(false);
+        setData({
+            name: '',
+            email: '',
+            gender: 'male',
+            address: '',
+            age: '',
+            mobileNumber: '',
+            docId: '',
+            docName: '',
+            userId,
+        });
+    };
+
     return (
         <>
             <Box maxW="full" maxh="100vh" overflow="hidden">
@@ -172,7 +221,7 @@ export default function PatientReg() {
                                         <WrapItem>
                                             <Box bg="#1a202c" borderRadius="lg">
                                                 <Box m={8} color="white">
-                                                    <form>
+                                                    <form onSubmit={handleSubmit}>
                                                         <VStack spacing={5}>
                                                             <FormControl>
                                                                 <FormLabel>Name</FormLabel>
@@ -277,19 +326,18 @@ export default function PatientReg() {
                                                                                 docName:
                                                                                     docItem.name,
                                                                             });
-                                                                            console.log(
-                                                                                doc.find(
-                                                                                    (item) =>
-                                                                                        item._id ===
-                                                                                        e.target
-                                                                                            .value
-                                                                                )
-                                                                            );
+                                                                            // console.log(
+                                                                            //     doc.find(
+                                                                            //         (item) =>
+                                                                            //             item._id ===
+                                                                            //             e.target
+                                                                            //                 .value
+                                                                            //     )
+                                                                            // );
                                                                         }}
                                                                         value={data.docId}>
                                                                         {doc.map(
                                                                             (doctor, index) => {
-                                                                                console.log(doctor);
                                                                                 return (
                                                                                     <option
                                                                                         key={index}
@@ -310,9 +358,12 @@ export default function PatientReg() {
                                                                 )}
                                                             </FormControl>
                                                             <Flex width={'full'}>
-                                                                <Button type="submit" ml="auto">
-                                                                    Submit
-                                                                </Button>
+                                                                <ButtonLoader
+                                                                    loading={loading}
+                                                                    text={'Submit'}
+                                                                    type="submit"
+                                                                    ml="auto"
+                                                                />
                                                             </Flex>
                                                         </VStack>
                                                     </form>

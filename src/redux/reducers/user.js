@@ -19,6 +19,7 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 error: null,
                 user: {
+                    id: action.payload.id,
                     name: action.payload.name,
                     email: action.payload.email,
                 },
