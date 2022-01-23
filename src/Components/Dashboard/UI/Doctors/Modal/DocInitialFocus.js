@@ -132,8 +132,6 @@ export const InitialFocus = ({ isOpen, setOpenModal, reload, setReload }) => {
                                             </Radio>
                                         </HStack>
                                     </RadioGroup>
-
-                                    {/* <FormHelperText>Select only if you're a fan.</FormHelperText> */}
                                 </FormControl>
                                 <FormControl>
                                     <FormLabel>Specialization</FormLabel>

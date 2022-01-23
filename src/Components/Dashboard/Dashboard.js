@@ -9,17 +9,9 @@ import {
     useDisclosure,
 } from '@chakra-ui/react';
 
-import {
-    FiHome,
-    // FiUserPlus,
-    FiCompass,
-    FiStar,
-    FiSettings,
-    // FiMenu,
-    // FiBell,
-    // FiChevronDown,
-} from 'react-icons/fi';
+import { FiHome, FiCompass, FiStar } from 'react-icons/fi';
 import { FaStethoscope } from 'react-icons/fa';
+import { RiBillLine } from 'react-icons/ri';
 import { useNavigate, useLocation } from 'react-router';
 
 const LinkItems = [
@@ -43,10 +35,20 @@ const LinkItems = [
         icon: FiStar,
         route: 'report',
     },
+    // {
+    //     name: 'Services',
+    //     icon: FiSettings,
+    //     route: 'services',
+    // },
+    // {
+    //     name: 'Billings',
+    //     icon: RiBillLine,
+    //     route: 'services',
+    // },
     {
-        name: 'Settings',
-        icon: FiSettings,
-        route: 'settings',
+        name: 'About',
+        icon: RiBillLine,
+        route: 'about',
     },
 ];
 

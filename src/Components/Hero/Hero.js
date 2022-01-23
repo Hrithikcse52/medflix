@@ -8,14 +8,10 @@ import Cookies from 'universal-cookie';
 import { useSelector } from 'react-redux';
 import { images } from '../../Images';
 const cookie = new Cookies();
-// import { loginUser } from '../../redux/actions/userAuth';
 
 export default function Hero() {
     const history = useNavigate();
     const state = useSelector((state) => state.profile);
-
-    // const dispatch = useDispatch();
-
     return (
         <Box px={8} py={24} mx="auto">
             <Box
@@ -96,17 +92,18 @@ export default function Hero() {
                         size="lg"
                         cursor="pointer"
                         onClick={async () => {
-                            console.log('clicked');
-
                             if (state.user) {
                                 try {
-                                    const response = await axios.get(`${BACK_END_URL}/user/check`, {
-                                        headers: {
-                                            authorization: cookie.get('session', {
-                                                path: '/',
-                                            }),
-                                        },
-                                    });
+                                    const { data: response } = await axios.get(
+                                        `${BACK_END_URL}/user/check`,
+                                        {
+                                            headers: {
+                                                authorization: cookie.get('session', {
+                                                    path: '/',
+                                                }),
+                                            },
+                                        }
+                                    );
                                     console.log(response);
                                     history('/dashboard/patient');
                                 } catch (err) {

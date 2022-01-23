@@ -16,6 +16,10 @@ import Patient from './Components/Dashboard/UI/Patient/Patient';
 import Doctor from './Components/Dashboard/UI/Doctors/Doctor';
 import Prescription from './Components/Prescription/Prescription';
 import { Report } from './Components/Report/Report';
+import { Service } from './Components/Services/Service';
+import { OPDReg } from './pages/OPDReg';
+import { AboutUser } from './Components/AboutUser/AboutUser';
+
 function App() {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.profile);
@@ -30,9 +34,11 @@ function App() {
             // console.log('Validate user', response);
             dispatch(
                 loginUser({
+                    id: response.id,
                     email: response.email,
                     name: response.name,
                     token: response.token,
+                    logo: response.logo,
                 })
             );
         } catch (err) {
@@ -45,13 +51,13 @@ function App() {
     if (!user && cookie.get('session')) {
         validate_user();
     }
-    //TODO: check if login is done redirec to home. user cant assess login if session is present
     return (
         <>
             <Router>
                 <Nav />
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/reg/:userId" element={<OPDReg />} />
                     <Route
                         path="/login"
                         element={
@@ -67,9 +73,6 @@ function App() {
                         }
                     />
                     <Route path="/register" element={<Register />} />
-                    {/* <Route path="/doctorPanel/:id" element={<DoctorDash />} /> */}
-                    {/* <Route path="/prescription/:id" element={<Prescription />} /> */}
-
                     <Route
                         path="dashboard/*"
                         element={
@@ -87,7 +90,8 @@ function App() {
                         <Route path="doctor/:id" element={<DoctorDash />} />
                         <Route path="prescription/:id" element={<Prescription />} />
                         <Route path="report" element={<Report />} />
-                        <Route path="settings" element={<Doctor />} />
+                        <Route path="services" element={<Service />} />
+                        <Route path="about" element={<AboutUser />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

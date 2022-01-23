@@ -30,6 +30,7 @@ import Iframe from 'react-iframe';
 import { BACK_END_URL } from '../../env';
 import { cookie } from '../../utils';
 import { useReactToPrint } from 'react-to-print';
+import ButtonLoader from '../Util/ButtonLoader';
 
 const Prescription = () => {
     const [adviceData, setAdviceData] = useState([{ med: '', dose: '', for: '' }]);
@@ -58,6 +59,7 @@ const Prescription = () => {
     const { id } = useParams();
     const [ptData, setPtData] = useState({});
     const [reportId, setReportId] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleAddClick = () => {
         setAdviceData([...adviceData, { med: '', dose: '', for: '' }]);
@@ -109,6 +111,7 @@ const Prescription = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         let finalData = { profileData: presData, medAdvice: adviceData };
         console.log('Final Data', finalData);
         const { data: response } = await axios.post(
@@ -132,6 +135,7 @@ const Prescription = () => {
                 position: 'top-right',
             });
         }
+        setLoading(false);
 
         // navigate(-1);
     };
@@ -509,14 +513,18 @@ const Prescription = () => {
                                 px={{ base: 4, sm: 6 }}
                                 py={3}
                                 // bg={useColorModeValue('gray.500', 'gray.900')}
+                                // bg="#2d3748"
                                 textAlign="right">
-                                <Button
+                                <ButtonLoader
                                     type="submit"
-                                    // colorScheme="brand"
+                                    loading={loading}
                                     _focus={{ shadow: '' }}
-                                    fontWeight="md">
+                                    fontWeight="md"
+                                    text={'Save'}
+                                />
+                                {/* <Button type="submit" _focus={{ shadow: '' }} fontWeight="md">
                                     Save
-                                </Button>
+                                </Button> */}
                             </Box>
                         </Stack>
                     </chakra.form>

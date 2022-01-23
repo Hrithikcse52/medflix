@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
     chakra,
     Flex,
@@ -11,87 +11,54 @@ import {
     Container,
     Heading,
     StackDivider,
-    Text,
     List,
     ListItem,
+    Image,
+    useClipboard,
     useToast,
 } from '@chakra-ui/react';
-import { FiUserPlus } from 'react-icons/fi';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { BACK_END_URL } from '../../env';
-import { cookie } from '../../utils';
-import { TableComponent } from '../TabelComponent/TableComponent';
+import { FiEdit } from 'react-icons/fi';
 import { Loader } from '../Util/Loader';
-import { ModalForEndo } from './ModalForEndo';
+import axios from 'axios';
+import { BACK_END_URL, FRONT_END_URL } from '../../env';
+import { useSelector } from 'react-redux';
+import { toDataURL } from 'qrcode';
+import { FiCopy } from 'react-icons/fi';
 
-export const PatientProfile = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const [openEndoModal, setOpenEndoModel] = useState(false);
-    const [reload, setReload] = useState(false);
-    const toast = useToast();
+export const AboutUser = () => {
     const [loading, setLoading] = useState(false);
-    const [ptData, setPtData] = useState({});
-    const [reportsData, setReportData] = useState([]);
-    useEffect(() => {
+    const { user } = useSelector((state) => state.profile);
+    const toast = useToast();
+    const [userDetail, setUserDetail] = useState({});
+    const [imageqr, setQrImage] = useState('');
+    const { onCopy } = useClipboard(`${FRONT_END_URL}/reg/${user.id}`);
+    const generateQr = async () => {
+        const qr = await toDataURL(`${FRONT_END_URL}/reg/${user.id}`);
+        setQrImage(qr);
+        return qr;
+    };
+
+    useMemo(() => {
+        setLoading(true);
         (async () => {
             try {
-                setLoading(true);
-                const { data: response } = await axios.get(`${BACK_END_URL}/patient/at/${id}`, {
-                    headers: {
-                        authorization: cookie.get('session', {
-                            path: '/',
-                        }),
-                    },
+                await generateQr();
+                const { data: userData } = await axios.get(`${BACK_END_URL}/user/detail`, {
+                    params: { user_id: user.id },
                 });
-                setPtData(response);
+                setUserDetail(userData);
+                document.title = userData.name + ': About';
             } catch (error) {
-                toast({
-                    description: 'Something Went Wrong',
-                    position: 'top-right',
-                    status: 'error',
-                });
                 console.log(error);
             }
-            try {
-                const { data: response } = await axios.get(`${BACK_END_URL}/reports/pt/${id}`, {
-                    headers: {
-                        authorization: cookie.get('session', {
-                            path: '/',
-                        }),
-                    },
-                });
-                if (response) {
-                    setReportData(response);
-                }
-            } catch (error) {
-                toast({
-                    description: 'Something Went Wrong',
-                    position: 'top-right',
-                    status: 'error',
-                });
-                console.log(error);
-            }
-            setLoading(false);
         })();
+        setLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id, reload]);
-
-    const tableRenderData = reportsData.map((report) => {
-        const date = new Date(report.createdAt);
-        return {
-            patientID: report.patient.pt_id,
-            doctorName: report.doctor.name,
-            reportType: report.reportType,
-            createdAt: date.toDateString(),
-            reportId: report._id,
-        };
-    });
+    }, [user.id]);
     return (
         <>
             <Box marginTop="10vh">
-                {openEndoModal && (
+                {/* {openEndoModal && (
                     <ModalForEndo
                         isOpen={openEndoModal}
                         setOpen={setOpenEndoModel}
@@ -99,7 +66,7 @@ export const PatientProfile = () => {
                         reload={reload}
                         ptDetails={ptData}
                     />
-                )}
+                )} */}
                 <Flex alignItems="center" justifyContent="space-between" mx="auto">
                     <HStack display="flex" spacing={3} marginY={5} alignItems="center">
                         <Flex
@@ -110,39 +77,38 @@ export const PatientProfile = () => {
                                 size="sm"
                                 variant="solid"
                                 onClick={() => {
-                                    navigate(`/dashboard/prescription/${id}`);
+                                    onCopy();
+                                    toast({
+                                        title: 'Copied to ClipBoard',
+                                        position: 'top-right',
+                                        isClosable: true,
+                                    });
                                 }}
-                                leftIcon={<Icon as={FiUserPlus} />}
+                                leftIcon={<Icon as={FiCopy} />}
                                 colorScheme="purple">
-                                Create Prescription
+                                OPD Reg Link
                             </Button>
                             <Button
                                 marginLeft={3}
                                 size="sm"
                                 variant="solid"
-                                onClick={() => {
-                                    setOpenEndoModel(true);
-                                }}
-                                leftIcon={<Icon as={FiUserPlus} />}
+                                onClick={() => {}}
+                                leftIcon={<Icon as={FiEdit} />}
                                 colorScheme="purple">
-                                Create ENT Endo Report
+                                Edit
                             </Button>
                         </Flex>
                     </HStack>
                 </Flex>
                 <Container maxW={'7xl'}>
-                    <SimpleGrid
-                        // columns={{ base: 1, lg: 2 }}
-                        spacing={{ base: 8, md: 10 }}
-                        // py={{ base: 18, md: 24 }}
-                    >
+                    <SimpleGrid spacing={{ base: 8, md: 10 }}>
                         <Stack spacing={{ base: 6, md: 10 }}>
                             <Box as={'header'}>
                                 <Heading
                                     lineHeight={1.1}
                                     fontWeight={600}
                                     fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
-                                    Patient Details
+                                    Organization Details
                                 </Heading>
                             </Box>
                             {loading ? (
@@ -151,13 +117,7 @@ export const PatientProfile = () => {
                                 <Stack
                                     spacing={{ base: 4, sm: 6 }}
                                     direction={'column'}
-                                    divider={
-                                        <StackDivider
-                                            // eslint-disable-next-line react-hooks/rules-of-hooks
-                                            // borderColor={useColorModeValue('gray.200', 'gray.600')}
-                                            borderColor={'gray.600'}
-                                        />
-                                    }>
+                                    divider={<StackDivider borderColor={'gray.600'} />}>
                                     <Box>
                                         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                                             <List spacing={2}>
@@ -168,18 +128,17 @@ export const PatientProfile = () => {
                                                         fontWeight={'500'}>
                                                         Name{': '}
                                                     </chakra.span>
-                                                    {ptData.name}
+                                                    {userDetail.name}
                                                 </ListItem>
                                                 <ListItem>
                                                     <chakra.span
                                                         fontSize={{ base: '16px', lg: '18px' }}
                                                         color={'blue.300'}
                                                         fontWeight={'500'}>
-                                                        Gender{': '}
+                                                        Logo{': '}
                                                     </chakra.span>
-
-                                                    <chakra.span textTransform={'capitalize'}>
-                                                        {ptData.gender}
+                                                    <chakra.span style={{ display: 'inline' }}>
+                                                        <Image src={userDetail.logo} alt="logo" />
                                                     </chakra.span>
                                                 </ListItem>
                                                 <ListItem>
@@ -187,12 +146,21 @@ export const PatientProfile = () => {
                                                         fontSize={{ base: '16px', lg: '18px' }}
                                                         color={'blue.300'}
                                                         fontWeight={'500'}>
-                                                        Age {': '}
+                                                        Subtitle{': '}
                                                     </chakra.span>
-                                                    {ptData.age}
+                                                    {userDetail.subTitle}
                                                 </ListItem>
-                                            </List>
-                                            <List spacing={2}>
+                                                <ListItem>
+                                                    <chakra.span
+                                                        fontSize={{ base: '16px', lg: '18px' }}
+                                                        color={'blue.300'}
+                                                        fontWeight={'500'}>
+                                                        Punchline{': '}
+                                                    </chakra.span>
+                                                    {userDetail.punchLine}
+                                                </ListItem>
+                                                {/* </List>
+                                            <List spacing={2}> */}
                                                 <ListItem>
                                                     <chakra.span
                                                         fontSize={{ base: '16px', lg: '18px' }}
@@ -202,18 +170,16 @@ export const PatientProfile = () => {
                                                     >
                                                         Contact{': '}
                                                     </chakra.span>
-                                                    {ptData.mobile_number}
+                                                    {userDetail.contact}
                                                 </ListItem>
                                                 <ListItem>
                                                     <chakra.span
                                                         fontSize={{ base: '16px', lg: '18px' }}
                                                         color={'blue.300'}
-                                                        fontWeight={'500'}
-                                                        // textTransform={'uppercase'}
-                                                    >
+                                                        fontWeight={'500'}>
                                                         Email{': '}
                                                     </chakra.span>
-                                                    <chakra.span>{ptData.email}</chakra.span>
+                                                    <chakra.span>{userDetail.email}</chakra.span>
                                                 </ListItem>
                                                 <ListItem>
                                                     <chakra.span
@@ -222,43 +188,38 @@ export const PatientProfile = () => {
                                                         fontWeight={'500'}>
                                                         Address {': '}
                                                     </chakra.span>
-                                                    {ptData.address}
+                                                    {userDetail.address}
                                                 </ListItem>
+                                            </List>
+                                            <List>
+                                                <Flex direction={'column'} width={'100%'}>
+                                                    <Image src={imageqr} alt="" />
+                                                    <Button mt={2}>
+                                                        <a href={imageqr} download>
+                                                            Download
+                                                        </a>
+                                                    </Button>
+                                                </Flex>
                                             </List>
                                         </SimpleGrid>
                                     </Box>
-                                    <Box>
+                                    {/* <Flex justifyContent={'start'}>
                                         <Text
                                             fontSize={{ base: '16px', lg: '18px' }}
                                             color={'blue.300'}
                                             fontWeight={'500'}
                                             textTransform={'capitalize'}
                                             mb={'4'}>
-                                            Report history
+                                            OPD Registration link
                                         </Text>
-                                        {tableRenderData.length > 0 ? (
-                                            <TableComponent
-                                                tableData={tableRenderData}
-                                                tableHeaders={[
-                                                    'Doctor Name',
-                                                    'Report Type',
-                                                    'Created',
-                                                    'Report ID',
-                                                ]}
-                                                tableDatatoShow={[
-                                                    'doctorName',
-                                                    'reportType',
-                                                    'createdAt',
-                                                    'reportId',
-                                                ]}
-                                                iconSet={[]}
-                                            />
-                                        ) : (
-                                            <>
-                                                <Flex justify={'center'}>No Reports Found!!</Flex>
-                                            </>
-                                        )}
-                                    </Box>
+                                        <IconButton
+                                            colorScheme="blue"
+                                            onClick={() => {
+                                                console.log('report');
+                                            }}
+                                            icon={<BsBoxArrowUpRight />}
+                                        />
+                                    </Flex> */}
                                 </Stack>
                             )}
                         </Stack>

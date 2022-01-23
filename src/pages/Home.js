@@ -13,6 +13,7 @@ const Home = () => {
     //   thrd: "Clear Visulizations",
     //   four: "Online Consultations",
     // };
+    document.title = 'Home-Medflix';
     return (
         <>
             {/* <Nav /> */}

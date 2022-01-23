@@ -116,7 +116,7 @@ export const DocEditModal = ({ isOpen, setOpenModal, docDetails, setReload, relo
                 <ModalOverlay />
                 <ModalContent>
                     <form onSubmit={handleSubmit}>
-                        <ModalHeader>Add Doctor</ModalHeader>
+                        <ModalHeader>Edit Doctor</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody pb={6}>
                             <HStack mb={2}>
