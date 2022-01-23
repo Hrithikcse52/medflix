@@ -9,10 +9,9 @@ import {
     Stack,
     SimpleGrid,
     ButtonGroup,
-    IconButton,
     HStack,
 } from '@chakra-ui/react';
-import { AiFillEdit, AiOutlineArrowLeft, AiTwotoneLock } from 'react-icons/ai';
+import { AiFillEdit } from 'react-icons/ai';
 import { BsBoxArrowUpRight } from 'react-icons/bs';
 import axios from 'axios';
 import { BACK_END_URL } from '../../../../env';

@@ -9,7 +9,7 @@ import {
     useDisclosure,
 } from '@chakra-ui/react';
 
-import { FiHome, FiCompass, FiStar, FiSettings } from 'react-icons/fi';
+import { FiHome, FiCompass, FiStar } from 'react-icons/fi';
 import { FaStethoscope } from 'react-icons/fa';
 import { RiBillLine } from 'react-icons/ri';
 import { useNavigate, useLocation } from 'react-router';
