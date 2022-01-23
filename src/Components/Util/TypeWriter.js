@@ -24,7 +24,7 @@ const TypeWriter = ({ first, sec, thrd }) => {
                         .pauseFor(100)
                         .typeString('<strong>' + sec + '</strong>')
                         .pauseFor(300)
-                        .deleteChars(46)
+                        .deleteAll()
                         .typeString('<strong>' + thrd + '</strong>')
                         // .typeString(
                         //   '<strong>only <span style="color: #27ae60;">5kb</span> Gzipped!</strong>'

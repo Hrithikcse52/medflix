@@ -245,10 +245,6 @@ const DoctorDash = () => {
                                             color={bgColor3}
                                             columns={gridColumns}
                                             justifyItems="center"
-                                            // columns={{
-                                            //     base: 3,
-                                            //     md: 3,
-                                            // }}
                                             w="full"
                                             py={2}
                                             px={10}

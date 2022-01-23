@@ -108,8 +108,6 @@ const Patient = () => {
                     <InitialFocus
                         isOpen={openPtModal}
                         setOpenModalPt={setOpenPtModal}
-                        // loading={loading}
-                        // setLoading={setLoading}
                         setReload={setReload}
                         reload={reloadPatient}
                     />
