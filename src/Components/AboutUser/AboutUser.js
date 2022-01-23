@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
     chakra,
     Flex,
@@ -39,11 +38,11 @@ export const AboutUser = () => {
         return qr;
     };
 
-    useEffect(() => {
+    useMemo(() => {
         setLoading(true);
-        generateQr();
         (async () => {
             try {
+                await generateQr();
                 const { data: userData } = await axios.get(`${BACK_END_URL}/user/detail`, {
                     params: { user_id: user.id },
                 });

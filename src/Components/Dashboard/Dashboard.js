@@ -35,16 +35,16 @@ const LinkItems = [
         icon: FiStar,
         route: 'report',
     },
-    {
-        name: 'Services',
-        icon: FiSettings,
-        route: 'services',
-    },
-    {
-        name: 'Billings',
-        icon: RiBillLine,
-        route: 'services',
-    },
+    // {
+    //     name: 'Services',
+    //     icon: FiSettings,
+    //     route: 'services',
+    // },
+    // {
+    //     name: 'Billings',
+    //     icon: RiBillLine,
+    //     route: 'services',
+    // },
     {
         name: 'About',
         icon: RiBillLine,

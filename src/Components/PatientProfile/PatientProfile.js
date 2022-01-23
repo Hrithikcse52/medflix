@@ -114,7 +114,7 @@ export const PatientProfile = () => {
                                 }}
                                 leftIcon={<Icon as={FiUserPlus} />}
                                 colorScheme="purple">
-                                Create New Report
+                                Create Prescription
                             </Button>
                             <Button
                                 marginLeft={3}

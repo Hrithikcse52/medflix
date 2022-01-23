@@ -190,12 +190,12 @@ export const TableComponent = ({ tableData, tableHeaders, tableDatatoShow }) => 
                                                 }}
                                                 icon={<BsBoxArrowUpRight />}
                                             />
-                                            <IconButton colorScheme="green" icon={<AiFillEdit />} />
+                                            {/* <IconButton colorScheme="green" icon={<AiFillEdit />} />
                                             <IconButton
                                                 colorScheme="red"
                                                 variant="outline"
                                                 icon={<BsFillTrashFill />}
-                                            />
+                                            /> */}
                                         </ButtonGroup>
                                     </Flex>
                                 </SimpleGrid>

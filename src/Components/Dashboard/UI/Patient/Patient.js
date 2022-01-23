@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
 import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
+import { IoCreateOutline } from 'react-icons/io5';
 import axios from 'axios';
 import { BACK_END_URL } from '../../../../env';
 import Cookies from 'universal-cookie';
@@ -232,7 +233,7 @@ const Patient = () => {
                                                         });
                                                     }}
                                                     variant="solid"
-                                                    leftIcon={<Icon as={AiTwotoneLock} />}
+                                                    leftIcon={<Icon as={BsBoxArrowUpRight} />}
                                                     colorScheme="purple">
                                                     View Profile
                                                 </Button>
@@ -250,7 +251,7 @@ const Patient = () => {
                                                                 `/dashboard/prescription/${token._id}`
                                                             );
                                                         }}
-                                                        icon={<BsBoxArrowUpRight />}
+                                                        icon={<IoCreateOutline />}
                                                     />
 
                                                     <IconButton

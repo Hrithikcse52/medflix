@@ -12,8 +12,8 @@ import {
     IconButton,
     HStack,
 } from '@chakra-ui/react';
-import { AiFillEdit, AiTwotoneLock } from 'react-icons/ai';
-import { BsBoxArrowUpRight, BsFillTrashFill } from 'react-icons/bs';
+import { AiFillEdit, AiOutlineArrowLeft, AiTwotoneLock } from 'react-icons/ai';
+import { BsBoxArrowUpRight } from 'react-icons/bs';
 import axios from 'axios';
 import { BACK_END_URL } from '../../../../env';
 import Cookies from 'universal-cookie';
@@ -116,19 +116,20 @@ const Doctor = () => {
                                 bg={bgColor2}
                                 color={bgColor3}
                                 columns={{
-                                    base: 1,
-                                    md: 4,
+                                    base: 5,
+                                    md: 5,
                                 }}
                                 w="full"
                                 py={2}
                                 px={10}
                                 fontWeight="hairline">
-                                <span>Name</span>
+                                <chakra.span justifySelf={'center'}>Name</chakra.span>
+                                <chakra.span justifySelf={'center'}>Created</chakra.span>
                                 <chakra.span
                                     textOverflow="ellipsis"
                                     overflow="hidden"
                                     whiteSpace="nowrap">
-                                    Created
+                                    Specialization
                                 </chakra.span>
                                 <Flex
                                     justify={{
@@ -149,7 +150,7 @@ const Doctor = () => {
                                 </Flex>
                             </SimpleGrid>
                             {patients.map((token, tid) => {
-                                console.log(token._id);
+                                // console.log(token);
                                 return (
                                     <Flex
                                         direction={{
@@ -160,21 +161,21 @@ const Doctor = () => {
                                         key={tid}>
                                         <SimpleGrid
                                             spacingY={3}
+                                            justifyContent={'center'}
                                             columns={{
-                                                base: 4,
-                                                md: 4,
+                                                base: 5,
+                                                md: 5,
                                             }}
                                             w="full"
                                             py={2}
                                             px={10}
                                             fontWeight="hairline">
-                                            <span>{token.name}</span>
-                                            <chakra.span
-                                                textOverflow="ellipsis"
-                                                overflow="hidden"
-                                                whiteSpace="nowrap">
+                                            <chakra.span>{token.name}</chakra.span>
+
+                                            <chakra.span justifySelf={'center'}>
                                                 {token.doc_id}
                                             </chakra.span>
+                                            <chakra.span>{token.specialization}</chakra.span>
                                             <Flex
                                                 justify={{
                                                     md: 'center',
@@ -182,7 +183,10 @@ const Doctor = () => {
                                                 <Button
                                                     size="sm"
                                                     variant="solid"
-                                                    leftIcon={<Icon as={AiTwotoneLock} />}
+                                                    onClick={() => {
+                                                        history(`/dashboard/doctor/${token._id}`);
+                                                    }}
+                                                    leftIcon={<Icon as={BsBoxArrowUpRight} />}
                                                     colorScheme="purple">
                                                     View Profile
                                                 </Button>
@@ -192,7 +196,7 @@ const Doctor = () => {
                                                     md: 'center',
                                                 }}>
                                                 <ButtonGroup variant="solid" size="sm" spacing={3}>
-                                                    <IconButton
+                                                    {/* <IconButton
                                                         colorScheme="blue"
                                                         onClick={() => {
                                                             history(
@@ -200,21 +204,33 @@ const Doctor = () => {
                                                             );
                                                         }}
                                                         icon={<BsBoxArrowUpRight />}
-                                                    />
-                                                    <IconButton
+                                                    /> */}
+                                                    {/* <IconButton
                                                         colorScheme="green"
+                                                        title="Edit Doctor"
                                                         onClick={() => {
                                                             console.log('Edit Clicked');
                                                             setDocIndex(tid);
                                                             setOpenEditModal(true);
                                                         }}
                                                         icon={<AiFillEdit />}
-                                                    />
-                                                    <IconButton
+                                                    /> */}
+                                                    <Button
+                                                        size="sm"
+                                                        variant="solid"
+                                                        colorScheme="blue"
+                                                        onClick={() => {
+                                                            setDocIndex(tid);
+                                                            setOpenEditModal(true);
+                                                        }}
+                                                        leftIcon={<Icon as={AiFillEdit} />}>
+                                                        Edit Profile
+                                                    </Button>
+                                                    {/* <IconButton
                                                         colorScheme="red"
                                                         variant="outline"
                                                         icon={<BsFillTrashFill />}
-                                                    />
+                                                    /> */}
                                                 </ButtonGroup>
                                             </Flex>
                                         </SimpleGrid>
