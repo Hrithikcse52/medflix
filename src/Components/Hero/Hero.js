@@ -109,9 +109,11 @@ export default function Hero() {
                                 } catch (err) {
                                     console.log(err);
                                 }
+                            } else {
+                                history('/login');
                             }
                         }}>
-                        Get Started
+                        Dashboard
                         <Icon boxSize={4} ml={1} viewBox="0 0 20 20" fill="currentColor">
                             <path
                                 fillRule="evenodd"

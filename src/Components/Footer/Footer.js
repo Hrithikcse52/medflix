@@ -10,12 +10,12 @@ import {
     useColorModeValue,
     Input,
     IconButton,
-    Flex,
 } from '@chakra-ui/react';
-import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+
 import { BiMailSend } from 'react-icons/bi';
 import { images } from '../../Images';
 
+// eslint-disable-next-line no-unused-vars
 const SocialButton = ({ children, label, href }) => {
     return (
         <chakra.button
@@ -54,13 +54,24 @@ export const Footer = () => {
             color={useColorModeValue('gray.700', 'gray.200')}>
             <Container as={Stack} maxW={'6xl'} py={10}>
                 <SimpleGrid templateColumns={{ sm: '1fr 1fr', md: '2fr 1fr 1fr 2fr' }} spacing={8}>
-                    <Stack spacing={6}>
+                    <Stack justifyContent={'center'} alignItems={'center'} spacing={6}>
                         <Box>
                             <img src={images.logo} alt="logo" />
-                            {/* Medflix */}
                         </Box>
+                        <Text fontSize={'sm'}>
+                            Made with 💙 by
+                            <a
+                                href="https://www.linkedin.com/in/hrithikprasad/"
+                                rel="noreferrer"
+                                target={'_blank'}>
+                                {' '}
+                                <Text textColor={'blue.500'} display={'inline'}>
+                                    Hrithik Prasad
+                                </Text>
+                            </a>
+                        </Text>
                         <Text fontSize={'sm'}>© 2022 Medflix. All rights reserved</Text>
-                        <Flex>
+                        {/* <Flex>
                             <Stack direction={'row'} spacing={6}>
                                 <SocialButton label={'Twitter'} href={'#'}>
                                     <FaTwitter />
@@ -72,7 +83,7 @@ export const Footer = () => {
                                     <FaInstagram />
                                 </SocialButton>
                             </Stack>
-                        </Flex>
+                        </Flex> */}
                     </Stack>
                     <Stack align={'flex-start'}>
                         <ListHeader>Company</ListHeader>
