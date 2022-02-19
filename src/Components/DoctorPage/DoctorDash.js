@@ -56,17 +56,11 @@ const DoctorDash = () => {
                         }),
                     },
                 });
-                console.log('resp', response);
+
                 setDoc(response);
-                console.log('Doc List', doc);
                 setActiveDoc(response.find((doc) => doc._id === id));
-                console.log(
-                    'find active',
-                    response.find((doc) => doc._id === id)
-                );
-                console.log(activeDoc);
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         })();
         (async () => {
@@ -87,7 +81,7 @@ const DoctorDash = () => {
 
                 setPatients(response);
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         })();
         setLoading(false);
@@ -378,11 +372,11 @@ const DoctorDash = () => {
                                                                     colorScheme="green"
                                                                     icon={
                                                                         <AiFillEdit
-                                                                            onClick={() => {
-                                                                                console.log(
-                                                                                    'Clicked Iframe opne '
-                                                                                );
-                                                                            }}
+                                                                        // onClick={() => {
+                                                                        //     console.log(
+                                                                        //         'Clicked Iframe opne '
+                                                                        //     );
+                                                                        // }}
                                                                         />
                                                                     }
                                                                 />

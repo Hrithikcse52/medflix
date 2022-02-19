@@ -39,13 +39,13 @@ export const DocEditModal = ({ isOpen, setOpenModal, docDetails, setReload, relo
     };
     const [data, setData] = useState(initialState);
     const handleChange = (e) => {
-        console.log(e.target.name, e.target.value);
+        // console.log(e.target.name, e.target.value);
         setData({
             ...data,
             [e.target.name]: e.target.value,
         });
     };
-    console.log('doc details', docDetails);
+    // console.log('doc details', docDetails);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -69,7 +69,7 @@ export const DocEditModal = ({ isOpen, setOpenModal, docDetails, setReload, relo
         if (data.specialization !== initialState.specialization) {
             returnData.specialization = data.specialization;
         }
-        console.log('Final Data', returnData);
+        // console.log('Final Data', returnData);
 
         try {
             const response = await axios.put(
@@ -88,9 +88,9 @@ export const DocEditModal = ({ isOpen, setOpenModal, docDetails, setReload, relo
                 description: 'Doctor Updated',
                 position: 'top-right',
             });
-            console.log(response);
+            // console.log(response);
         } catch (err) {
-            console.log(err);
+            console.error(err);
             toast({
                 description: err.response.data?.message || "Couldn't Create",
                 position: 'top-right',

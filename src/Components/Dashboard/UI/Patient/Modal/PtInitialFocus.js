@@ -41,9 +41,9 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
         user_id: user?.id,
         user_name: user?.name,
     };
-    console.log(user);
+    // console.log(user);
     const handleChange = (e) => {
-        console.log(e.target.name, e.target.value);
+        // console.log(e.target.name, e.target.value);
         setData({
             ...data,
             [e.target.name]: e.target.value,
@@ -64,11 +64,11 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
                         }),
                     },
                 });
-                console.log('Doc List', response);
+                // console.log('Doc List', response);
                 setDoc(response);
                 setData({ ...data, docId: response[0]._id, docName: response[0].name });
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,14 +78,19 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
         e.preventDefault();
         setLoading(true);
         try {
-            const { data: response } = await axios.post(`${BACK_END_URL}/patient/create`, data);
+            // eslint-disable-next-line no-unused-vars
+            const { data: _response } = await axios.post(`${BACK_END_URL}/patient/create`, data);
             toast({
                 description: 'Patient Created',
                 position: 'top-right',
             });
-            console.log(response);
+            toast({
+                description: 'Patient Created ' || _response?.message,
+                position: 'top-right',
+            });
+            // console.log(response);
         } catch (err) {
-            console.log(err);
+            console.error(err);
             toast({
                 description: err.response.data?.message || "Couldn't Create",
                 position: 'top-right',
@@ -97,7 +102,7 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
         setOpenModalPt(false);
         setReload(!reload);
     };
-    console.log(data);
+
     return (
         <>
             <Modal
@@ -212,9 +217,6 @@ export const InitialFocus = ({ isOpen, setOpenModalPt, setReload, reload }, prop
                                                 docId: e.target.value,
                                                 docName: docItem.name,
                                             });
-                                            console.log(
-                                                doc.find((item) => item._id === e.target.value)
-                                            );
                                         }}
                                         value={data.docId}>
                                         {doc.map((doctor, index) => {

@@ -24,7 +24,7 @@ import { cookie } from '../../../../../utils';
 import ButtonLoader from '../../../../Util/ButtonLoader';
 
 export const EditModal = ({ isOpen, setOpenModalPt, setReload, reload, ptDetails }) => {
-    console.log('Edit', ptDetails);
+    // console.log('Edit', ptDetails);
     const [loading, setLoading] = useState(false);
     const toast = useToast();
     const initialRef = useRef();
@@ -42,7 +42,7 @@ export const EditModal = ({ isOpen, setOpenModalPt, setReload, reload, ptDetails
     };
     // console.log(initialState);
     const handleChange = (e) => {
-        console.log(e.target.name, e.target.value);
+        // console.log(e.target.name, e.target.value);
         setData({
             ...data,
             [e.target.name]: e.target.value,
@@ -63,11 +63,11 @@ export const EditModal = ({ isOpen, setOpenModalPt, setReload, reload, ptDetails
                         }),
                     },
                 });
-                console.log('Doc List', response);
+                // console.log('Doc List', response);
                 setDoc(response);
                 // setData({ ...data, docId: response[0]._id, docName: response[0].name });
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,7 +104,7 @@ export const EditModal = ({ isOpen, setOpenModalPt, setReload, reload, ptDetails
         e.preventDefault();
         // setLoading(true);
         const updateData = checkData();
-        console.log('ChangeData', updateData);
+        // console.log('ChangeData', updateData);
 
         try {
             const { data: response } = await axios.put(
@@ -120,9 +120,9 @@ export const EditModal = ({ isOpen, setOpenModalPt, setReload, reload, ptDetails
                 description: 'Patient Updated',
                 position: 'top-right',
             });
-            console.log(response);
+            // console.log(response);
         } catch (err) {
-            console.log(err);
+            console.error(err);
             toast({
                 description: err.response.data?.message || "Couldn't Create",
                 position: 'top-right',
@@ -134,7 +134,7 @@ export const EditModal = ({ isOpen, setOpenModalPt, setReload, reload, ptDetails
         setReload(!reload);
     };
     // console.log(data);
-    console.log(JSON.stringify(data) === JSON.stringify(initialState));
+    // console.log(JSON.stringify(data) === JSON.stringify(initialState));
     return (
         <>
             <Modal
@@ -261,9 +261,9 @@ export const EditModal = ({ isOpen, setOpenModalPt, setReload, reload, ptDetails
                                                 docId: e.target.value,
                                                 docName: docItem.name,
                                             });
-                                            console.log(
-                                                doc.find((item) => item._id === e.target.value)
-                                            );
+                                            // console.log(
+                                            //     doc.find((item) => item._id === e.target.value)
+                                            // );
                                         }}
                                         value={data.docId}>
                                         {doc.map((doctor, index) => {

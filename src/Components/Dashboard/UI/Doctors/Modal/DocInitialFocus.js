@@ -39,14 +39,14 @@ export const InitialFocus = ({ isOpen, setOpenModal, reload, setReload }) => {
 
     const [data, setData] = useState(initialState);
     const handleChange = (e) => {
-        console.log(e.target.name, e.target.value);
+        // console.log(e.target.name, e.target.value);
         setData({
             ...data,
             [e.target.name]: e.target.value,
         });
     };
 
-    console.log(data);
+    // console.log(data);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -64,9 +64,9 @@ export const InitialFocus = ({ isOpen, setOpenModal, reload, setReload }) => {
                 description: 'Doctor Created',
                 position: 'top-right',
             });
-            console.log(response);
+            // console.log(response);
         } catch (err) {
-            console.log(err);
+            console.error(err);
             toast({
                 description: err.response.data?.message || "Couldn't Create",
                 position: 'top-right',

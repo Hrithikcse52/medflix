@@ -46,19 +46,21 @@ const RegisterCard = () => {
     };
 
     const handleChange = (e) => {
-        console.log(e.target.name, e.target.value);
+        // console.log(e.target.name, e.target.value);
         setDetails({ ...details, [e.target.name]: e.target.value });
     };
-    console.log(details);
+    // console.log(details);
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             const response = await axios.post(`${BACK_END_URL}/user/register`, details);
-            console.log(response.data);
+            // console.log(response.data);
             resetDefault();
             history('/login');
-        } catch (err) {}
+        } catch (err) {
+            console.error(err);
+        }
     };
     return (
         <Flex

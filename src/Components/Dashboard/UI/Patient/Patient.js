@@ -42,7 +42,7 @@ const Patient = () => {
     const [ptIndextoDelete, setPtToDelete] = useState();
     const [deleteConfirmModal, setDeleteConfModal] = useState(false);
     const handleDelete = async () => {
-        console.log('called', ptIndextoDelete);
+        // console.log('called', ptIndextoDelete);
         try {
             const response = await axios.delete(`${BACK_END_URL}/patient/at/${ptIndextoDelete}`, {
                 headers: {

@@ -169,10 +169,10 @@ export default function Nav() {
                                                 if (data.status === 200) {
                                                     dispatch(logoutUser());
                                                     history('/');
-                                                    console.log('cookie', cookie.getAll());
+                                                    console.warn('cookie', cookie.getAll());
                                                 }
                                             } catch (error) {
-                                                console.log(error);
+                                                console.error(error);
                                             }
                                         }}>
                                         Sign out
@@ -366,7 +366,6 @@ const MobileNavItem = ({ label, children, href }) => {
                     align={'start'}>
                     {children &&
                         children.map((child) => {
-                            // console.log(child);
                             return (
                                 <Link key={child.label} py={2} href={child.loc}>
                                     {child.label}

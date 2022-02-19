@@ -47,7 +47,7 @@ const Doctor = () => {
                         }),
                     },
                 });
-                console.log(response);
+                // console.log(response);
                 setPatients(response);
             } catch (error) {
                 console.log(error);

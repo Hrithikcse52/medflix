@@ -104,10 +104,10 @@ export default function Hero() {
                                             },
                                         }
                                     );
-                                    console.log(response);
+
                                     history('/dashboard/patient');
                                 } catch (err) {
-                                    console.log(err);
+                                    console.error(err);
                                 }
                             } else {
                                 history('/login');
