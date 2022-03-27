@@ -139,6 +139,7 @@ const Prescription = () => {
 
         // navigate(-1);
     };
+    console.log("pdf view", `${BACK_END_URL}/pug/preview/${reportId}`);
 
     return (
         <Stack>

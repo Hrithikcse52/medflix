@@ -33,6 +33,8 @@ const ModelPreview = ({ onClose, isOpen, reportId, patientName }) => {
       font-size: 23px;
     }
   `;
+
+    console.log("pdf view", `${BACK_END_URL}/pug/preview/${reportId}`);
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
         pageStyle: pageStyle,
@@ -56,7 +58,10 @@ const ModelPreview = ({ onClose, isOpen, reportId, patientName }) => {
                             <Button style={{ marginBottom: '1rem' }} onClick={handlePrint}>
                                 Print
                             </Button>
-                            <div ref={componentRef} style={{ backgroundColor: 'white' }}>
+                            <div
+                                ref={componentRef}
+                                style={{ backgroundColor: 'white' }}
+                            >
                                 <Iframe
                                     url={`${BACK_END_URL}/pug/preview/${reportId}`}
                                     width="100%"
@@ -65,7 +70,7 @@ const ModelPreview = ({ onClose, isOpen, reportId, patientName }) => {
                                     className="myClassname"
                                     display="initial"
                                     position="relative"
-                                    styles={{ backgroundColor: 'white' }}
+                                    // styles={{ backgroundColor: 'white' }}
                                 />
                             </div>
                         </Box>
